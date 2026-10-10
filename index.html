@@ -19,8 +19,6 @@
   --line-strong:#4a4a4a;
   --danger:#ff6b5e;
   --header-bg:rgba(11,11,11,.9);
-  --portrait-bg:#1c1c1b;
-  --portrait-fg:#f2f2f0;
   --accent:#ff4f1f;
   --display:Akshar,'Arial Narrow',sans-serif;
   --body:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;
@@ -40,8 +38,6 @@ body.light{
   --line-strong:#bdbdbd;
   --danger:#d93025;
   --header-bg:rgba(245,245,245,.92);
-  --portrait-bg:#e9e6df;
-  --portrait-fg:#0b0b0b;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scrollbar-gutter:stable}
@@ -184,27 +180,81 @@ a:hover .arrow,button:hover .arrow{transform:translateX(4px)}
 .next .display{font-size:clamp(44px,8vw,120px);display:flex;align-items:center;gap:.25em;flex-wrap:wrap}
 .next:hover .display .arrow{transform:translateX(12px)}
 
-/* ---------- Sobre ---------- */
-.about-hero{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px);padding:clamp(48px,8vw,112px) 0;align-items:start}
-.portrait{position:relative;aspect-ratio:4/5;background:var(--soft);overflow:hidden}
-.portrait svg{width:100%;height:100%}
-.portrait figcaption{position:absolute;left:16px;bottom:16px;background:var(--paper);padding:7px 12px;border-radius:999px;font:600 12px/1 var(--body)}
-.about-hero h1{font-size:clamp(48px,7vw,104px);margin:16px 0 32px}
-.about-hero h1 .light{font-weight:300}
-.about-hero p{font-size:clamp(17px,1.5vw,20px);margin:0 0 18px;max-width:640px}
-.about-hero .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
-.block{display:grid;grid-template-columns:1fr 2fr;gap:clamp(24px,5vw,80px);padding:clamp(40px,5vw,72px) 0;border-top:1px solid var(--ink)}
-.block h2{font:600 clamp(28px,3vw,40px)/1 var(--display);text-transform:uppercase;margin:0}
-.timeline{list-style:none;margin:0;padding:0}
-.timeline li{display:grid;grid-template-columns:140px 1fr;gap:24px;padding:20px 0;border-bottom:1px solid var(--line)}
-.timeline li:first-child{padding-top:0}
-.timeline .when{color:var(--muted);font-size:15px}
-.timeline b{display:block;font-weight:600}
-.timeline span{color:var(--muted)}
-.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:32px}
-.skills h3{font:600 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
-.pills{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
-.pills li{border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;font-size:14px;font-weight:500}
+/* ---------- Sobre (estrutura do PDF "Sobre mim" no design system do site) ---------- */
+#view-sobre{padding-bottom:clamp(64px,8vw,120px)}
+.sm-title{font:600 clamp(28px,3vw,40px)/1 var(--display);text-transform:uppercase;margin:0}
+
+.sm-hero{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px);align-items:start;padding:clamp(48px,7vw,104px) 0 clamp(56px,7vw,96px)}
+.sm-name{font-size:clamp(64px,9vw,136px);margin:16px 0 24px}
+.sm-name .light{font-weight:300}
+.sm-role{margin:0 0 clamp(32px,4vw,48px);font-size:clamp(17px,1.5vw,20px)}
+.sm-role b{font-weight:600}
+.sm-role span{color:var(--muted)}
+.sm-statement{font-size:clamp(22px,2.2vw,30px);line-height:1.42;letter-spacing:-.01em;margin:0 0 clamp(28px,3vw,40px);max-width:820px}
+.sm-statement mark{background:none;color:inherit;font-weight:600}
+.sm-bio{color:var(--muted);font-size:16px;line-height:1.75;max-width:760px}
+.sm-bio p{margin:0 0 14px}
+.sm-bio p:last-child{margin-bottom:0}
+.sm-bio b{color:var(--ink);font-weight:600}
+.sm-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(28px,3vw,40px)}
+.portrait{position:relative;margin:0;aspect-ratio:4/5;background:#dcdcdc;overflow:hidden}
+.portrait img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 0}
+
+.sm-section{padding:clamp(40px,5vw,72px) 0;border-top:1px solid var(--ink)}
+.sm-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.4vw,20px);margin-top:28px}
+.sm-card{border:1px solid var(--line-strong);padding:clamp(22px,2.2vw,30px)}
+.sm-card .num{font:600 12px/1 var(--body);letter-spacing:.14em;color:var(--muted)}
+.sm-card h3{font:600 clamp(24px,2vw,30px)/1 var(--display);text-transform:uppercase;margin:16px 0 12px}
+.sm-card p{margin:0;color:var(--muted);font-size:15px;line-height:1.6}
+.sm-card.focus{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.sm-card.focus .num,.sm-card.focus p{color:#b8b8b8}
+
+.sm-feature{display:grid;grid-template-columns:4fr 7fr;gap:clamp(24px,4vw,64px);border:1px solid var(--line-strong);padding:clamp(24px,3.4vw,48px)}
+.sm-badge{display:inline-block;border:1.5px solid var(--ink);font:600 12px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;border-radius:999px}
+.sm-feature h2{font:600 clamp(48px,5vw,72px)/.95 var(--display);text-transform:uppercase;margin:20px 0 10px}
+.sm-feature .meta{color:var(--muted);font-size:15px;line-height:1.5}
+.sm-feature .desc{margin:0 0 20px;font-size:clamp(16px,1.3vw,18px);line-height:1.7}
+
+.sm-tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.sm-tags li{border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;font-size:14px;font-weight:500}
+.sm-tags li.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+
+.sm-two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,96px)}
+.sm-track{list-style:none;margin:32px 0 0;padding:0;position:relative}
+.sm-track::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:1px;background:var(--line-strong)}
+.sm-track>li{position:relative;padding:0 0 30px 34px}
+.sm-track>li::before{content:"";position:absolute;left:0;top:3px;width:13px;height:13px;border-radius:50%;border:1.5px solid var(--ink);background:var(--paper)}
+.sm-track>li.active::before{background:var(--ink)}
+.sm-track .when{font:500 12.5px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.sm-track h3{font:600 18px/1.3 var(--body);margin:8px 0 6px}
+.sm-track h3 span{font-weight:400;color:var(--muted)}
+.sm-track p{margin:0;color:var(--muted);font-size:15px;line-height:1.6}
+.sm-track .minor h3{font-size:16px}
+.sm-steps{list-style:none;margin:32px 0 0;padding:0}
+.sm-steps li{display:grid;grid-template-columns:56px 1fr;padding:18px 0;border-bottom:1px solid var(--line)}
+.sm-steps li:first-child{padding-top:0}
+.sm-steps .n{font:600 28px/1 var(--display)}
+.sm-steps b{display:block;font-size:17px;font-weight:600}
+.sm-steps span{color:var(--muted);font-size:15px;line-height:1.6}
+.sm-lang{margin-top:40px}
+.sm-lang .row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.sm-lang b{font-weight:600}
+.sm-lang small{color:var(--muted);font-size:14px;margin-left:8px}
+
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:24px 40px;margin-top:40px}
+.levels h3{font:600 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.levels ul{list-style:none;margin:0;padding:0}
+.levels li{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:11px 0;border-bottom:1px solid var(--line);font-size:15px}
+.dots{display:flex;gap:5px;flex:none}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--line-strong)}
+.dots i.on{background:var(--ink)}
+
+.sm-cta{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;border-top:1px solid var(--ink);padding-top:clamp(40px,5vw,72px)}
+.sm-cta h2{font-size:clamp(44px,6vw,88px);margin:0 0 28px}
+.sm-cta h2 .light{font-weight:300}
+.sm-links{list-style:none;margin:0;padding:0;text-align:right}
+.sm-links a{display:inline-flex;align-items:center;gap:8px;padding:5px 0;text-decoration:none;font-size:15px;font-weight:500}
+.sm-links a:hover{text-decoration:underline;text-underline-offset:4px}
 
 /* ---------- Contato ---------- */
 .contact{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px);padding:clamp(48px,8vw,112px) 0}
@@ -216,7 +266,7 @@ a:hover .arrow,button:hover .arrow{transform:translateX(4px)}
 .mail a:hover{text-decoration:underline}
 .copy{height:34px;padding:0 14px;border-radius:999px;border:1.5px solid var(--ink);background:transparent;cursor:pointer;font:600 13px/1 var(--body)}
 .copy:hover{background:var(--ink);color:var(--paper)}
-.side .social-big{display:flex;flex-direction:column;list-style:none;margin:0;padding:0}
+.social-big{display:flex;flex-direction:column;list-style:none;margin:0;padding:0}
 .social-big a{display:flex;align-items:center;gap:14px;padding:14px 0;text-decoration:none;font-weight:600;border-bottom:1px solid var(--line)}
 .social-big a:hover .arrow{transform:translate(3px,-3px)}
 .social-big .ic{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--ink)}
@@ -276,8 +326,10 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
 .compact .social a{width:48px;height:48px}
 
 @media (max-width:1100px){
-  .about-hero,.contact,.block,.p-body{grid-template-columns:1fr}
-  .about-hero .portrait{max-width:420px}
+  .contact,.p-body{grid-template-columns:1fr}
+  .sm-hero,.sm-feature,.sm-two{grid-template-columns:1fr}
+  .sm-hero .portrait{max-width:420px;grid-row:1}
+  .levels{grid-template-columns:repeat(2,1fr)}
 }
 @media (max-width:900px){
   :root{--logo-h:40px;--header-h:100px}
@@ -291,8 +343,8 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
   .p-gallery{grid-template-columns:1fr}
   .p-gallery figure.full{grid-column:auto;aspect-ratio:4/3}
   .stats{grid-template-columns:1fr}
-  .skills{grid-template-columns:1fr}
-  .timeline li{grid-template-columns:1fr;gap:4px}
+  .sm-cards,.levels{grid-template-columns:1fr}
+  .sm-links{text-align:left}
   form{grid-template-columns:1fr}
   .p-hero{aspect-ratio:4/3}
 }
@@ -348,53 +400,91 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
   <!-- Tela: Sobre mim -->
   <section class="view" id="view-sobre" aria-labelledby="sobre-title">
     <div class="wrap">
-      <div class="about-hero">
-        <figure class="portrait" style="margin:0">
-          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Retrato (placeholder)">
-            <rect width="400" height="500" style="fill:var(--portrait-bg)"/>
-            <circle cx="200" cy="190" r="78" style="fill:var(--portrait-fg)"/>
-            <path d="M60 500c0-92 63-160 140-160s140 68 140 160z" style="fill:var(--portrait-fg)"/>
-            <rect x="24" y="24" width="36" height="36" fill="#ff4f1f"/>
-          </svg>
-          <figcaption>Felipe Minutti · São Paulo</figcaption>
+
+      <div class="sm-hero">
+        <figure class="portrait">
+          <img src="assets/felipe-minutti.webp" alt="Retrato de Felipe Minutti" width="1400" height="2037" loading="lazy">
         </figure>
         <div>
           <span class="eyebrow">Sobre mim</span>
-          <h1 class="display" id="sobre-title">Designer de<br><span class="light">marcas e produtos</span></h1>
-          <p>Oi, eu sou o Felipe. Desenho identidades visuais e interfaces digitais para marcas que querem ser lembradas — com sistemas claros, tipografia forte e movimento com propósito.</p>
-          <p>Nos últimos anos trabalhei com estúdios, startups e empresas de varejo, cuidando do projeto da estratégia ao arquivo final. Gosto de processos colaborativos, de prototipar cedo e de detalhes que ninguém pede mas todo mundo percebe.</p>
-          <p>Fora das telas: tipografia vernacular, café coado e bicicleta.</p>
-          <div class="actions">
+          <h1 class="display sm-name" id="sobre-title"><span class="light">Felipe</span><br>Minutti</h1>
+          <p class="sm-role"><b>Product Designer · UX/UI</b> — <span>com raízes em branding e design industrial</span></p>
+          <p class="sm-statement">Projeto produtos digitais <mark>a partir de quem os usa</mark>. Da pesquisa à interface final, com a identidade da marca presente em cada decisão.</p>
+          <div class="sm-bio">
+            <p>Comecei no branding e na comunicação, e foi ali que entendi como marca, mensagem e experiência se conectam. Levei esse repertório para o design de interfaces: na Eshows, ajudei a criar do zero o <b>Espaces</b>, uma rede social que conecta pessoas a estabelecimentos. Fiz a pesquisa, as telas e toda a identidade visual do app, que hoje está publicado na App Store e no Google Play. Minha passagem pela manufatura digital e pela modelagem 3D na InovaUSP me ensinou a pensar com precisão, testar cedo e respeitar restrições reais.</p>
+            <p>Hoje também prototipo em código e monto design systems com Claude e VS Code, o que encurta muito a distância entre uma ideia e algo que dá para testar de verdade. Para mim, design não é gosto, é decisão. O critério é se a solução funcionou para quem precisava dela.</p>
+          </div>
+          <div class="sm-actions">
             <a class="btn" href="#/contato">Vamos conversar <span class="arrow">→</span></a>
-            <a class="btn ghost" href="#" id="cvBtn">Baixar currículo</a>
+            <a class="btn ghost" href="assets/curriculo-felipe-minutti.pdf" download="Curriculo-Felipe-Minutti.pdf" target="_blank" rel="noopener">Baixar currículo <span class="arrow">↓</span></a>
           </div>
         </div>
       </div>
 
-      <div class="block">
-        <h2>Experiência</h2>
-        <ul class="timeline">
-          <li><span class="when">2024 — hoje</span><div><b>MINUTTI STUDIO</b><span>Designer independente · Branding e produto</span></div></li>
-          <li><span class="when">2022 — 2024</span><div><b>Estúdio Lâmina</b><span>Designer sênior · Identidade visual e motion</span></div></li>
-          <li><span class="when">2020 — 2022</span><div><b>Fintech Vela</b><span>Product designer · Design system e app</span></div></li>
-          <li><span class="when">2018 — 2020</span><div><b>Agência Ponto</b><span>Designer gráfico · Editorial e campanhas</span></div></li>
-        </ul>
-      </div>
-
-      <div class="block">
-        <h2>Habilidades</h2>
-        <div class="skills">
-          <div><h3>Áreas</h3><ul class="pills"><li>Identidade visual</li><li>UI/UX</li><li>Design system</li><li>Editorial</li><li>Motion</li><li>Direção de arte</li></ul></div>
-          <div><h3>Ferramentas</h3><ul class="pills"><li>Figma</li><li>Illustrator</li><li>Photoshop</li><li>InDesign</li><li>After Effects</li><li>HTML/CSS</li></ul></div>
+      <div class="sm-section">
+        <h2 class="sm-title">O que eu faço</h2>
+        <div class="sm-cards">
+          <article class="sm-card focus"><span class="num">01 — FOCO</span><h3>UX/UI para produtos digitais</h3><p>Pesquisa com usuários, arquitetura de informação, wireframes, fluxos, design systems e interfaces prototipadas no Figma ou em código, com Claude e VS Code.</p></article>
+          <article class="sm-card"><span class="num">02</span><h3>Marca dentro do produto</h3><p>Identidade visual e linguagem que se traduzem em interface consistente — da logo ao componente.</p></article>
+          <article class="sm-card"><span class="num">03</span><h3>Produto físico &amp; 3D</h3><p>Sketching, modelagem paramétrica e poligonal, impressão 3D e ensino de ferramentas como Fusion, Blender e Rhino.</p></article>
         </div>
       </div>
 
-      <div class="block" style="padding-bottom:clamp(64px,8vw,120px)">
-        <h2>Formação</h2>
-        <ul class="timeline">
-          <li><span class="when">2014 — 2018</span><div><b>Bacharelado em Design</b><span>Universidade (placeholder)</span></div></li>
-          <li><span class="when">2021</span><div><b>Especialização em UX</b><span>Curso livre (placeholder)</span></div></li>
+      <div class="sm-section" style="border-top:0;padding-top:0">
+        <article class="sm-feature">
+          <div>
+            <span class="sm-badge">Destaque UX/UI</span>
+            <h2>Espaces</h2>
+            <div class="meta">Eshows · 2024<br>UX/UI Designer</div>
+          </div>
+          <div>
+            <p class="desc">Uma rede social que vai além de “marcar presença”: transforma o usuário em crítico e leitor dos lugares que frequenta. Atuei da pesquisa à interface: conduzi a investigação de UX na concepção do produto, desenhei cada tela do app mobile e criei toda a identidade visual do Espaces, do logo à linguagem da interface. O produto está publicado para iOS e Android.</p>
+            <ul class="sm-tags"><li>Pesquisa UX</li><li>Wireframes</li><li>Prototipagem</li><li>UI mobile</li><li>Identidade visual</li></ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="sm-section sm-two">
+        <div>
+          <h2 class="sm-title">Trajetória</h2>
+          <ul class="sm-track">
+            <li><span class="when">Fev 2025 — Mai 2026</span><h3>Modelagem 3D <span>· InovaUSP</span></h3><p>Peças em software paramétrico e poligonal; criação de workshops de capacitação em modelagem para alunos.</p></li>
+            <li class="active"><span class="when">Fev — Ago 2024</span><h3>UX/UI Designer <span>· Eshows</span></h3><p>Pesquisa de experiência, design de interface mobile e identidade visual completa do Espaces, uma rede social criada do zero.</p></li>
+            <li><span class="when">Ago 2022 — Abr 2023</span><h3>Designer Visual <span>· Questtonó Manyone</span></h3><p>Branding e comunicação para marcas em uma consultoria global de design.</p></li>
+            <li><span class="when">2022 — 2027</span><h3>Design <span>· Universidade de São Paulo</span></h3><p>Graduação em andamento na FAUUSP, com conclusão prevista para o 2º semestre de 2027. Antes, Design na UFMG (2021–2022).</p></li>
+            <li class="minor"><span class="when">2019 — 2021</span><h3>Atendimento ao público <span>· iPlace e Livraria Cultura</span></h3><p>Trabalhos temporários em operação de caixa e atendimento.</p></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="sm-title">Como eu trabalho</h2>
+          <ol class="sm-steps">
+            <li><span class="n">01</span><div><b>Entender antes de desenhar</b><span>Pesquisa e contexto para definir o problema certo.</span></div></li>
+            <li><span class="n">02</span><div><b>Esboçar rápido</b><span>Papel e wireframes para descartar cedo o que não funciona.</span></div></li>
+            <li><span class="n">03</span><div><b>Prototipar e testar</b><span>Fluxos navegáveis no Figma ou protótipos em código, feitos com Claude e VS Code, para validar com pessoas reais.</span></div></li>
+            <li><span class="n">04</span><div><b>Refinar a interface</b><span>UI consistente, organizada em design system, alinhada à marca e pronta para desenvolvimento.</span></div></li>
+          </ol>
+          <div class="sm-lang">
+            <h2 class="sm-title">Idiomas</h2>
+            <div class="row" style="margin-top:20px"><span><b>Inglês</b><small>B2 · Upper Intermediate</small></span><span class="dots" role="img" aria-label="3 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sm-section">
+        <h2 class="sm-title">Ferramentas &amp; competências</h2>
+        <ul class="sm-tags" style="margin-top:28px">
+          <li class="on">Figma</li><li class="on">Pesquisa UX</li><li class="on">Prototipagem</li><li class="on">Wireframes</li>
+          <li class="on">Design system</li><li>Prototipação em código</li><li>Claude</li><li>VS Code</li><li>Design de serviços</li><li>Branding</li><li>Design visual</li><li>Design gráfico</li><li>Design de produto</li><li>Modelagem 3D</li><li>Impressão 3D</li>
         </ul>
+        <div class="levels" id="tools"></div>
+      </div>
+
+      <div class="sm-cta">
+        <div>
+          <h2 class="display">Vamos construir algo<br><span class="light">que funcione?</span></h2>
+          <a class="btn" href="#/contato">Entrar em contato <span class="arrow">→</span></a>
+        </div>
+        <ul class="sm-links" data-links></ul>
       </div>
     </div>
   </section>
@@ -478,9 +568,9 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
 (function(){
 /* ================= Dados mockados ================= */
 var PROFILE = {
-  email: 'contato@minuttistudio.com',
+  email: 'felipeminu2k@gmail.com',
   social: [
-    {name:'LinkedIn', url:'https://www.linkedin.com/in/felipeminutti',
+    {name:'LinkedIn', url:'https://www.linkedin.com/in/felipeminuttiteixeira/',
      icon:'<path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3zM9.5 9.75h3.8v1.6h.06c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.77 2.5 4.77 5.76V21h-4v-5.2c0-1.24-.02-2.84-1.8-2.84-1.8 0-2.07 1.36-2.07 2.75V21h-4z"/>'},
     {name:'Behance', url:'https://www.behance.net/felipeminutti',
      icon:'<path d="M8.2 11.4c.9-.43 1.5-1.2 1.5-2.4C9.7 6.6 7.9 6 5.8 6H0v12h6c2.2 0 4.3-1.06 4.3-3.5 0-1.5-.72-2.6-2.1-3.1zM2.7 8.1h2.6c1 0 1.9.28 1.9 1.42 0 1.06-.7 1.48-1.7 1.48H2.7zm2.9 7.8H2.7v-3.3h3c1.2 0 2 .52 2 1.8 0 1.27-.92 1.5-2.1 1.5zM18.8 9.3c-2.9 0-4.9 2.2-4.9 5 0 2.95 1.86 4.97 4.9 4.97 2.3 0 3.8-1.04 4.5-3.25h-2.3c-.25.82-1.3 1.26-2.1 1.26-1.56 0-2.38-.92-2.38-2.47h6.9c.1-3.1-1.6-5.5-4.6-5.5zm-2.3 4.06c.08-1.3.95-2.1 2.24-2.1 1.36 0 2.04.8 2.16 2.1zM15.9 6.9h5.6v1.4h-5.6z"/>'},
@@ -488,6 +578,13 @@ var PROFILE = {
      icon:'<path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.26 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/>'}
   ]
 };
+
+// Ferramentas do currículo (nível de 1 a 5)
+var TOOLS = [
+  {group:'Adobe', items:[['Illustrator',5],['Photoshop',4],['InDesign',3],['Premiere',3],['After Effects',4],['Substance 3D Painter',5]]},
+  {group:'Autodesk', items:[['Maya',4],['Fusion',4]]},
+  {group:'Outros', items:[['Rhino 3D',5],['Blender',5],['Figma',5]]}
+];
 
 var PROJECTS = [
   {slug:'aurora-cafe', title:'Aurora Café', cat:'Branding', year:2026, client:'Aurora Café & Torrefação',
@@ -609,6 +706,15 @@ $('[data-social]').innerHTML=PROFILE.social.map(function(s){
 $('[data-social-big]').innerHTML=PROFILE.social.map(function(s){
   return '<li><a href="'+s.url+'" target="_blank" rel="noopener noreferrer"><span class="ic">'+socialSvg(s)+'</span>'+s.name+'<span class="arrow">↗</span></a></li>';
 }).join('');
+$('[data-links]').innerHTML=PROFILE.social.map(function(s){
+  return '<li><a href="'+s.url+'" target="_blank" rel="noopener noreferrer">'+s.url.replace(/^https:\/\/(www\.)?/,'').replace(/\/$/,'')+' <span class="arrow">↗</span></a></li>';
+}).join('');
+$('#tools').innerHTML=TOOLS.map(function(g){
+  return '<div><h3>'+g.group+'</h3><ul>'+g.items.map(function(t){
+    var d='';for(var i=1;i<=5;i++)d+='<i'+(i<=t[1]?' class="on"':'')+'></i>';
+    return '<li><span>'+esc(t[0])+'</span><span class="dots" role="img" aria-label="'+t[1]+' de 5">'+d+'</span></li>';
+  }).join('')+'</ul></div>';
+}).join('');
 var mailLink=$('#mailLink');
 mailLink.textContent=PROFILE.email;mailLink.href='mailto:'+PROFILE.email;
 $('#copyMail').addEventListener('click',function(){
@@ -616,7 +722,6 @@ $('#copyMail').addEventListener('click',function(){
   if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(PROFILE.email).then(done,fallback)}else fallback();
   function fallback(){var t=document.createElement('textarea');t.value=PROFILE.email;document.body.appendChild(t);t.select();try{document.execCommand('copy');done()}catch(e){toast(PROFILE.email)}t.remove()}
 });
-$('#cvBtn').addEventListener('click',function(e){e.preventDefault();toast('Currículo disponível em breve (mock)')});
 $('#year').textContent=new Date().getFullYear();
 $('#toTop').addEventListener('click',function(e){e.preventDefault();window.scrollTo({top:0})});
 

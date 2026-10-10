@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>MINUTTI</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Akshar:wght@300;600&amp;display=swap">
+<style>
+body{margin:0}
+.wipe{clip-path:inset(-10% 100% -10% 0);animation:wipe .9s cubic-bezier(.65,0,.35,1) 4.2s 1 both}
+@keyframes wipe{from{clip-path:inset(-10% 100% -10% 0)}to{clip-path:inset(-10% 0 -10% 0)}}
+@media (prefers-reduced-motion:reduce){.wipe{animation:none;clip-path:none}}
+@keyframes col0{
+0.00%,1.19%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+15.73%,16.91%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+29.69%,30.87%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+45.41%,46.60%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+57.88%,59.06%{transform:translate3d(0,-28.74%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+68.55%,69.73%{transform:translate3d(0,-61.81%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+84.27%,85.46%{transform:translate3d(0,-114.17%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+100%{transform:translate3d(0,0.00%,0)}
+}
+.c0{animation:col0 4.2s 2 forwards;left:0px}
+@keyframes col1{
+0.00%,1.19%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+15.73%,16.91%{transform:translate3d(0,114.17%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+29.69%,30.87%{transform:translate3d(0,28.35%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+45.41%,46.60%{transform:translate3d(0,61.42%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+57.88%,59.06%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+68.55%,69.73%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+84.27%,85.46%{transform:translate3d(0,114.17%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+100%{transform:translate3d(0,0.00%,0)}
+}
+.c1{animation:col1 4.2s 2 forwards;left:126px}
+@keyframes col2{
+0.00%,1.19%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+15.73%,16.91%{transform:translate3d(0,-114.17%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+29.69%,30.87%{transform:translate3d(0,-114.17%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+45.41%,46.60%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+57.88%,59.06%{transform:translate3d(0,-61.81%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+68.55%,69.73%{transform:translate3d(0,-28.74%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+84.27%,85.46%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+100%{transform:translate3d(0,0.00%,0)}
+}
+.c2{animation:col2 4.2s 2 forwards;left:252px}
+@media (prefers-reduced-motion:reduce){.col{animation:none}}
+</style>
+</helmet>
+<div role="img" aria-label="Logo MINUTTI: colunas que sobem e descem para formar M, I, N, U, T, T, I em loop" style="width:1600px;height:600px;box-sizing:border-box;background:#ffffff;display:flex;align-items:center;justify-content:center;overflow:hidden">
+<div data-logo="" style="padding:60px;cursor:pointer;display:flex;align-items:center;flex:none;transform:scale(var(--s,.47))">
+<div aria-hidden="true" style="position:relative;width:360px;height:360px;overflow:hidden;flex:none">
+<div class="col c0" style="position:absolute;top:0;width:108px;height:360px;background:#0b0b0b;will-change:transform"></div>
+<div class="col c1" style="position:absolute;top:0;width:108px;height:360px;background:#0b0b0b;will-change:transform"></div>
+<div class="col c2" style="position:absolute;top:0;width:108px;height:360px;background:#0b0b0b;will-change:transform"></div>
+</div>
+<div class="wipe" aria-hidden="true" style="margin-left:141px;flex:none">
+<svg class="word" width="2650" height="360" viewBox="0 0 2650 360" style="display:block;overflow:visible"><text x="0" y="360" font-family="Akshar, 'Arial Narrow', sans-serif" font-size="500" fill="#0b0b0b"><tspan font-weight="600">MINUTTI</tspan><tspan font-weight="300">STUDIO</tspan></text></svg>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1600,"height":600}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+<script>
+(function(){
+function fit(){
+var svg=document.querySelector('.word');if(!svg)return;
+var t=svg.querySelector('text');
+var c=document.createElement('canvas').getContext('2d');
+c.font='600 200px Akshar, sans-serif';
+var cap=c.measureText('M').actualBoundingBoxAscent||144;
+var fs=200*360/cap;
+t.setAttribute('font-size',fs);
+var w=t.getBBox().width;
+svg.setAttribute('width',w);svg.setAttribute('viewBox','0 0 '+w+' 360');
+var total=120+360+141+w;
+var s=Math.min(1,1480/total);
+var lg=document.querySelector('[data-logo]');
+if(lg)lg.style.setProperty('--s',s);
+}
+if(document.fonts&&document.fonts.load){
+Promise.all([document.fonts.load('600 100px Akshar'),document.fonts.load('300 100px Akshar')]).then(fit,fit);
+}
+setTimeout(fit,50);
+function restart(){
+var cols=document.querySelectorAll('.col');
+for(var i=0;i<cols.length;i++){cols[i].style.animation='none';}
+void document.body.offsetWidth;
+for(var k=0;k<cols.length;k++){cols[k].style.animation='';}
+}
+document.addEventListener('mouseover',function(e){
+var logo=e.target&&e.target.closest?e.target.closest('[data-logo]'):null;
+if(!logo)return;
+if(e.relatedTarget&&logo.contains(e.relatedTarget))return;
+restart();
+});
+})();
+</script>
+</body>
+</html>

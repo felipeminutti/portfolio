@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>MINUTTI</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+@keyframes col0{
+0.00%,1.19%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+15.73%,16.91%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+29.69%,30.87%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+45.41%,46.60%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+57.88%,59.06%{transform:translate3d(0,-28.74%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+68.55%,69.73%{transform:translate3d(0,-61.81%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+84.27%,85.46%{transform:translate3d(0,-114.17%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+100%{transform:translate3d(0,0.00%,0)}
+}
+.c0{animation:col0 4.2s 1 forwards;left:0px}
+@keyframes col1{
+0.00%,1.19%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+15.73%,16.91%{transform:translate3d(0,114.17%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+29.69%,30.87%{transform:translate3d(0,28.35%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+45.41%,46.60%{transform:translate3d(0,61.42%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+57.88%,59.06%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+68.55%,69.73%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+84.27%,85.46%{transform:translate3d(0,114.17%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+100%{transform:translate3d(0,0.00%,0)}
+}
+.c1{animation:col1 4.2s 1 forwards;left:126px}
+@keyframes col2{
+0.00%,1.19%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+15.73%,16.91%{transform:translate3d(0,-114.17%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+29.69%,30.87%{transform:translate3d(0,-114.17%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+45.41%,46.60%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+57.88%,59.06%{transform:translate3d(0,-61.81%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+68.55%,69.73%{transform:translate3d(0,-28.74%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+84.27%,85.46%{transform:translate3d(0,0.00%,0);animation-timing-function:cubic-bezier(.45,0,.2,1)}
+100%{transform:translate3d(0,0.00%,0)}
+}
+.c2{animation:col2 4.2s 1 forwards;left:252px}
+@media (prefers-reduced-motion:reduce){.col{animation:none}}
+</style>
+</helmet>
+<div role="img" aria-label="Logo MINUTTI: colunas que sobem e descem para formar M, I, N, U, T, T, I em loop" style="width:1080px;height:1080px;box-sizing:border-box;background:#ffffff;display:flex;align-items:center;justify-content:center">
+<div data-logo="" style="padding:60px;cursor:pointer">
+<div aria-hidden="true" style="position:relative;width:360px;height:360px;overflow:hidden">
+<div class="col c0" style="position:absolute;top:0;width:108px;height:360px;background:#0b0b0b;will-change:transform"></div>
+<div class="col c1" style="position:absolute;top:0;width:108px;height:360px;background:#0b0b0b;will-change:transform"></div>
+<div class="col c2" style="position:absolute;top:0;width:108px;height:360px;background:#0b0b0b;will-change:transform"></div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1080,"height":1080}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+<script>
+(function(){
+function restart(){
+var cols=document.querySelectorAll('.col');
+for(var i=0;i<cols.length;i++){cols[i].style.animation='none';}
+void document.body.offsetWidth;
+for(var k=0;k<cols.length;k++){cols[k].style.animation='';}
+}
+document.addEventListener('mouseover',function(e){
+var logo=e.target&&e.target.closest?e.target.closest('[data-logo]'):null;
+if(!logo)return;
+if(e.relatedTarget&&logo.contains(e.relatedTarget))return;
+restart();
+});
+})();
+</script>
+</body>
+</html>

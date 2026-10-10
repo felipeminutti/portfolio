@@ -129,7 +129,7 @@ body.intro main,body.intro .header .wrap{transform:scale(.9)}
 
 .eyebrow{font:600 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .display{font-family:var(--display);font-weight:600;line-height:.92;letter-spacing:-.01em;margin:0;text-transform:uppercase}
-.btn{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 26px;border-radius:999px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font:600 15px/1 var(--body);text-decoration:none;cursor:pointer;transition:background .2s,color .2s,transform .2s}
+.btn{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 26px;border-radius:0;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font:600 15px/1 var(--body);text-decoration:none;cursor:pointer;transition:background .2s,color .2s,transform .2s}
 .btn:hover{background:var(--paper);color:var(--ink)}
 .btn.ghost{background:transparent;color:var(--ink)}
 .btn.ghost:hover{background:var(--ink);color:var(--paper)}
@@ -257,14 +257,14 @@ a:hover .arrow,button:hover .arrow{transform:translateX(4px)}
 .sm-links a:hover{text-decoration:underline;text-underline-offset:4px}
 
 /* ---------- Contato ---------- */
-.contact{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px);padding:clamp(48px,8vw,112px) 0}
-.contact h1{font-size:clamp(56px,9vw,136px);margin:16px 0 24px}
+.contact{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px);align-items:start;padding:clamp(48px,8vw,112px) 0}
+.contact h1{font-size:clamp(56px,8vw,120px);margin:16px 0 28px}
 .contact h1 .light{font-weight:300}
-.contact .side p{font-size:18px;color:var(--muted);margin:0 0 32px;max-width:420px}
+.contact .side p{font-size:17px;line-height:1.65;color:var(--muted);margin:0 0 32px;max-width:440px}
 .mail{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:28px}
 .mail a{font:600 clamp(20px,2vw,26px)/1.2 var(--display);text-decoration:none;word-break:break-all}
 .mail a:hover{text-decoration:underline}
-.copy{height:34px;padding:0 14px;border-radius:999px;border:1.5px solid var(--ink);background:transparent;cursor:pointer;font:600 13px/1 var(--body)}
+.copy{height:34px;padding:0 14px;border-radius:0;border:1.5px solid var(--ink);background:transparent;cursor:pointer;font:600 13px/1 var(--body)}
 .copy:hover{background:var(--ink);color:var(--paper)}
 .social-big{display:flex;flex-direction:column;list-style:none;margin:0;padding:0}
 .social-big a{display:flex;align-items:center;gap:14px;padding:14px 0;text-decoration:none;font-weight:600;border-bottom:1px solid var(--line)}
@@ -272,33 +272,28 @@ a:hover .arrow,button:hover .arrow{transform:translateX(4px)}
 .social-big .ic{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--ink)}
 .social-big .ic svg{width:17px;height:17px;fill:currentColor}
 .social-big .arrow{margin-left:auto}
-.avail{display:inline-flex;align-items:center;gap:8px;font:500 14px/1 var(--body);margin-bottom:24px}
-.avail::before{content:"";width:8px;height:8px;border-radius:50%;background:#1fbf5c;box-shadow:0 0 0 4px rgba(31,191,92,.18)}
+.contact .wa{margin-bottom:36px}
 
-form{display:grid;grid-template-columns:1fr 1fr;gap:20px 20px;align-content:start}
+form{display:grid;grid-template-columns:1fr 1fr;gap:28px 20px;align-content:start;padding-top:clamp(4px,1vw,12px)}
 .field{display:flex;flex-direction:column;gap:8px}
 .field.full{grid-column:1/-1}
-label{font:600 13px/1 var(--body)}
-input,select,textarea{font:400 16px/1.4 var(--body);color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;width:100%;transition:border-color .2s}
-textarea{min-height:170px;resize:vertical}
+label{font:600 12px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+label small{font-weight:500;letter-spacing:0;text-transform:none}
+input,select,textarea{font:400 16px/1.4 var(--body);color:var(--ink);background:transparent;border:1px solid var(--line-strong);border-radius:0;padding:15px 16px;width:100%;transition:border-color .2s}
+textarea{min-height:200px;resize:vertical}
 input:hover,select:hover,textarea:hover{border-color:var(--line-strong)}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
 .field.invalid input,.field.invalid select,.field.invalid textarea{border-color:var(--danger)}
 .err{color:var(--danger);font-size:13px;min-height:0}
 .err:empty{display:none}
-.budget{display:flex;flex-wrap:wrap;gap:8px}
-.budget input{position:absolute;opacity:0;pointer-events:none}
-.budget label{font:500 14px/1 var(--body);border:1.5px solid var(--line);border-radius:999px;padding:11px 16px;cursor:pointer;transition:all .2s}
-.budget label:hover{border-color:var(--ink)}
-.budget input:checked+label{background:var(--ink);border-color:var(--ink);color:var(--paper)}
-.budget input:focus-visible+label{outline:2px solid var(--accent);outline-offset:3px}
-.form-foot{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:4px}
-.form-foot small{color:var(--muted)}
-.success{grid-column:1/-1;border:1.5px solid var(--ink);border-radius:20px;padding:clamp(28px,4vw,48px);display:none}
+.form-foot{grid-column:1/-1;display:flex;align-items:center;justify-content:flex-start;gap:16px;flex-wrap:wrap;padding-top:4px}
+.form-error{flex-basis:100%;margin:0;color:var(--danger);font-size:14px}
+.form-error a{color:inherit}
+.success{grid-column:1/-1;border:1px solid var(--line-strong);padding:clamp(28px,4vw,48px);display:none}
 .success.show{display:block;animation:viewIn .5s both}
 .success h2{font:600 clamp(36px,4vw,56px)/1 var(--display);text-transform:uppercase;margin:16px 0 12px}
 .success p{color:var(--muted);margin:0 0 24px}
-.check{width:56px;height:56px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center}
+.check{width:56px;height:56px;background:var(--ink);color:var(--paper);display:grid;place-items:center}
 .spinner{width:16px;height:16px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
@@ -496,8 +491,10 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
         <div class="side">
           <span class="eyebrow">Contato</span>
           <h1 class="display" id="contato-title">Vamos<br><span class="light">conversar</span></h1>
-          <div class="avail">Disponível para novos projetos</div>
-          <p>Conte um pouco sobre o seu projeto. Respondo em até 2 dias úteis.</p>
+          <a class="btn wa" href="https://wa.me/5511917810399?text=Ol%C3%A1%2C%20Felipe!%20Vim%20pelo%20seu%20portf%C3%B3lio." target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.79-1.31l-.34-.2-3.56.93.95-3.47-.22-.36a9.38 9.38 0 0 1-1.44-5c0-5.19 4.23-9.42 9.43-9.42 2.52 0 4.88.98 6.66 2.76a9.36 9.36 0 0 1 2.76 6.67c0 5.2-4.23 9.42-9.44 9.42zm8.02-17.44A11.27 11.27 0 0 0 12.05.75C5.8.75.72 5.83.72 12.08c0 2 .52 3.95 1.52 5.66L.62 23.25l5.65-1.48a11.3 11.3 0 0 0 5.78 1.47h.01c6.25 0 11.33-5.08 11.33-11.33 0-3.03-1.18-5.87-3.32-8.01z"/></svg>
+            Conversar no WhatsApp <span class="arrow">→</span>
+          </a>
           <div class="mail">
             <a href="#" id="mailLink"></a>
             <button class="copy" type="button" id="copyMail">Copiar</button>
@@ -506,32 +503,14 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
         </div>
 
         <form id="contactForm" novalidate>
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
           <div class="field"><label for="f-nome">Nome</label><input id="f-nome" name="nome" autocomplete="name" placeholder="Seu nome"><span class="err"></span></div>
           <div class="field"><label for="f-email">E-mail</label><input id="f-email" name="email" type="email" autocomplete="email" placeholder="voce@email.com"><span class="err"></span></div>
-          <div class="field full"><label for="f-tipo">Tipo de projeto</label>
-            <select id="f-tipo" name="tipo">
-              <option value="">Selecione…</option>
-              <option>Identidade visual</option>
-              <option>UI/UX — site ou app</option>
-              <option>Editorial</option>
-              <option>Motion</option>
-              <option>Vaga / oportunidade</option>
-              <option>Outro</option>
-            </select><span class="err"></span>
-          </div>
-          <fieldset class="field full" style="border:0;padding:0;margin:0">
-            <legend style="font:600 13px/1 var(--body);margin-bottom:8px">Orçamento estimado</legend>
-            <div class="budget">
-              <input type="radio" name="orcamento" id="b1" value="Até R$ 5 mil"><label for="b1">Até R$ 5 mil</label>
-              <input type="radio" name="orcamento" id="b2" value="R$ 5–15 mil"><label for="b2">R$ 5–15 mil</label>
-              <input type="radio" name="orcamento" id="b3" value="R$ 15–30 mil"><label for="b3">R$ 15–30 mil</label>
-              <input type="radio" name="orcamento" id="b4" value="Acima de R$ 30 mil"><label for="b4">Acima de R$ 30 mil</label>
-            </div>
-          </fieldset>
-          <div class="field full"><label for="f-msg">Mensagem</label><textarea id="f-msg" name="mensagem" placeholder="Objetivos, prazos, referências…"></textarea><span class="err"></span></div>
+          <div class="field full"><label for="f-assunto">Assunto <small>(opcional)</small></label><input id="f-assunto" name="assunto" placeholder="Sobre o que você quer falar"></div>
+          <div class="field full"><label for="f-msg">Mensagem</label><textarea id="f-msg" name="mensagem" placeholder="Conte o que você precisa"></textarea><span class="err"></span></div>
           <div class="form-foot">
-            <small>Formulário de demonstração — nenhuma mensagem é enviada.</small>
             <button class="btn" type="submit" id="sendBtn">Enviar mensagem <span class="arrow">→</span></button>
+            <p class="form-error" id="formError" role="alert" hidden></p>
           </div>
         </form>
 
@@ -830,7 +809,6 @@ var form=$('#contactForm'),success=$('#success'),sendBtn=$('#sendBtn');
 var RULES={
   nome:function(v){return v.trim().length<2?'Informe seu nome.':''},
   email:function(v){return !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())?'Informe um e-mail válido.':''},
-  tipo:function(v){return !v?'Escolha o tipo de projeto.':''},
   mensagem:function(v){return v.trim().length<10?'Escreva pelo menos 10 caracteres.':''}
 };
 function check(el){
@@ -849,16 +827,37 @@ form.addEventListener('submit',function(e){
   var firstBad=null;
   Object.keys(RULES).forEach(function(n){var el=form.elements[n];if(!check(el)&&!firstBad)firstBad=el});
   if(firstBad){firstBad.focus();return}
+  var errEl=$('#formError');errEl.hidden=true;
+  if(form.elements._honey.value)return; // bot preencheu o campo invisível
+  var f=form.elements,nomeCompleto=f.nome.value.trim(),assunto=f.assunto.value.trim();
   sendBtn.disabled=true;sendBtn.innerHTML='<span class="spinner"></span> Enviando…';
-  setTimeout(function(){
-    var nome=form.elements.nome.value.trim().split(' ')[0];
-    $('#successText').textContent='Obrigado, '+nome+'! Recebi sua mensagem sobre “'+form.elements.tipo.value+'” e respondo em '+form.elements.email.value.trim()+' em breve.';
-    form.hidden=true;success.classList.add('show');success.focus();
-    sendBtn.disabled=false;sendBtn.innerHTML='Enviar mensagem <span class="arrow">→</span>';
-  },1100);
+  function done(){sendBtn.disabled=false;sendBtn.innerHTML='Enviar mensagem <span class="arrow">→</span>'}
+  // FormSubmit encaminha a mensagem para PROFILE.email (sem backend próprio)
+  fetch('https://formsubmit.co/ajax/'+PROFILE.email,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({
+      Nome:nomeCompleto,
+      'E-mail':f.email.value.trim(),
+      Assunto:assunto||'—',
+      Mensagem:f.mensagem.value.trim(),
+      _replyto:f.email.value.trim(),
+      _subject:'Portfólio · '+(assunto?assunto+' · ':'')+nomeCompleto,
+      _template:'table',
+      _captcha:'false'
+    })
+  }).then(function(r){return r.json().then(function(d){if(!r.ok||String(d.success)!=='true')throw new Error(d.message||'Falha no envio');return d})})
+  .then(function(){
+    $('#successText').textContent='Obrigado, '+nomeCompleto.split(' ')[0]+'! Recebi sua mensagem'+(assunto?' sobre “'+assunto+'”':'')+' e respondo em '+f.email.value.trim()+' em breve.';
+    form.hidden=true;success.classList.add('show');success.focus();done();
+  })
+  .catch(function(){
+    errEl.innerHTML='Não consegui enviar agora. Tente de novo ou escreva para <a href="mailto:'+PROFILE.email+'">'+PROFILE.email+'</a>.';
+    errEl.hidden=false;done();
+  });
 });
 $('#againBtn').addEventListener('click',function(){
-  form.reset();$$('.field',form).forEach(function(f){f.classList.remove('invalid');var er=f.querySelector('.err');if(er)er.textContent=''});
+  form.reset();$('#formError').hidden=true;$$('.field',form).forEach(function(f){f.classList.remove('invalid');var er=f.querySelector('.err');if(er)er.textContent=''});
   success.classList.remove('show');form.hidden=false;form.elements.nome.focus();
 });
 

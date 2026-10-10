@@ -10,11 +10,17 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Akshar:wght@300;400;600&family=Inter:wght@400;500;600&display=swap">
 <style>
 :root{
-  --ink:#0b0b0b;
-  --paper:#ffffff;
-  --muted:#6b6b6b;
-  --line:#e6e6e6;
-  --soft:#f4f4f2;
+  color-scheme:dark;
+  --ink:#f2f2f0;
+  --paper:#0b0b0b;
+  --muted:#9a9a97;
+  --line:#2a2a2a;
+  --soft:#161616;
+  --line-strong:#4a4a4a;
+  --danger:#ff6b5e;
+  --header-bg:rgba(11,11,11,.9);
+  --portrait-bg:#1c1c1b;
+  --portrait-fg:#f2f2f0;
   --accent:#ff4f1f;
   --display:Akshar,'Arial Narrow',sans-serif;
   --body:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;
@@ -22,6 +28,20 @@
   --max:1440px;
   --logo-h:52px;
   --header-h:136px;
+}
+/* Página "Sobre mim" em modo claro (classe aplicada pelo roteador) */
+body.light{
+  color-scheme:light;
+  --ink:#0b0b0b;
+  --paper:#f5f5f5;
+  --muted:#6b6b6b;
+  --line:#e0e0e0;
+  --soft:#ebebe9;
+  --line-strong:#bdbdbd;
+  --danger:#d93025;
+  --header-bg:rgba(245,245,245,.92);
+  --portrait-bg:#e9e6df;
+  --portrait-fg:#0b0b0b;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scrollbar-gutter:stable}
@@ -34,7 +54,7 @@ button{font:inherit;color:inherit}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* ---------- Header ---------- */
-.header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
+.header{position:sticky;top:0;z-index:50;background:var(--header-bg);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
 .header.scrolled{border-bottom-color:var(--line)}
 .header .wrap{display:flex;align-items:center;justify-content:space-between;height:var(--header-h);gap:32px}
 
@@ -80,8 +100,14 @@ button{font:inherit;color:inherit}
 .logo.play .c2{animation:col2 2.4s 1 both}
 
 /* Tela de carregamento: símbolo grande, anima uma vez e some */
-.loader{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:var(--paper);overscroll-behavior:contain;transition:opacity .4s ease-out,visibility 0s .4s}
-.loader .mark{--logo-h:clamp(120px,22vw,220px)}
+.loader{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:var(--paper);overflow:hidden;overscroll-behavior:contain;transition:opacity .5s ease-out .45s,visibility 0s 1s}
+.loader .mark{--logo-h:clamp(120px,22vw,220px);transform-origin:50% 50%;transition:transform 1s cubic-bezier(.7,0,.2,1)}
+/* Zoom in centralizado no símbolo; a home cresce até o tamanho normal */
+.loader.done .mark{transform:scale(160)}
+main,.header .wrap{transition:transform 1.1s cubic-bezier(.2,.7,.2,1) .2s}
+.header .wrap{transform-origin:50% 50vh}
+main{transform-origin:50% calc(50vh - var(--header-h))}
+body.intro main,body.intro .header .wrap{transform:scale(.9)}
 .loader .c0{animation:col0 2.4s .15s 1 both}
 .loader .c1{animation:col1 2.4s .15s 1 both}
 .loader .c2{animation:col2 2.4s .15s 1 both}
@@ -122,14 +148,13 @@ a:hover .arrow,button:hover .arrow{transform:translateX(4px)}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .chip .n{opacity:.5;margin-left:6px;font-size:12px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(8px,1vw,14px);padding-bottom:clamp(64px,8vw,120px)}
-.card{position:relative;display:block;aspect-ratio:32/25;overflow:hidden;background:var(--soft);text-decoration:none;color:#fff}
-.card svg{width:100%;height:100%;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
-.card:hover svg,.card:focus-visible svg{transform:scale(1.04)}
-.card .info{position:absolute;inset:auto 0 0 0;padding:clamp(16px,2vw,28px);display:flex;justify-content:space-between;align-items:flex-end;gap:16px;background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,0));opacity:0;transform:translateY(10px);transition:opacity .3s,transform .35s cubic-bezier(.2,.7,.2,1)}
-.card:hover .info,.card:focus-visible .info{opacity:1;transform:none}
-.card h2{font:600 clamp(22px,2vw,32px)/1 var(--display);text-transform:uppercase;margin:0}
-.card .info p{margin:6px 0 0;font-size:14px;opacity:.85}
-.card .go{flex:none;width:44px;height:44px;border-radius:50%;background:#fff;color:var(--ink);display:grid;place-items:center}
+.card{position:relative;display:block;aspect-ratio:32/25;overflow:hidden;background:var(--soft);text-decoration:none}
+.card svg{width:100%;height:100%}
+/* Faixa branca que sobe da base no hover */
+.card .info{position:absolute;inset:auto 0 0 0;padding:14px clamp(16px,1.6vw,22px) 12px;display:flex;justify-content:space-between;align-items:baseline;gap:16px;background:#fff;color:#0b0b0b;transform:translateY(101%);transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.card:hover .info,.card:focus-visible .info{transform:none}
+.card h2{font:600 clamp(20px,1.8vw,28px)/1 var(--display);text-transform:uppercase;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .info p{margin:0;font-size:14px;color:#555;white-space:nowrap;flex:none}
 @media (hover:none){.card .info{opacity:1;transform:none}}
 .empty{grid-column:1/-1;padding:64px 0;text-align:center;color:var(--muted)}
 
@@ -206,10 +231,10 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:20px 20px;align-content:star
 label{font:600 13px/1 var(--body)}
 input,select,textarea{font:400 16px/1.4 var(--body);color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;width:100%;transition:border-color .2s}
 textarea{min-height:170px;resize:vertical}
-input:hover,select:hover,textarea:hover{border-color:#bdbdbd}
+input:hover,select:hover,textarea:hover{border-color:var(--line-strong)}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
-.field.invalid input,.field.invalid select,.field.invalid textarea{border-color:#d93025}
-.err{color:#d93025;font-size:13px;min-height:0}
+.field.invalid input,.field.invalid select,.field.invalid textarea{border-color:var(--danger)}
+.err{color:var(--danger);font-size:13px;min-height:0}
 .err:empty{display:none}
 .budget{display:flex;flex-wrap:wrap;gap:8px}
 .budget input{position:absolute;opacity:0;pointer-events:none}
@@ -223,7 +248,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
 .success.show{display:block;animation:viewIn .5s both}
 .success h2{font:600 clamp(36px,4vw,56px)/1 var(--display);text-transform:uppercase;margin:16px 0 12px}
 .success p{color:var(--muted);margin:0 0 24px}
-.check{width:56px;height:56px;border-radius:50%;background:var(--ink);display:grid;place-items:center}
+.check{width:56px;height:56px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center}
 .spinner{width:16px;height:16px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
@@ -279,7 +304,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
 }
 </style>
 </head>
-<body>
+<body class="intro">
 
 <div class="loader" id="loader" role="status" aria-label="Carregando MINUTTI STUDIO">
   <span class="mark" aria-hidden="true"><i class="col c0"></i><i class="col c1"></i><i class="col c2"></i></span>
@@ -290,7 +315,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
     <a class="logo" href="#/" data-logo aria-label="MINUTTI STUDIO — início">
       <span class="mark" aria-hidden="true"><i class="col c0"></i><i class="col c1"></i><i class="col c2"></i></span>
       <span class="wipe" aria-hidden="true">
-        <svg class="word" viewBox="0 0 1700 360" width="142" height="30"><text x="0" y="360" font-family="Akshar, 'Arial Narrow', sans-serif" font-size="500" fill="#0b0b0b"><tspan font-weight="600">MINUTTI</tspan><tspan font-weight="300">STUDIO</tspan></text></svg>
+        <svg class="word" viewBox="0 0 1700 360" width="142" height="30"><text x="0" y="360" font-family="Akshar, 'Arial Narrow', sans-serif" font-size="500" fill="currentColor"><tspan font-weight="600">MINUTTI</tspan><tspan font-weight="300">STUDIO</tspan></text></svg>
       </span>
     </a>
 
@@ -326,9 +351,9 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
       <div class="about-hero">
         <figure class="portrait" style="margin:0">
           <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Retrato (placeholder)">
-            <rect width="400" height="500" fill="#e9e6df"/>
-            <circle cx="200" cy="190" r="78" fill="#0b0b0b"/>
-            <path d="M60 500c0-92 63-160 140-160s140 68 140 160z" fill="#0b0b0b"/>
+            <rect width="400" height="500" style="fill:var(--portrait-bg)"/>
+            <circle cx="200" cy="190" r="78" style="fill:var(--portrait-fg)"/>
+            <path d="M60 500c0-92 63-160 140-160s140 68 140 160z" style="fill:var(--portrait-fg)"/>
             <rect x="24" y="24" width="36" height="36" fill="#ff4f1f"/>
           </svg>
           <figcaption>Felipe Minutti · São Paulo</figcaption>
@@ -421,7 +446,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
         </form>
 
         <div class="success" id="success" role="status" tabindex="-1">
-          <div class="check"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <div class="check"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
           <h2>Mensagem enviada</h2>
           <p id="successText">Obrigado! Retorno em breve.</p>
           <button class="btn ghost" type="button" id="againBtn">Enviar outra mensagem</button>
@@ -477,7 +502,7 @@ var PROJECTS = [
    summary:'App de acompanhamento de hábitos e saúde',
    lead:'Um app que transforma dados de saúde em pequenas decisões diárias — sem culpa, sem excesso de gráficos.',
    role:'Product design, UI', deliver:'App iOS/Android, design system',
-   bg:'#0b0b0b', ink:'#f5f5f5', accent:'#d4ff3a', motif:'phone',
+   bg:'#1d1d1f', ink:'#f5f5f5', accent:'#d4ff3a', motif:'phone',
    challenge:'Usuários abandonavam o app na segunda semana. Os dashboards eram densos e pouco acionáveis.',
    process:'Entrevistas com 18 usuários, mapa de jornada e testes semanais com protótipos. Reduzimos a home para um único “próximo passo” e criamos um sistema de streaks gentil.',
    stats:[['2,4×','retenção em 30 dias'],['4,8','nota na App Store'],['60+','componentes']]},
@@ -608,7 +633,7 @@ function renderGrid(){
   var list=PROJECTS.filter(function(p){return activeCat==='Todos'||p.cat===activeCat});
   $('#grid').innerHTML=list.length?list.map(function(p){
     return '<a class="card" href="#/projeto/'+p.slug+'" aria-label="'+esc(p.title+' — '+p.cat)+'">'+art(p)+
-      '<div class="info" aria-hidden="true"><div><h2>'+esc(p.title)+'</h2><p>'+esc(p.cat)+' · '+p.year+'</p></div><span class="go">→</span></div></a>';
+      '<div class="info" aria-hidden="true"><h2>'+esc(p.title)+'</h2><p>'+esc(p.cat)+' · '+p.year+'</p></div></a>';
   }).join(''):'<p class="empty">Nenhum projeto nesta categoria.</p>';
 }
 $('#filters').addEventListener('click',function(e){
@@ -655,6 +680,7 @@ function route(){
     var on=a.getAttribute('data-nav')===name;
     if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
   });
+  document.body.classList.toggle('light',name==='sobre');
   document.title=title+' — MINUTTI STUDIO';
   closeMenu();
   window.scrollTo(0,0);
@@ -765,7 +791,8 @@ var loader=$('#loader'),loaderGone=false;
 function hideLoader(){
   if(loaderGone)return;loaderGone=true;
   loader.classList.add('done');
-  setTimeout(function(){loader.remove()},500);
+  document.body.classList.remove('intro');
+  setTimeout(function(){loader.remove()},1100);
 }
 $('.c2',loader).addEventListener('animationend',hideLoader);
 setTimeout(hideLoader,window.matchMedia('(prefers-reduced-motion: reduce)').matches?400:4000);

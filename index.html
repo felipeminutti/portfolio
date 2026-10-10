@@ -41,7 +41,7 @@ body.light{
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scrollbar-gutter:stable}
-body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+body{margin:0;-webkit-tap-highlight-color:transparent;background:var(--paper);color:var(--ink);font:400 16px/1.6 var(--body);-webkit-font-smoothing:antialiased}
 a{color:inherit}
 img,svg{display:block}
 button{font:inherit;color:inherit}
@@ -51,6 +51,7 @@ button{font:inherit;color:inherit}
 
 /* ---------- Header ---------- */
 .header{position:sticky;top:0;z-index:50;background:var(--header-bg);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
+@media (hover:none){.header{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--paper)}}
 .header.scrolled{border-bottom-color:var(--line)}
 .header .wrap{display:flex;align-items:center;justify-content:space-between;height:var(--header-h);gap:32px}
 
@@ -97,9 +98,9 @@ button{font:inherit;color:inherit}
 
 /* Tela de carregamento: símbolo grande, anima uma vez e some */
 .loader{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:var(--paper);overflow:hidden;overscroll-behavior:contain;transition:opacity .5s ease-out .45s,visibility 0s 1s}
-.loader .mark{--logo-h:clamp(120px,22vw,220px);transform-origin:50% 50%;transition:transform 1s cubic-bezier(.7,0,.2,1)}
+.loader .mark{--logo-h:clamp(120px,22vw,220px);transform-origin:50% 50%;transition:transform 1s cubic-bezier(.7,0,.2,1),opacity .24s linear}
 /* Zoom in centralizado no símbolo; a home cresce até o tamanho normal */
-.loader.done .mark{transform:scale(160)}
+.loader.done .mark{transform:scale(160);opacity:0}
 main,.header .wrap{transition:transform 1.1s cubic-bezier(.2,.7,.2,1) .2s}
 .header .wrap{transform-origin:50% 50vh}
 main{transform-origin:50% calc(50vh - var(--header-h))}
@@ -770,7 +771,7 @@ function route(){
   document.body.classList.toggle('light',name==='sobre');
   document.title=title+' — MINUTTI STUDIO';
   closeMenu();
-  window.scrollTo(0,0);
+  window.scrollTo({top:0,behavior:'instant'});
 }
 window.addEventListener('hashchange',route);
 // Clicar em um link para a tela atual volta ao topo

@@ -52,6 +52,9 @@ button{font:inherit;color:inherit}
 /* ---------- Header ---------- */
 .header{position:sticky;top:0;z-index:50;background:var(--header-bg);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
 @media (hover:none){.header{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--paper)}}
+.header{transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.header.hide{transform:translateY(-100%)}
+@media (prefers-reduced-motion:reduce){.header{transition:none}}
 .header.scrolled{border-bottom-color:var(--line)}
 .header .wrap{display:flex;align-items:center;justify-content:space-between;height:var(--header-h);gap:32px}
 
@@ -146,7 +149,7 @@ a:hover .arrow,button:hover .arrow{transform:translateX(4px)}
 .chip .n{opacity:.5;margin-left:6px;font-size:12px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(8px,1vw,14px);padding-bottom:clamp(64px,8vw,120px)}
 .card{position:relative;display:block;aspect-ratio:32/25;overflow:hidden;background:var(--soft);text-decoration:none}
-.card svg{width:100%;height:100%}
+.card svg,.card>img{display:block;width:100%;height:100%;object-fit:cover}
 /* Faixa branca que sobe da base no hover */
 .card .info{position:absolute;inset:auto 0 0 0;padding:14px clamp(16px,1.6vw,22px) 12px;display:flex;justify-content:space-between;align-items:baseline;gap:16px;background:#fff;color:#0b0b0b;transform:translateY(101%);transition:transform .35s cubic-bezier(.2,.7,.2,1)}
 .card:hover .info,.card:focus-visible .info{transform:none}
@@ -173,6 +176,7 @@ a:hover .arrow,button:hover .arrow{transform:translateX(4px)}
 .p-gallery figure{margin:0;aspect-ratio:1;overflow:hidden;background:var(--soft)}
 .p-gallery figure.full{grid-column:span 2;aspect-ratio:16/7}
 .p-gallery svg{width:100%;height:100%}
+
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:0 0 clamp(48px,6vw,88px)}
 .stat{border-top:1px solid var(--ink);padding-top:20px}
 .stat b{display:block;font:600 clamp(48px,6vw,88px)/1 var(--display)}
@@ -231,13 +235,7 @@ a:hover .arrow,button:hover .arrow{transform:translateX(4px)}
 .sm-track h3 span{font-weight:400;color:var(--muted)}
 .sm-track p{margin:0;color:var(--muted);font-size:15px;line-height:1.6}
 .sm-track .minor h3{font-size:16px}
-.sm-steps{list-style:none;margin:32px 0 0;padding:0}
-.sm-steps li{display:grid;grid-template-columns:56px 1fr;padding:18px 0;border-bottom:1px solid var(--line)}
-.sm-steps li:first-child{padding-top:0}
-.sm-steps .n{font:600 28px/1 var(--display)}
-.sm-steps b{display:block;font-size:17px;font-weight:600}
-.sm-steps span{color:var(--muted);font-size:15px;line-height:1.6}
-.sm-lang{margin-top:40px}
+.sm-lang{margin-top:0}
 .sm-lang .row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
 .sm-lang b{font-weight:600}
 .sm-lang small{color:var(--muted);font-size:14px;margin-left:8px}
@@ -258,7 +256,10 @@ a:hover .arrow,button:hover .arrow{transform:translateX(4px)}
 .sm-links a:hover{text-decoration:underline;text-underline-offset:4px}
 
 /* ---------- Contato ---------- */
-.contact{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px);align-items:start;padding:clamp(48px,8vw,112px) 0}
+.contact{display:grid;grid-template-columns:5fr 7fr;grid-template-rows:auto 1fr;column-gap:clamp(32px,6vw,96px);align-items:start;padding:clamp(48px,8vw,112px) 0}
+.contact .side{grid-column:1;grid-row:1}
+.contact .contact-links{grid-column:1;grid-row:2}
+.contact form,.contact .success{grid-column:2;grid-row:1 / span 2}
 .contact h1{font-size:clamp(56px,8vw,120px);margin:16px 0 28px}
 .contact h1 .light{font-weight:300}
 .contact .side p{font-size:17px;line-height:1.65;color:var(--muted);margin:0 0 32px;max-width:440px}
@@ -324,6 +325,11 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
 
 @media (max-width:1100px){
   .contact,.p-body{grid-template-columns:1fr}
+  /* empilhado: texto, formulário e, por último, os links */
+  .contact{grid-template-rows:none;row-gap:40px}
+  .contact .side,.contact .contact-links,.contact form,.contact .success{grid-column:1;grid-row:auto}
+  .contact .side{order:1}.contact form,.contact .success{order:2}.contact .contact-links{order:3}
+  .contact .mail{margin-bottom:0}
   .sm-hero,.sm-feature,.sm-two{grid-template-columns:1fr}
   .sm-hero .portrait{max-width:420px;grid-row:1}
   .levels{grid-template-columns:repeat(2,1fr)}
@@ -360,6 +366,11 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
 <div class="loader" id="loader" role="status" aria-label="Carregando MINUTTI STUDIO">
   <span class="mark" aria-hidden="true"><i class="col c0"></i><i class="col c1"></i><i class="col c2"></i></span>
 </div>
+<script>
+/* Animação de entrada só na primeira visita da sessão (aba aberta); antes do primeiro quadro para não piscar */
+(function(){var seen=false;try{seen=sessionStorage.getItem('introSeen')==='1';sessionStorage.setItem('introSeen','1')}catch(e){}
+if(seen){var l=document.getElementById('loader');l.parentNode.removeChild(l);document.body.classList.remove('intro')}})();
+</script>
 
 <header class="header" id="header">
   <div class="wrap">
@@ -374,6 +385,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
 
     <nav class="nav" id="nav" aria-label="Principal">
       <ul class="nav-links">
+        <li><a href="#/" data-nav="home">Projetos</a></li>
         <li><a href="#/sobre" data-nav="sobre">Sobre mim</a></li>
         <li><a href="#/contato" data-nav="contato">Contato</a></li>
       </ul>
@@ -411,10 +423,9 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
           <p class="sm-statement">Projeto produtos digitais <mark>a partir de quem os usa</mark>. Da pesquisa à interface final, com a identidade da marca presente em cada decisão.</p>
           <div class="sm-bio">
             <p>Comecei no branding e na comunicação, e foi ali que entendi como marca, mensagem e experiência se conectam. Levei esse repertório para o design de interfaces: na Eshows, ajudei a criar do zero o <b>Espaces</b>, uma rede social que conecta pessoas a estabelecimentos. Fiz a pesquisa, as telas e toda a identidade visual do app, que hoje está publicado na App Store e no Google Play. Minha passagem pela manufatura digital e pela modelagem 3D na InovaUSP me ensinou a pensar com precisão, testar cedo e respeitar restrições reais.</p>
-            <p>Hoje também prototipo em código e monto design systems com Claude e VS Code, o que encurta muito a distância entre uma ideia e algo que dá para testar de verdade. Para mim, design não é gosto, é decisão. O critério é se a solução funcionou para quem precisava dela.</p>
+            <p>Hoje também prototipo em código e monto design systems, o que encurta muito a distância entre uma ideia e algo que dá para testar de verdade. Para mim, design não é gosto, é decisão. O critério é se a solução funcionou para quem precisava dela.</p>
           </div>
           <div class="sm-actions">
-            <a class="btn" href="#/contato">Vamos conversar <span class="arrow">→</span></a>
             <a class="btn ghost" href="assets/curriculo-felipe-minutti.pdf" download="Curriculo-Felipe-Minutti.pdf" target="_blank" rel="noopener">Baixar currículo <span class="arrow">↓</span></a>
           </div>
         </div>
@@ -423,7 +434,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
       <div class="sm-section">
         <h2 class="sm-title">O que eu faço</h2>
         <div class="sm-cards">
-          <article class="sm-card focus"><span class="num">01 — FOCO</span><h3>UX/UI para produtos digitais</h3><p>Pesquisa com usuários, arquitetura de informação, wireframes, fluxos, design systems e interfaces prototipadas no Figma ou em código, com Claude e VS Code.</p></article>
+          <article class="sm-card focus"><span class="num">01 — FOCO</span><h3>UX/UI para produtos digitais</h3><p>Pesquisa com usuários, arquitetura de informação, wireframes, fluxos, design systems e interfaces prototipadas no Figma ou em código.</p></article>
           <article class="sm-card"><span class="num">02</span><h3>Marca dentro do produto</h3><p>Identidade visual e linguagem que se traduzem em interface consistente — da logo ao componente.</p></article>
           <article class="sm-card"><span class="num">03</span><h3>Produto físico &amp; 3D</h3><p>Sketching, modelagem paramétrica e poligonal, impressão 3D e ensino de ferramentas como Fusion, Blender e Rhino.</p></article>
         </div>
@@ -455,13 +466,6 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
           </ul>
         </div>
         <div>
-          <h2 class="sm-title">Como eu trabalho</h2>
-          <ol class="sm-steps">
-            <li><span class="n">01</span><div><b>Entender antes de desenhar</b><span>Pesquisa e contexto para definir o problema certo.</span></div></li>
-            <li><span class="n">02</span><div><b>Esboçar rápido</b><span>Papel e wireframes para descartar cedo o que não funciona.</span></div></li>
-            <li><span class="n">03</span><div><b>Prototipar e testar</b><span>Fluxos navegáveis no Figma ou protótipos em código, feitos com Claude e VS Code, para validar com pessoas reais.</span></div></li>
-            <li><span class="n">04</span><div><b>Refinar a interface</b><span>UI consistente, organizada em design system, alinhada à marca e pronta para desenvolvimento.</span></div></li>
-          </ol>
           <div class="sm-lang">
             <h2 class="sm-title">Idiomas</h2>
             <div class="row" style="margin-top:20px"><span><b>Inglês</b><small>B2 · Upper Intermediate</small></span><span class="dots" role="img" aria-label="3 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div>
@@ -503,8 +507,8 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
             <a href="#" id="mailLink"></a>
             <button class="copy" type="button" id="copyMail">Copiar</button>
           </div>
-          <ul class="social-big" data-social-big></ul>
         </div>
+        <ul class="social-big contact-links" data-social-big></ul>
 
         <form id="contactForm" novalidate>
           <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
@@ -570,6 +574,8 @@ var TOOLS = [
 ];
 
 var PROJECTS = [
+  // case com página própria (espaces/index.html): o card abre essa página
+  {slug:'espaces', title:'Espaces', cat:'UI/UX', year:2024, href:'espaces/index.html', cover:'assets/capa-espaces.jpg'},
   {slug:'aurora-cafe', title:'Aurora Café', cat:'Branding', year:2026, client:'Aurora Café & Torrefação',
    summary:'Identidade visual para uma torrefação de cafés especiais',
    lead:'Uma marca que nasce do nascer do sol nas fazendas do sul de Minas: calorosa, artesanal e com um sistema gráfico que se adapta de embalagens a xícaras.',
@@ -659,7 +665,7 @@ function art(p, variant){
       break;
     case 'bars':
       for(var n=0;n<22;n++){var h=120+Math.abs(Math.sin(n*1.7)*560)+(n%4)*30;s+='<rect x="'+(90+n*66)+'" y="'+(500-h/2)+'" width="40" height="'+h+'" fill="'+k+'"/>';}
-      s+='<text x="90" y="960" font-family="Akshar" font-weight="600" font-size="90" fill="'+a+'">RUÍDO ’24</text>';
+      s+='<text x="210" y="960" font-family="Akshar" font-weight="600" font-size="90" fill="'+a+'">RUÍDO ’24</text>';
       break;
     case 'cols':
       s='<rect x="480" y="200" width="180" height="600" fill="'+k+'"/><rect x="710" y="320" width="180" height="600" fill="'+a+'"/><rect x="940" y="80" width="180" height="600" fill="'+k+'"/>';
@@ -717,10 +723,11 @@ function renderFilters(){
     return '<button class="chip" type="button" data-cat="'+esc(c)+'" aria-pressed="'+(c===activeCat)+'">'+esc(c)+'<span class="n">'+n+'</span></button>';
   }).join('');
 }
+function projectHref(p){return p.href||'#/projeto/'+p.slug}
 function renderGrid(){
   var list=PROJECTS.filter(function(p){return activeCat==='Todos'||p.cat===activeCat});
   $('#grid').innerHTML=list.length?list.map(function(p){
-    return '<a class="card" href="#/projeto/'+p.slug+'" aria-label="'+esc(p.title+' — '+p.cat)+'">'+art(p)+
+    return '<a class="card" href="'+projectHref(p)+'" aria-label="'+esc(p.title+' — '+p.cat)+'">'+(p.cover?'<img src="'+p.cover+'" alt="" loading="lazy">':art(p))+
       '<div class="info" aria-hidden="true"><h2>'+esc(p.title)+'</h2><p>'+esc(p.cat)+' · '+p.year+'</p></div></a>';
   }).join(''):'<p class="empty">Nenhum projeto nesta categoria.</p>';
 }
@@ -733,6 +740,7 @@ renderFilters();renderGrid();
 /* ================= Página de projeto ================= */
 function renderProject(p){
   var idx=PROJECTS.indexOf(p),next=PROJECTS[(idx+1)%PROJECTS.length];
+  var nextLink='<a class="next" href="'+projectHref(next)+'"><span class="eyebrow">Próximo projeto</span><span class="display">'+esc(next.title)+' <span class="arrow">→</span></span></a>';
   $('#view-project').innerHTML=
     '<div class="wrap">'+
       '<a class="back" href="#/"><span>←</span> Todos os projetos</a>'+
@@ -743,7 +751,7 @@ function renderProject(p){
       '<div class="p-body"><h2>Processo</h2><div><p>'+esc(p.process)+'</p></div></div>'+
       '<div class="p-gallery"><figure>'+art(p,'cols')+'</figure><figure>'+art(p,'grid')+'</figure><figure class="full">'+art(p,'palette')+'</figure></div>'+
       '<div class="stats">'+p.stats.map(function(s){return '<div class="stat"><b>'+esc(s[0])+'</b><span>'+esc(s[1])+'</span></div>'}).join('')+'</div>'+
-      '<a class="next" href="#/projeto/'+next.slug+'"><span class="eyebrow">Próximo projeto</span><span class="display">'+esc(next.title)+' <span class="arrow">→</span></span></a>'+
+      nextLink+
     '</div>';
 }
 
@@ -755,6 +763,7 @@ function route(){
   var name=parts[0]||'home',title;
   if(name==='projeto'){
     var p=PROJECTS.filter(function(x){return x.slug===parts[1]})[0];
+    if(p&&p.href){location.replace(p.href);return}
     if(p){renderProject(p);title=p.title}else name='404';
   }
   if(!VIEWS[name])name='404';
@@ -765,7 +774,7 @@ function route(){
   void view.offsetWidth;view.classList.add('active');
 
   $$('[data-nav]').forEach(function(a){
-    var on=a.getAttribute('data-nav')===name;
+    var nav=a.getAttribute('data-nav'),on=nav===name||(nav==='home'&&name==='projeto');
     if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
   });
   document.body.classList.toggle('light',name==='sobre');
@@ -816,6 +825,20 @@ window.addEventListener('resize',function(){
 /* ================= Header ao rolar ================= */
 var header=$('#header'),scrolled=false;
 window.addEventListener('scroll',function(){var s=scrollY>8;if(s!==scrolled){scrolled=s;header.classList.toggle('scrolled',s)}},{passive:true});
+/* Header some ao rolar para baixo e volta ao rolar para cima */
+(function(){
+  var h=header,lastY=scrollY,ticking=false;
+  function update(){
+    ticking=false;
+    var y=Math.max(scrollY,0),dy=y-lastY;
+    if(document.body.classList.contains('menu-open')||y<h.offsetHeight){h.classList.remove('hide')}
+    else if(dy>6){h.classList.add('hide')}
+    else if(dy<-6){h.classList.remove('hide')}
+    if(Math.abs(dy)>6||y<h.offsetHeight)lastY=y;
+  }
+  addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(update)}},{passive:true});
+})();
+
 
 /* ================= Formulário (mock) ================= */
 var form=$('#contactForm'),success=$('#success'),sendBtn=$('#sendBtn');
@@ -904,15 +927,15 @@ logo.addEventListener('mouseenter',function(){
 $('.c2',logo).addEventListener('animationend',function(){logo.classList.remove('play')});
 
 /* ================= Tela de carregamento ================= */
-var loader=$('#loader'),loaderGone=false;
+var loader=$('#loader'),loaderGone=!loader;
 function hideLoader(){
   if(loaderGone)return;loaderGone=true;
   loader.classList.add('done');
   document.body.classList.remove('intro');
   setTimeout(function(){loader.remove()},1100);
 }
-$('.c2',loader).addEventListener('animationend',hideLoader);
-setTimeout(hideLoader,window.matchMedia('(prefers-reduced-motion: reduce)').matches?400:4000);
+if(loader){$('.c2',loader).addEventListener('animationend',hideLoader);
+setTimeout(hideLoader,window.matchMedia('(prefers-reduced-motion: reduce)').matches?400:4000);}
 
 fitHeader();
 route();

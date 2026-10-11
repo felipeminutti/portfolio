@@ -128,7 +128,13 @@ section{padding:140px 0}
 .onb figcaption b{display:block;font-family:Akshar;font-weight:500;font-size:22px;color:#fff}
 .onb figcaption span{font-size:14.5px}
 
-/* ---------- Identidade ---------- */
+/* ---------- Identidade (seção em destaque) ---------- */
+.brand{background:var(--lilac-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.brand h2{font-size:clamp(48px,7.5vw,104px)}
+.brand .ds{grid-template-columns:1.5fr 1fr}
+.brand .tile.logo-t{min-height:clamp(340px,36vw,480px)}
+.brand .tile.logo-t .lockup{font-size:clamp(72px,10vw,140px)}
+@media (max-width:900px){.brand .ds{grid-template-columns:1fr}.brand .tile.logo-t{min-height:260px}.brand .tile.logo-t .lockup{font-size:clamp(56px,16vw,96px)}.brand .tile{padding:28px}.brand .sw small{font-size:10px;letter-spacing:-.02em}}
 .ds{display:grid;grid-template-columns:1.2fr 1fr;gap:20px;margin-top:64px}
 .tile{border-radius:26px;padding:40px;background:#fff;border:1px solid var(--line);position:relative;overflow:hidden}
 .tile.logo-t{background:var(--navy-2);display:grid;place-items:center;min-height:340px}
@@ -318,8 +324,38 @@ body.mh-lock{overflow:hidden}
   </div>
 </section>
 
+<!-- ················· IDENTIDADE ················· -->
+<section class="brand">
+  <div class="wrap">
+    <p class="eyebrow">Identidade visual</p>
+    <h2 class="rv">Uma gota,<br>muitas combinações.</h2>
+    <p class="lead rv" style="margin-top:24px">Antes do brinquedo veio a marca. A Blin nasceu de um único módulo, uma gota, que se repete em todo o projeto.</p>
+    <div class="ds rv">
+      <div class="tile logo-t"><div class="lockup"><img src="img/blin-cream.png" alt="blin"><span>city</span></div></div>
+      <div class="tile">
+        <h4>Cores</h4>
+        <div class="sw">
+          <div><i style="background:#05521F"></i><small>#05521F</small></div>
+          <div><i style="background:#33CC66"></i><small>#33CC66</small></div>
+          <div><i style="background:#FCF0D8;box-shadow:inset 0 0 0 1px var(--line)"></i><small>#FCF0D8</small></div>
+          <div><i style="background:#F49C2C"></i><small>#F49C2C</small></div>
+          <div><i style="background:#944009"></i><small>#944009</small></div>
+        </div>
+        <h4 style="margin-top:32px">Símbolo</h4>
+        <p class="muted" style="font-size:15px">Uma gota com um canto reto e três arredondados. Girada e combinada, ela forma padrões, ícones e o próprio tabuleiro.</p>
+      </div>
+    </div>
+    <div class="film rv"><video src="img/blin_animado.mp4" autoplay muted loop playsinline aria-label="Animação da marca com as gotas se combinando"></video></div>
+    <div class="ds-2 rv">
+      <div class="tile"><h4>Padrão</h4><div class="fill"><img src="img/gotas.png" alt="Padrão de gotas nas cores da marca" style="width:78%"></div></div>
+      <div class="tile"><h4>Logo elástico</h4><div class="fill"><img src="img/bliiin.png" alt="Logotipo esticado em bliiiin nas quatro cores" style="width:86%"></div></div>
+      <div class="tile"><h4>Logo animado</h4><div class="fill"><video src="img/blin_logo.mp4" autoplay muted loop playsinline aria-label="Animação do logotipo blin"></video></div></div>
+    </div>
+  </div>
+</section>
+
 <!-- ················· O KIT ················· -->
-<section style="padding-top:0">
+<section>
   <div class="wrap">
     <p class="eyebrow">O kit</p>
     <h2 class="rv">Três verbos, um brinquedo.</h2>
@@ -402,49 +438,6 @@ body.mh-lock{overflow:hidden}
         <div class="sheet" style="background:#fff;border:1px solid var(--line)"><img src="img/bercinho_iso.jpg" alt="Perspectiva isométrica do berço com encaixes no formato de cada peça"></div>
       </div>
     </article>
-  </div>
-</section>
-
-<!-- ················· EMBALAGEM ················· -->
-<section class="dark">
-  <div class="wrap">
-    <p class="eyebrow">Embalagem</p>
-    <h2 class="rv">A caixa explica o brinquedo.</h2>
-    <p class="lead rv" style="margin-top:24px">Antes de abrir, a caixa já mostra a cidade montada, a faixa etária e os três verbos do kit.</p>
-    <div class="onb">
-      <figure class="rv"><div class="shot"><img src="img/caixa_frente.jpg" alt="Tampa da caixa Blin City"></div><figcaption><b>Tampa</b><span>Logo, cidade montada e selo 3+</span></figcaption></figure>
-      <figure class="rv"><div class="shot"><img src="img/caixa_faca.jpg" alt="Planificação da tampa com faca e dobras"></div><figcaption><b>Faca e dobra</b><span>Planificação pronta para produção</span></figcaption></figure>
-      <figure class="rv"><div class="shot"><img src="img/caixa_verso.jpg" alt="Fundo da caixa com os ícones Colorindo, Encaixando e Inventando"></div><figcaption><b>Fundo</b><span>Colorindo, encaixando e inventando</span></figcaption></figure>
-    </div>
-  </div>
-</section>
-
-<!-- ················· IDENTIDADE ················· -->
-<section>
-  <div class="wrap">
-    <p class="eyebrow">Identidade visual</p>
-    <h2 class="rv">Uma gota,<br>muitas combinações.</h2>
-    <div class="ds rv">
-      <div class="tile logo-t"><div class="lockup"><img src="img/blin-cream.png" alt="blin"><span>city</span></div></div>
-      <div class="tile">
-        <h4>Cores</h4>
-        <div class="sw">
-          <div><i style="background:#05521F"></i><small>#05521F</small></div>
-          <div><i style="background:#33CC66"></i><small>#33CC66</small></div>
-          <div><i style="background:#FCF0D8;box-shadow:inset 0 0 0 1px var(--line)"></i><small>#FCF0D8</small></div>
-          <div><i style="background:#F49C2C"></i><small>#F49C2C</small></div>
-          <div><i style="background:#944009"></i><small>#944009</small></div>
-        </div>
-        <h4 style="margin-top:32px">Símbolo</h4>
-        <p class="muted" style="font-size:15px">Uma gota com um canto reto e três arredondados. Girada e combinada, ela forma padrões, ícones e o próprio tabuleiro.</p>
-      </div>
-    </div>
-    <div class="ds-2 rv">
-      <div class="tile"><h4>Padrão</h4><div class="fill"><img src="img/gotas.png" alt="Padrão de gotas nas cores da marca" style="width:78%"></div></div>
-      <div class="tile"><h4>Logo elástico</h4><div class="fill"><img src="img/bliiin.png" alt="Logotipo esticado em bliiiin nas quatro cores" style="width:86%"></div></div>
-      <div class="tile"><h4>Logo animado</h4><div class="fill"><video src="img/blin_logo.mp4" autoplay muted loop playsinline aria-label="Animação do logotipo blin"></video></div></div>
-    </div>
-    <div class="film rv"><video src="img/blin_animado.mp4" autoplay muted loop playsinline aria-label="Animação da marca com as gotas se combinando"></video></div>
   </div>
 </section>
 

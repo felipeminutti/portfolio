@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Albero — Minutti Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Akshar:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Mesma estrutura dos cases Espaces e Blin. Só os tokens mudam para as cores do Albero.
+   Diferença deste case: o modelo 3D (assets/albero.glb) é o protagonista da seção "Por dentro", com troca de cor. */
+:root{
+  --navy:#1E2A22; --navy-2:#2E4A36; --lilac:#C9372C; --lilac-2:#E6E1D6; --lilac-soft:#ECE8E0;
+  --green:#5FAE62; --red:#D63B2E; --sun:#E9D57A; --sand:#D9A066;
+  --bg:#F4F2EE; --text:#1F231F; --muted:#686A63; --line:#E0DBD0;
+  --max:1200px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font:400 17px/1.65 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video,canvas{max-width:100%;display:block}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:Inter,system-ui,sans-serif;line-height:1.02;letter-spacing:-.035em;color:var(--navy);text-wrap:balance}
+h2{font-size:clamp(38px,5.6vw,72px);font-weight:600}
+h3{font-size:clamp(24px,2.8vw,32px);font-weight:600;line-height:1.12;letter-spacing:-.025em}
+.eyebrow{font:600 12px/1 Inter;letter-spacing:.18em;text-transform:uppercase;color:var(--lilac);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:28px;height:1px;background:currentColor}
+.lead{font-size:clamp(19px,2.2vw,24px);line-height:1.5;max-width:720px}
+.muted{color:var(--muted)}
+p+p{margin-top:14px}
+section{padding:140px 0}
+.dark{background:var(--navy);color:#D5DDD4}
+.dark h2,.dark h3{color:#fff}
+.dark .eyebrow{color:var(--sun)}
+
+/* ---------- Wordmark ---------- */
+
+/* ---------- Hero: galeria clara, o produto é o evento ---------- */
+.hero{position:relative;background:var(--bg);overflow:hidden;padding:48px 0 0}
+.back-top{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--muted);text-decoration:none}
+.back-top:hover{color:var(--navy)}
+.hero-head{text-align:center;padding:56px 0 0}
+.hero-shot{margin:56px 0 0}
+.hero-shot img{width:100%;height:auto;background:#DDDDDD}
+.hero-head h1.logo{display:block;width:min(560px,78vw);margin:0 auto 28px;aspect-ratio:1770/479;background:var(--navy);-webkit-mask:url(assets/albero-logo.png) center/contain no-repeat;mask:url(assets/albero-logo.png) center/contain no-repeat}
+.hero-head h1.logo img{opacity:0;width:100%;height:100%}
+.hero-head p.sub{font-family:Inter;font-weight:400;letter-spacing:-.025em;font-size:clamp(22px,3vw,36px);line-height:1.2;color:var(--navy);max-width:820px;margin:0 auto}
+.hero-head p.sub em{font-style:normal;color:var(--lilac)}
+.tags{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:32px}
+.tags span{padding:8px 16px;border:1px solid var(--line);border-radius:999px;font-size:14px;color:var(--muted);background:rgba(255,255,255,.5)}
+
+
+.picker{position:absolute;right:28px;bottom:32px;z-index:2;display:flex;align-items:center;gap:22px;padding:14px 16px 14px 24px;background:#fff;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.picker .lbl{font-size:13px;color:var(--muted);line-height:1.2}
+.picker .lbl b{display:block;font-weight:600;font-size:16px;color:var(--navy);letter-spacing:0}
+.sws{display:flex;gap:8px}
+.sws button{width:32px;height:32px;border-radius:50%;border:0;cursor:pointer;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);outline-offset:3px;transition:transform .2s}
+.sws button:hover{transform:scale(1.1)}
+.sws button[aria-pressed="true"]{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--c)}
+
+.meta{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff}
+.meta div{padding:28px 24px;border-right:1px solid var(--line)}
+.meta div:last-child{border-right:0}
+.meta dt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.meta dd{font-weight:500;font-size:15.5px}
+
+.intro{display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:end}
+.big-quote{font-weight:500;letter-spacing:-.03em;font-size:clamp(30px,4vw,52px);line-height:1.1;color:var(--navy)}
+.big-quote mark{background:none;color:var(--lilac)}
+
+/* ---------- Desafio ---------- */
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:64px;background:rgba(230,225,214,.14);border-radius:24px;overflow:hidden}
+.pain{background:var(--navy);padding:40px 32px}
+.pain .n{font-weight:600;letter-spacing:-.04em;font-size:56px;line-height:1;color:rgba(230,225,214,.22);margin-bottom:24px}
+.pain b{display:block;font-weight:600;letter-spacing:-.02em;font-size:22px;color:#fff;margin-bottom:8px}
+.pain span{font-size:15.5px}
+.goal{margin-top:56px;display:flex;gap:28px;align-items:center;padding:36px 40px;border-radius:24px;background:linear-gradient(110deg,var(--sun),var(--sand));color:var(--navy)}
+.goal b{font-size:19px;font-weight:600;white-space:nowrap}
+.goal p{font-size:20px;line-height:1.45}
+
+/* ---------- Ciclo ---------- */
+.loop{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:64px}
+.loop div{background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px;position:relative}
+.loop div:not(:last-child)::after{content:"→";position:absolute;right:-17px;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;z-index:1;font-size:15px}
+.loop b{font-size:24px;font-weight:600;letter-spacing:-.025em;color:var(--navy);display:block}
+.loop small{display:block;margin-top:6px;color:var(--muted);font-size:14.5px;line-height:1.5}
+.loop i{display:block;width:28px;height:28px;border-radius:8px;margin-bottom:16px}
+
+/* ---------- Por dentro: palco 3D fixo + passos que rolam por cima ---------- */
+.xr{position:relative;padding:0;background:var(--lilac-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.xr-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.xr-stage canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.xr-stage .fallback{position:absolute;inset:0;display:none;place-items:center;padding:24px 24px 24px 45%}
+.xr-stage .fallback img{border-radius:26px;max-height:80%;object-fit:contain}
+.no3d .xr-stage .fallback{display:grid}
+.no3d .xr-stage canvas,.no3d .tags3d,.no3d .picker{display:none}
+.xr-head{position:absolute;top:56px;left:0;right:0;pointer-events:none}
+.xr-steps{position:relative;margin-top:-100vh;margin-top:-100svh;pointer-events:none}
+.xr-step{min-height:100vh;min-height:100svh;display:flex;align-items:center}
+.xr-step .card{max-width:420px;pointer-events:auto;opacity:.18;transform:translateY(16px);transition:opacity .5s,transform .5s}
+.xr-step.on .card{opacity:1;transform:none}
+.xr-step .num{letter-spacing:-.04em;font-size:64px;line-height:1;color:#D2CCBF;font-weight:600;margin-bottom:12px}
+.xr-step h3{margin-bottom:16px}
+.xr-step p{color:var(--muted)}
+.xr-step dl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin-top:24px;padding:20px 22px;border-radius:18px;background:rgba(255,255,255,.7);border:1px solid var(--line);font-size:15px;backdrop-filter:blur(6px)}
+.xr-step dt{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--lilac);padding-top:4px;font-weight:600}
+/* etiquetas presas às peças (posição calculada a cada quadro) */
+.tags3d{position:absolute;inset:0;pointer-events:none}
+.t3{position:absolute;left:0;top:0;display:flex;align-items:center;gap:0;font-size:14px;font-weight:500;color:var(--navy);white-space:nowrap;opacity:0;transition:opacity .35s;will-change:transform}
+.t3.on{opacity:1}
+.t3 i{width:9px;height:9px;border-radius:50%;background:var(--navy);box-shadow:0 0 0 4px rgba(30,42,34,.12);flex:none;margin-left:-4.5px}
+.t3 s{display:block;width:clamp(28px,5vw,72px);height:1px;background:var(--navy);margin-right:10px}
+.t3 span{background:rgba(255,255,255,.85);padding:6px 12px;border-radius:999px;border:1px solid var(--line)}
+.progress{position:absolute;right:28px;top:50%;transform:translateY(-50%);display:grid;gap:10px}
+.progress i{width:6px;height:6px;border-radius:50%;background:#C9C2B3;transition:background .3s,transform .3s}
+.progress i.on{background:var(--navy);transform:scale(1.4)}
+
+/* ---------- Papel ---------- */
+.role{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.steps{list-style:none;counter-reset:s}
+.steps li{counter-increment:s;display:flex;gap:20px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line);font-size:19px}
+.steps li::before{content:counter(s,decimal-leading-zero);font-weight:600;color:var(--lilac);font-size:14px;font-variant-numeric:tabular-nums;min-width:26px}
+.steps li span{margin-left:auto;font-size:14px;color:var(--muted)}
+
+/* ---------- Cores ---------- */
+.brand{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.brand h2{font-size:clamp(48px,7.5vw,104px)}
+.lineup{margin-top:64px;border-radius:28px;overflow:hidden;background:#E7E4DE;position:relative}
+.lineup img{width:100%}
+.lineup .cap{position:absolute;left:28px;bottom:24px;font-size:13px;color:var(--muted)}
+.sw{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px;margin-top:20px}
+.sw div{background:var(--bg);border:1px solid var(--line);border-radius:22px;padding:18px}
+.sw i{display:block;aspect-ratio:3/2;border-radius:12px;margin-bottom:14px}
+.sw b{display:block;font-weight:600;font-size:17px;letter-spacing:-.01em;color:var(--navy);line-height:1.1}
+.sw small{display:block;font-size:12px;color:var(--muted);margin-top:2px;font-variant-numeric:tabular-nums}
+
+/* ---------- Resultado ---------- */
+.result{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:40px}
+.stat b{display:block;font-weight:600;letter-spacing:-.04em;font-size:clamp(40px,4.6vw,58px);line-height:1;color:var(--navy)}
+.stat b small{font-size:.45em;font-weight:500;margin-left:4px}
+.stat span{font-size:14px;color:var(--muted)}
+.note{font-size:12.5px;color:var(--muted);margin-top:16px}
+.ext{display:inline-flex;align-items:center;gap:8px;margin-top:32px;padding:14px 22px;border-radius:999px;background:var(--navy);color:#fff;text-decoration:none;font-weight:500;font-size:15px}
+.ext:hover{background:var(--navy-2)}
+.spec{background:#fff;border:1px solid var(--line);border-radius:28px;padding:40px}
+.spec svg{width:100%;height:auto;display:block}
+.spec text{font:500 13px Inter;fill:var(--muted)}
+
+footer{background:var(--navy);color:var(--lilac-2);border-top:1px solid rgba(230,225,214,.12)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;padding:48px 24px}
+
+/* ---------- Header do site (igual ao Espaces) ---------- */
+.mh{--h:52px;--hh:136px;position:sticky;top:0;z-index:50;background:#0b0b0b;color:#f2f2f0;font-family:Inter,system-ui,sans-serif}
+.mh-wrap{max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,48px);height:var(--hh);display:flex;align-items:center;justify-content:space-between;gap:32px}
+.mh-logo{display:flex;align-items:center;height:var(--h);color:inherit;text-decoration:none;flex:none}
+.mh-mark{position:relative;width:var(--h);height:var(--h);overflow:hidden;flex:none}
+.mh-col{position:absolute;top:0;width:30%;height:100%;background:currentColor}
+.mh-col.m0{left:0}.mh-col.m1{left:35%}.mh-col.m2{left:70%}
+.mh-logo.play .m0{animation:mhc0 2.4s 1 both}.mh-logo.play .m1{animation:mhc1 2.4s 1 both}.mh-logo.play .m2{animation:mhc2 2.4s 1 both}
+.mh-word{margin-left:calc(var(--h) * 141 / 360);height:var(--h);overflow:visible;flex:none}
+@keyframes mhc0{0%,1.19%,15.73%,16.91%,29.69%,30.87%,45.41%,46.6%{transform:translateY(0);animation-timing-function:cubic-bezier(.45,0,.2,1)}57.88%,59.06%{transform:translateY(-28.74%);animation-timing-function:cubic-bezier(.45,0,.2,1)}68.55%,69.73%{transform:translateY(-61.81%);animation-timing-function:cubic-bezier(.45,0,.2,1)}84.27%,85.46%{transform:translateY(-114.17%);animation-timing-function:cubic-bezier(.45,0,.2,1)}100%{transform:translateY(0)}}
+@keyframes mhc1{0%,1.19%{transform:translateY(0);animation-timing-function:cubic-bezier(.45,0,.2,1)}15.73%,16.91%{transform:translateY(114.17%);animation-timing-function:cubic-bezier(.45,0,.2,1)}29.69%,30.87%{transform:translateY(28.35%);animation-timing-function:cubic-bezier(.45,0,.2,1)}45.41%,46.6%{transform:translateY(61.42%);animation-timing-function:cubic-bezier(.45,0,.2,1)}57.88%,59.06%,68.55%,69.73%{transform:translateY(0);animation-timing-function:cubic-bezier(.45,0,.2,1)}84.27%,85.46%{transform:translateY(114.17%);animation-timing-function:cubic-bezier(.45,0,.2,1)}100%{transform:translateY(0)}}
+@keyframes mhc2{0%,1.19%{transform:translateY(0);animation-timing-function:cubic-bezier(.45,0,.2,1)}15.73%,16.91%,29.69%,30.87%{transform:translateY(-114.17%);animation-timing-function:cubic-bezier(.45,0,.2,1)}45.41%,46.6%{transform:translateY(0);animation-timing-function:cubic-bezier(.45,0,.2,1)}57.88%,59.06%{transform:translateY(-61.81%);animation-timing-function:cubic-bezier(.45,0,.2,1)}68.55%,69.73%{transform:translateY(-28.74%);animation-timing-function:cubic-bezier(.45,0,.2,1)}84.27%,85.46%{transform:translateY(0);animation-timing-function:cubic-bezier(.45,0,.2,1)}100%{transform:translateY(0)}}
+.mh-nav{display:flex;align-items:center;gap:clamp(8px,1vw,14px);flex:none}
+.mh-links{display:flex;gap:2px;list-style:none;margin:0;padding:0;white-space:nowrap}
+.mh-links a{display:block;color:inherit;text-decoration:none;font:600 26px/1 Akshar,'Arial Narrow',sans-serif;text-transform:uppercase;letter-spacing:.01em;padding:10px 8px 7px;border:2px solid transparent}
+.mh-links a[aria-current="page"]{border-color:#f2f2f0}
+.mh-social{display:flex;gap:10px;list-style:none;margin:0;padding:0}
+.mh-social a{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#f2f2f0;color:#0b0b0b}
+.mh-social svg{width:19px;height:19px;fill:currentColor}
+.mh-btn{display:none;width:44px;height:44px;border:0;background:none;padding:10px;margin-right:-10px;cursor:pointer;color:inherit}
+.mh-btn span{display:block;height:2px;background:currentColor;margin:6px 0;transition:transform .3s,opacity .2s}
+.mh.open .mh-btn span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.mh.open .mh-btn span:nth-child(2){opacity:0}
+.mh.open .mh-btn span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+@media (max-width:1100px){.mh-btn{display:block;flex:none}.mh-nav{position:fixed;inset:var(--hh) 0 auto 0;height:calc(100dvh - var(--hh));background:#0b0b0b;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:40px;padding:32px clamp(16px,4vw,48px) 40px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s,transform .25s,visibility 0s .25s}.mh.open .mh-nav{opacity:1;visibility:visible;transform:none;transition:opacity .25s,transform .25s}.mh-links{flex-direction:column;gap:8px;margin-left:-14px}.mh-links a{font-size:clamp(40px,11vw,64px);line-height:1.05;padding:10px 14px 4px;border-width:3px}.mh-social a{width:48px;height:48px}}
+@media (max-width:900px){.mh{--h:40px;--hh:100px}}
+@media (max-width:640px){.mh{--h:min(30px,7vw);--hh:76px}.mh-wrap{gap:16px}}
+body.mh-lock{overflow:hidden}
+.mh{transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.mh.hide{transform:translateY(-100%)}
+@media (prefers-reduced-motion:reduce){.mh{transition:none}}
+
+.rv{opacity:0;transform:translateY(40px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+@media (max-width:900px){
+  section{padding:88px 0}
+  .intro,.role,.result{grid-template-columns:1fr;gap:48px}
+  .pains,.loop{grid-template-columns:1fr}
+  .loop div:not(:last-child)::after{content:"↓";right:50%;top:auto;bottom:-17px;transform:translateX(50%)}
+  .meta{grid-template-columns:1fr 1fr}
+  .meta div{border-bottom:1px solid var(--line)}
+  .goal{flex-direction:column;align-items:flex-start;gap:8px}
+  footer .wrap{flex-direction:column;gap:16px}
+  .lineup .cap{display:none}
+  .sw{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+  .sw div{padding:8px;border-radius:14px}
+  .sw b{font-size:13px}
+  .sw small{font-size:10px;letter-spacing:-.02em}
+  .picker{top:72px;bottom:auto;right:auto;left:50%;transform:translateX(-50%);gap:14px;padding:8px 8px 8px 16px}
+  .picker .lbl b{font-size:15px}
+  .sws{gap:6px}
+  .sws button{width:26px;height:26px}
+  /* no celular: o modelo fica na metade de cima e o texto num cartão embaixo */
+  .xr-step{align-items:flex-end;padding-bottom:28px}
+  .xr-step .card{max-width:none;width:100%;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:22px;padding:22px 22px 24px;backdrop-filter:blur(8px)}
+  .xr-step .num{font-size:40px;margin-bottom:6px}
+  .xr-step h3{font-size:22px;margin-bottom:8px}
+  .xr-step p{font-size:15px}
+  .xr-step dl{display:none}
+  .xr-head{top:28px}
+  .xr-head h2{font-size:34px}
+  .progress{right:12px}
+  .t3 span{font-size:12px;padding:4px 9px}
+  .spec{padding:24px}
+}
+@media (max-width:420px){.picker .lbl{display:none}}
+</style>
+</head>
+<body>
+
+<header class="mh" id="mh">
+  <div class="mh-wrap">
+    <a class="mh-logo" href="../index.html#/" aria-label="MINUTTI STUDIO — projetos">
+      <span class="mh-mark" aria-hidden="true"><i class="mh-col m0"></i><i class="mh-col m1"></i><i class="mh-col m2"></i></span>
+      <svg class="mh-word" viewBox="0 0 2960.78369140625 360" width="427.66875542534723" height="30" aria-hidden="true"><text x="0" y="360" font-family="Akshar, 'Arial Narrow', sans-serif" font-size="503.4965034965035" fill="currentColor"><tspan font-weight="600">MINUTTI</tspan><tspan font-weight="300">STUDIO</tspan></text></svg>
+    </a>
+    <button class="mh-btn" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mh-nav"><span></span><span></span><span></span></button>
+    <nav class="mh-nav" id="mh-nav" aria-label="Principal">
+      <ul class="mh-links">
+        <li><a href="../index.html#/" aria-current="page">Projetos</a></li>
+        <li><a href="../index.html#/sobre">Sobre mim</a></li>
+        <li><a href="../index.html#/contato">Contato</a></li>
+      </ul>
+      <ul class="mh-social">
+        <li><a href="https://www.linkedin.com/in/felipeminuttiteixeira/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3zM9.5 9.75h3.8v1.6h.06c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.77 2.5 4.77 5.76V21h-4v-5.2c0-1.24-.02-2.84-1.8-2.84-1.8 0-2.07 1.36-2.07 2.75V21h-4z"></path></svg></a></li>
+        <li><a href="https://www.behance.net/felipeminutti" target="_blank" rel="noopener noreferrer" aria-label="Behance"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.2 11.4c.9-.43 1.5-1.2 1.5-2.4C9.7 6.6 7.9 6 5.8 6H0v12h6c2.2 0 4.3-1.06 4.3-3.5 0-1.5-.72-2.6-2.1-3.1zM2.7 8.1h2.6c1 0 1.9.28 1.9 1.42 0 1.06-.7 1.48-1.7 1.48H2.7zm2.9 7.8H2.7v-3.3h3c1.2 0 2 .52 2 1.8 0 1.27-.92 1.5-2.1 1.5zM18.8 9.3c-2.9 0-4.9 2.2-4.9 5 0 2.95 1.86 4.97 4.9 4.97 2.3 0 3.8-1.04 4.5-3.25h-2.3c-.25.82-1.3 1.26-2.1 1.26-1.56 0-2.38-.92-2.38-2.47h6.9c.1-3.1-1.6-5.5-4.6-5.5zm-2.3 4.06c.08-1.3.95-2.1 2.24-2.1 1.36 0 2.04.8 2.16 2.1zM15.9 6.9h5.6v1.4h-5.6z"></path></svg></a></li>
+        <li><a href="https://github.com/felipeminutti" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.26 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"></path></svg></a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ················· HERO ················· -->
+<header class="hero" id="hero">
+  <div class="wrap"><a class="back-top" href="../index.html#/">← Voltar aos projetos</a></div>
+  <div class="wrap hero-head">
+    <h1 class="logo rv in"><img src="assets/albero-logo.png" alt="Albero" width="1770" height="479"></h1>
+    <p class="sub rv in">Um vaso que cuida da planta <em>e do ar ao redor dela.</em></p>
+    <div class="tags rv in">
+      <span>Design de produto</span><span>Modelagem 3D</span><span>Renderização</span><span>Projeto em trio</span>
+    </div>
+  </div>
+
+  <figure class="hero-shot rv in">
+    <img src="assets/render-vermelho.jpg" alt="Render do Albero vermelho em close, com a grade lateral e a base translúcida" width="1113" height="766" fetchpriority="high">
+  </figure>
+</header>
+
+<dl class="meta">
+  <div><dt>Papel</dt><dd>Designer (projeto em trio)</dd></div>
+  <div><dt>Escopo</dt><dd>Conceito, produto, modelo 3D, render</dd></div>
+  <div><dt>Contexto</dt><dd>Projeto acadêmico · USP</dd></div>
+  <div><dt>Ano</dt><dd>2025</dd></div>
+  <div><dt>Ferramenta</dt><dd>Autodesk Fusion</dd></div>
+</dl>
+
+<!-- ················· CONTEXTO ················· -->
+<section>
+  <div class="wrap intro">
+    <div class="rv">
+      <p class="eyebrow">Contexto</p>
+      <p class="big-quote">Conforto também é <mark>o que não se vê.</mark></p>
+    </div>
+    <div class="rv">
+      <p class="lead">O ponto de partida foi a ambientação: o conforto de um espaço vai além da organização de objetos e móveis.</p>
+      <p class="muted">Ele também passa pelo sensorial e pelo imaterial, como a umidade e a qualidade do ar que se respira. O Albero é um vaso que trabalha nessa camada invisível, com a planta no centro do sistema.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ················· DESAFIO ················· -->
+<section class="dark">
+  <div class="wrap">
+    <p class="eyebrow">Desafio</p>
+    <h2 class="rv">Trabalhar com<br>o intangível.</h2>
+    <div class="pains rv">
+      <div class="pain"><div class="n">01</div><b>Umidade</b><span>Controlar a umidade do ambiente, um fator que se sente mas não se vê.</span></div>
+      <div class="pain"><div class="n">02</div><b>Ar</b><span>Purificar o ar do cômodo onde a planta está.</span></div>
+      <div class="pain"><div class="n">03</div><b>Low-tech</b><span>Resolver tudo com soluções simples, poucas peças e materiais que fazem o trabalho.</span></div>
+    </div>
+    <div class="goal rv">
+      <b>Objetivo →</b>
+      <p>Um objeto só, que junta vaso, controle de umidade e purificação de ar, e usa a água tirada do ar para regar a própria planta.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ················· CICLO ················· -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">O sistema</p>
+    <h2 class="rv">Um ciclo fechado<br>dentro de um vaso.</h2>
+    <p class="lead muted rv" style="margin-top:24px">A água que o Albero tira do ar é a mesma que mantém a planta viva. Cada etapa alimenta a próxima.</p>
+    <div class="loop rv">
+      <div><i style="background:var(--sun)"></i><b>Absorve</b><small>Ventoinhas puxam o ar do ambiente</small></div>
+      <div><i style="background:var(--sand)"></i><b>Filtra</b><small>Filtros purificam o ar que passa pelo corpo</small></div>
+      <div><i style="background:var(--red)"></i><b>Condensa</b><small>O polímero sinterizado retira a água do ar</small></div>
+      <div><i style="background:var(--green)"></i><b>Irriga</b><small>A corda leva a água armazenada até a planta</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ················· POR DENTRO (3D + scroll) ················· -->
+<section class="xr" id="xr" aria-label="Por dentro do Albero">
+  <div class="xr-stage" id="xrStage">
+    <canvas id="xrCanvas"></canvas>
+    <div class="fallback"><img src="assets/cores-albero.jpg" alt="Albero nas cinco cores"></div>
+    <div class="tags3d" id="tags3d">
+      <div class="t3" data-part="vaso"><i></i><s></s><span>Vaso + corda de autoirrigação</span></div>
+      <div class="t3" data-part="corpo"><i></i><s></s><span>Ventoinhas, filtros e polímero</span></div>
+      <div class="t3" data-part="reservatorio"><i></i><s></s><span>Reservatório de água</span></div>
+    </div>
+    <div class="wrap xr-head"><p class="eyebrow">Por dentro</p></div>
+    <div class="picker">
+      <span class="lbl">Cor<b data-colorname>Vermelho</b></span>
+      <div class="sws" role="group" aria-label="Escolher cor" data-swatches></div>
+    </div>
+    <div class="progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+  <div class="xr-steps">
+    <div class="xr-step" data-step="0"><div class="wrap"><div class="card">
+      <div class="num">00</div>
+      <h3>Três peças,<br>um só volume.</h3>
+      <p>Vaso, corpo e reservatório se empilham numa coluna de base quadrada com cantos arredondados. Role para abrir o Albero.</p>
+    </div></div></div>
+    <div class="xr-step" data-step="1"><div class="wrap"><div class="card">
+      <div class="num">01</div>
+      <h3>Vaso com<br>autoirrigação.</h3>
+      <p>No topo fica a planta. Uma corda conecta o vaso à água armazenada e leva a umidade até a terra, sem bomba.</p>
+      <dl><dt>Problema</dt><dd>Regar no tempo certo depende de alguém lembrar.</dd><dt>Escolha</dt><dd>Irrigação por capilaridade, sem energia.</dd></dl>
+    </div></div></div>
+    <div class="xr-step" data-step="2"><div class="wrap"><div class="card">
+      <div class="num">02</div>
+      <h3>Um corpo que<br>respira.</h3>
+      <p>Na grade lateral, ventoinhas puxam o ar para dentro e o fazem passar pelos filtros. O corpo é de polímero sinterizado, capaz de condensar a água do ambiente.</p>
+      <dl><dt>Problema</dt><dd>Umidade e qualidade do ar pedem dois aparelhos diferentes.</dd><dt>Escolha</dt><dd>Purificar e condensar no mesmo fluxo de ar.</dd></dl>
+    </div></div></div>
+    <div class="xr-step" data-step="3"><div class="wrap"><div class="card">
+      <div class="num">03</div>
+      <h3>A água fica<br>na base.</h3>
+      <p>Toda a água condensada desce para o reservatório translúcido, que alimenta a corda do vaso.</p>
+      <dl><dt>Problema</dt><dd>A água tirada do ar costuma ir para o ralo.</dd><dt>Escolha</dt><dd>Guardar essa água e devolvê-la para a planta.</dd></dl>
+    </div></div></div>
+    <div class="xr-step" data-step="4"><div class="wrap"><div class="card">
+      <div class="num">04</div>
+      <h3>Fechado,<br>parece só um vaso.</h3>
+      <p>Montado, o sistema some. A tecnologia fica dentro de um objeto que poderia estar em qualquer estante.</p>
+    </div></div></div>
+  </div>
+</section>
+
+<!-- ················· PAPEL ················· -->
+<section>
+  <div class="wrap role">
+    <div class="rv">
+      <p class="eyebrow">Meu papel</p>
+      <h2>Três designers,<br>um projeto.</h2>
+      <p class="lead" style="margin-top:28px">Desenvolvemos o Albero em trio, com todos participando de todas as etapas, do conceito ao modelo final.</p>
+    </div>
+    <ol class="steps rv">
+      <li>Pesquisa e conceito <span>Estratégia</span></li>
+      <li>Arquitetura do sistema <span>Produto</span></li>
+      <li>Modelagem das peças <span>Fusion</span></li>
+      <li>Grade, encaixes e reservatório <span>Detalhamento</span></li>
+      <li>Família de cores <span>CMF</span></li>
+      <li>Renders e apresentação <span>Visualização</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ················· CORES ················· -->
+<section class="brand">
+  <div class="wrap">
+    <p class="eyebrow">Cores</p>
+    <h2 class="rv">Cinco cores,<br>a mesma planta.</h2>
+    <p class="lead rv" style="margin-top:24px">A família de cores vem do próprio universo da planta: flor, terra, fruto, folha e mata. Dá para testar cada uma no modelo 3D da seção Por dentro.</p>
+    <div class="lineup rv">
+      <img src="assets/cores-albero.jpg" alt="Cinco unidades do Albero lado a lado: amarelo, areia, vermelho, verde e verde-musgo" loading="lazy">
+      <span class="cap">Renderizado a partir do modelo 3D final</span>
+    </div>
+    <div class="sw rv" data-swlist></div>
+  </div>
+</section>
+
+<!-- ················· RESULTADO ················· -->
+<section style="background:linear-gradient(180deg,var(--bg),var(--lilac-soft))">
+  <div class="wrap result">
+    <div class="rv">
+      <p class="eyebrow">Resultado</p>
+      <h2>Do conceito<br>ao modelo.</h2>
+      <p class="lead" style="margin-top:28px">O projeto terminou com o modelo 3D completo no Fusion, pronto para render, com as três peças detalhadas e encaixadas.</p>
+      <div class="stats">
+        <div class="stat"><b>3</b><span>peças empilháveis</span></div>
+        <div class="stat"><b>12,5<small>cm</small></b><span>de lado na base</span></div>
+        <div class="stat"><b>32<small>cm</small></b><span>de altura montado</span></div>
+      </div>
+      <p class="note">Medidas do modelo 3D final.</p>
+      <a class="ext" href="https://www.behance.net/gallery/238115483/Albero" target="_blank" rel="noopener noreferrer">Renders originais no Behance ↗</a>
+    </div>
+    <div class="rv">
+      <div class="spec" aria-label="Desenho com as alturas de cada peça">
+        <svg viewBox="0 0 360 420" role="img" aria-label="Vista frontal: reservatório de 25 a 78 mm, corpo de 75 a 195 mm, vaso de 185 a 345 mm">
+          <g fill="none" stroke="#1E2A22" stroke-width="1.5">
+            <rect x="100" y="40" width="125" height="160" rx="12"/>
+            <rect x="100" y="190" width="125" height="120" rx="6"/>
+            <rect x="100" y="307" width="125" height="53" rx="14"/>
+            <rect x="200" y="215" width="16" height="80" rx="3" stroke-dasharray="3 3"/>
+          </g>
+          <g stroke="#B9B2A3" stroke-width="1">
+            <line x1="250" y1="40" x2="290" y2="40"/><line x1="250" y1="360" x2="290" y2="360"/><line x1="280" y1="40" x2="280" y2="360"/>
+            <line x1="100" y1="385" x2="100" y2="375"/><line x1="225" y1="385" x2="225" y2="375"/><line x1="100" y1="380" x2="225" y2="380"/>
+          </g>
+          <text x="288" y="205">320 mm</text>
+          <text x="140" y="404">125 mm</text>
+          <text x="20" y="124">Vaso</text>
+          <text x="20" y="254">Corpo</text>
+          <text x="20" y="338">Base</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Minutti Studio · Felipe Minutti</span>
+  </div>
+</footer>
+
+<script>
+  // header: tamanho do wordmark, animação do logo no hover e menu mobile
+  (function(){
+    var mh=document.getElementById('mh'),logo=mh.querySelector('.mh-logo'),word=mh.querySelector('.mh-word'),btn=mh.querySelector('.mh-btn');
+    function fit(){
+      var t=word.querySelector('text'),c=document.createElement('canvas').getContext('2d');
+      c.font='600 200px Akshar, sans-serif';
+      var cap=c.measureText('M').actualBoundingBoxAscent||144;
+      t.setAttribute('font-size',200*360/cap);
+      var w=t.getBBox().width;if(!w)return;
+      word.setAttribute('viewBox','0 0 '+w+' 360');
+      word.setAttribute('width',w*word.getBoundingClientRect().height/360);
+    }
+    if(document.fonts&&document.fonts.load)Promise.all([document.fonts.load('600 100px Akshar'),document.fonts.load('300 100px Akshar')]).then(fit,fit);
+    setTimeout(fit,60);
+    var lastW=innerWidth;addEventListener('resize',function(){if(innerWidth!==lastW){lastW=innerWidth;fit()}});
+    logo.addEventListener('mouseenter',function(){if(!logo.classList.contains('play')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)logo.classList.add('play')});
+    logo.querySelector('.m2').addEventListener('animationend',function(){logo.classList.remove('play')});
+    function setOpen(o){mh.classList.toggle('open',o);document.body.classList.toggle('mh-lock',o);btn.setAttribute('aria-expanded',String(o));btn.setAttribute('aria-label',o?'Fechar menu':'Abrir menu')}
+    btn.addEventListener('click',function(){setOpen(!mh.classList.contains('open'))});
+    addEventListener('keydown',function(e){if(e.key==='Escape')setOpen(false)});
+  })();
+
+/* Header some ao rolar para baixo e volta ao rolar para cima */
+(function(){
+  var h=document.getElementById('mh'),lastY=scrollY,ticking=false;
+  function update(){
+    ticking=false;
+    var y=Math.max(scrollY,0),dy=y-lastY;
+    if(document.getElementById('mh').classList.contains('open')||y<h.offsetHeight){h.classList.remove('hide')}
+    else if(dy>6){h.classList.add('hide')}
+    else if(dy<-6){h.classList.remove('hide')}
+    if(Math.abs(dy)>6||y<h.offsetHeight)lastY=y;
+  }
+  addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(update)}},{passive:true});
+})();
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+  // Cores do produto (usadas pelos dois visualizadores 3D e pela seção Cores)
+  window.ALBERO_COLORS=[
+    {name:'Amarelo',hex:'#E9D57A'},
+    {name:'Areia',hex:'#D9A066'},
+    {name:'Vermelho',hex:'#D63B2E'},
+    {name:'Verde',hex:'#5FAE62'},
+    {name:'Musgo',hex:'#2E4A36'}
+  ];
+  document.querySelector('[data-swlist]').innerHTML=ALBERO_COLORS.map(c=>'<div><i style="background:'+c.hex+'"></i><b>'+c.name+'</b><small>'+c.hex+'</small></div>').join('');
+  document.querySelector('[data-swatches]').innerHTML=ALBERO_COLORS.map((c,i)=>'<button type="button" style="--c:'+c.hex+'" aria-label="'+c.name+'" aria-pressed="'+(i===2)+'" data-i="'+i+'"></button>').join('');
+  // Se o WebGL não existir, mostra a imagem no lugar do 3D
+  (function(){try{var c=document.createElement('canvas');if(!(c.getContext('webgl2')||c.getContext('webgl')))throw 0}catch(e){document.body.classList.add('no3d')}})();
+</script>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const COLORS=window.ALBERO_COLORS;
+let colorIdx=2;
+const viewers=[];
+const lerp=(a,b,t)=>a+(b-a)*t;
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const smooth=(a,b,v)=>{const t=clamp((v-a)/(b-a),0,1);return t*t*(3-2*t)};
+
+// sombra de contato: um gradiente radial num plano sob o produto
+function shadowTex(){
+  const c=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d');
+  const r=g.createRadialGradient(128,128,0,128,128,128);
+  r.addColorStop(0,'rgba(30,30,25,.55)');r.addColorStop(.45,'rgba(30,30,25,.22)');r.addColorStop(1,'rgba(30,30,25,0)');
+  g.fillStyle=r;g.fillRect(0,0,256,256);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;
+}
+
+function makeMaterials(){
+  const solid=()=>new THREE.MeshPhysicalMaterial({roughness:.5,metalness:0,clearcoat:.35,clearcoatRoughness:.35,transparent:false,opacity:1});
+  return {
+    vaso:solid(),corpo:solid(),
+    reservatorio:new THREE.MeshPhysicalMaterial({roughness:.12,metalness:0,clearcoat:1,clearcoatRoughness:.05,transparent:true,opacity:.78,depthWrite:false,side:THREE.DoubleSide})
+  };
+}
+function paint(v){
+  const c=new THREE.Color(COLORS[colorIdx].hex);
+  v.mats.vaso.color.copy(c);v.mats.corpo.color.copy(c);
+  v.mats.reservatorio.color.copy(c).multiplyScalar(.85);
+  v.dirty=true;
+}
+
+function makeViewer(canvas,{fov=28}={}){
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
+  renderer.outputColorSpace=THREE.SRGBColorSpace;
+  const scene=new THREE.Scene();
+  const pm=new THREE.PMREMGenerator(renderer);
+  scene.environment=pm.fromScene(new RoomEnvironment(renderer),.04).texture;
+  const key=new THREE.DirectionalLight(0xffffff,1.1);key.position.set(-1,2,1.5);scene.add(key);
+  const camera=new THREE.PerspectiveCamera(fov,1,.01,20);
+  const root=new THREE.Group();scene.add(root);
+  const spin=new THREE.Group();root.add(spin);
+  const sh=new THREE.Mesh(new THREE.PlaneGeometry(.34,.34),new THREE.MeshBasicMaterial({map:shadowTex(),transparent:true,depthWrite:false}));
+  sh.rotation.x=-Math.PI/2;sh.position.y=-.16;root.add(sh);
+  const v={renderer,scene,camera,root,spin,sh,canvas,mats:makeMaterials(),parts:{},visible:false,dirty:true};
+  const ro=new ResizeObserver(()=>{const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();v.dirty=true});
+  ro.observe(canvas);
+  new IntersectionObserver(es=>{v.visible=es[0].isIntersecting},{rootMargin:'100px'}).observe(canvas);
+  viewers.push(v);return v;
+}
+
+function addModel(v,gltf){
+  gltf.scene.traverse(o=>{
+    if(!o.isMesh)return;
+    const name=o.name.replace(/_\d+$/,'');
+    const m=o.clone();m.material=v.mats[name]||v.mats.corpo;
+    m.renderOrder=name==='reservatorio'?2:1;
+    // modelo vem em metros, Y para cima, base em y=0.025 → centraliza na altura
+    m.position.y=-.185;
+    const g=new THREE.Group();g.add(m);v.spin.add(g);v.parts[name]=g;
+  });
+  paint(v);
+}
+
+/* ---------- Visualizador "Por dentro": vista explodida guiada pela rolagem ---------- */
+const xr=makeViewer(document.getElementById('xrCanvas'),{fov:24});
+const xrSec=document.getElementById('xr');
+const steps=[...document.querySelectorAll('.xr-step')];
+const dots=[...document.querySelectorAll('.progress i')];
+const tags=[...document.querySelectorAll('.t3')];
+// pontos de ancoragem das etiquetas, na lateral direita de cada peça (coordenadas do modelo)
+const anchors={vaso:new THREE.Vector3(.0625,.27-.185,.03),corpo:new THREE.Vector3(.0625,.13-.185,-.02),reservatorio:new THREE.Vector3(.0625,.052-.185,.02)};
+let p=0,pS=0,active=-1;
+function readScroll(){
+  const r=xrSec.getBoundingClientRect(),total=r.height-innerHeight;
+  p=clamp(-r.top/Math.max(total,1),0,1);
+  const s=clamp(Math.floor(p*steps.length),0,steps.length-1);
+  if(s!==active){active=s;steps.forEach((el,i)=>el.classList.toggle('on',i===s));dots.forEach((d,i)=>d.classList.toggle('on',i===s));}
+}
+addEventListener('scroll',readScroll,{passive:true});addEventListener('resize',readScroll);readScroll();
+const focusOf=[null,'vaso','corpo','reservatorio',null];
+const tmp=new THREE.Vector3();
+function frameXR(dt){
+  const v=xr,cam=v.camera;
+  pS=reduce?p:lerp(pS,p,1-Math.exp(-dt*8));
+  const narrow=cam.aspect<.9;
+  // abre entre 10% e 28% da seção, fecha a partir de 78%
+  const e=smooth(.1,.28,pS)*(1-smooth(.78,.94,pS));
+  const P=v.parts;
+  if(P.vaso){P.vaso.position.y=e*.12;P.reservatorio.position.y=-e*.09;}
+  // gira devagar ao longo da seção; no passo do corpo a grade fica de frente
+  v.spin.rotation.y=Math.PI*.38+pS*Math.PI*1.25;
+  const dist=(narrow?1.5:1.08)+e*(narrow?.55:.3);
+  const offX=narrow?0:-.11-e*.03;          // no desktop o produto fica à direita do texto
+  cam.position.set(offX,.16,dist);cam.lookAt(offX,narrow?-.07:-.01,0);
+  v.root.position.y=narrow?.02:0;
+  v.sh.position.y=-.16-e*.09;v.sh.scale.setScalar(1+e*.2);
+  // destaque: as outras peças ficam translúcidas
+  const f=focusOf[active];
+  for(const k of ['vaso','corpo','reservatorio']){
+    const m=v.mats[k],base=k==='reservatorio'?.78:1,target=(f&&f!==k)?.14:base;
+    m.opacity=lerp(m.opacity,target,1-Math.exp(-dt*10));
+    if(k!=='reservatorio'){m.transparent=m.opacity<.995;m.depthWrite=m.opacity>.5}
+  }
+  // etiquetas
+  const W=v.canvas.clientWidth,H=v.canvas.clientHeight;
+  tags.forEach(t=>{
+    const k=t.dataset.part,g=P[k];if(!g)return;
+    const on=e>.6&&(!f||f===k);t.classList.toggle('on',on);
+    tmp.copy(anchors[k]);g.localToWorld(tmp);tmp.project(cam);
+    t.style.transform='translate('+((tmp.x*.5+.5)*W).toFixed(1)+'px,'+((-tmp.y*.5+.5)*H-10).toFixed(1)+'px)';
+  });
+  return true;
+}
+
+let last=performance.now();
+function loop(now){
+  const dt=Math.min(.05,(now-last)/1000);last=now;
+  if(xr.visible&&xr.spin.children.length){frameXR(dt);xr.renderer.render(xr.scene,xr.camera)}
+  requestAnimationFrame(loop);
+}
+
+// troca de cor
+document.querySelector('[data-swatches]').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  colorIdx=+b.dataset.i;
+  document.querySelectorAll('[data-swatches] button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+  document.querySelector('[data-colorname]').textContent=COLORS[colorIdx].name;
+  viewers.forEach(paint);
+});
+
+new GLTFLoader().load('assets/albero.glb',gltf=>{
+  viewers.forEach(v=>addModel(v,gltf));
+  document.body.classList.add('ready');
+  requestAnimationFrame(loop);
+},undefined,err=>{console.error(err);document.body.classList.add('no3d')});
+</script>
+<noscript><style>.xr-stage canvas,.tags3d,.picker{display:none}.xr-stage .fallback{display:grid}</style></noscript>
+</body>
+</html>

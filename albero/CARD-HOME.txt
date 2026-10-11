@@ -1,0 +1,6 @@
+No index.html da home, adicione esta linha no array PROJECTS (logo depois do Blin City):
+
+  {slug:'albero', title:'Albero', cat:'Design de produto', year:2025, href:'albero/index.html', cover:'assets/capa-albero.jpg'},
+
+E copie albero/assets/capa-albero.jpg para a pasta assets/ da raiz do site.
+A pasta albero/ inteira vai na raiz, ao lado de espaces/, blin/ e gardano/.

@@ -158,33 +158,6 @@ a:hover .arrow,button:hover .arrow{transform:translateX(4px)}
 @media (hover:none){.card .info{opacity:1;transform:none}}
 .empty{grid-column:1/-1;padding:64px 0;text-align:center;color:var(--muted)}
 
-/* ---------- Detalhe do projeto ---------- */
-.back{display:inline-flex;align-items:center;gap:8px;margin:32px 0 0;font:600 14px/1 var(--body);text-decoration:none;color:var(--muted)}
-.back:hover{color:var(--ink)}
-.p-head{padding:clamp(28px,5vw,64px) 0 clamp(28px,4vw,48px)}
-.p-head h1{font-size:clamp(52px,9vw,136px);margin-top:16px}
-.p-head .lead{font-size:clamp(18px,1.8vw,22px);line-height:1.5;max-width:760px;margin:24px 0 0}
-.p-hero{aspect-ratio:16/8;overflow:hidden;background:var(--soft)}
-.p-hero svg{width:100%;height:100%}
-.p-info{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:32px 0;border-bottom:1px solid var(--line)}
-.p-info dt{font:600 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.p-info dd{margin:0;font-weight:500}
-.p-body{display:grid;grid-template-columns:1fr 2fr;gap:clamp(24px,5vw,80px);padding:clamp(48px,6vw,88px) 0;border-bottom:1px solid var(--line)}
-.p-body h2{font:600 clamp(28px,3vw,40px)/1 var(--display);text-transform:uppercase;margin:0}
-.p-body p{margin:0 0 16px;font-size:18px;max-width:720px}
-.p-gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(12px,1.6vw,24px);padding:clamp(48px,6vw,88px) 0}
-.p-gallery figure{margin:0;aspect-ratio:1;overflow:hidden;background:var(--soft)}
-.p-gallery figure.full{grid-column:span 2;aspect-ratio:16/7}
-.p-gallery svg{width:100%;height:100%}
-
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:0 0 clamp(48px,6vw,88px)}
-.stat{border-top:1px solid var(--ink);padding-top:20px}
-.stat b{display:block;font:600 clamp(48px,6vw,88px)/1 var(--display)}
-.stat span{color:var(--muted)}
-.next{display:block;text-decoration:none;border-top:1px solid var(--ink);padding:clamp(40px,6vw,80px) 0 clamp(56px,7vw,96px)}
-.next .display{font-size:clamp(44px,8vw,120px);display:flex;align-items:center;gap:.25em;flex-wrap:wrap}
-.next:hover .display .arrow{transform:translateX(12px)}
-
 /* ---------- Sobre (estrutura do PDF "Sobre mim" no design system do site) ---------- */
 #view-sobre{padding-bottom:clamp(64px,8vw,120px)}
 .sm-title{font:600 clamp(28px,3vw,40px)/1 var(--display);text-transform:uppercase;margin:0}
@@ -324,7 +297,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
 .compact .social a{width:48px;height:48px}
 
 @media (max-width:1100px){
-  .contact,.p-body{grid-template-columns:1fr}
+  .contact{grid-template-columns:1fr}
   /* empilhado: texto, formulário e, por último, os links */
   .contact{grid-template-rows:none;row-gap:40px}
   .contact .side,.contact .contact-links,.contact form,.contact .success{grid-column:1;grid-row:auto}
@@ -337,21 +310,16 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
 @media (max-width:900px){
   :root{--logo-h:40px;--header-h:100px}
   .grid{grid-template-columns:repeat(2,1fr)}
-  .p-info{grid-template-columns:repeat(2,1fr)}
 }
 @media (max-width:640px){
   :root{--logo-h:min(30px,7vw);--header-h:76px}
   .header .wrap{gap:16px}
   .grid{grid-template-columns:1fr}
-  .p-gallery{grid-template-columns:1fr}
-  .p-gallery figure.full{grid-column:auto;aspect-ratio:4/3}
-  .stats{grid-template-columns:1fr}
   .sm-cards,.levels{grid-template-columns:1fr}
   .sm-cta h2{font-size:clamp(34px,10vw,44px)}
   .sm-actions .btn,.contact .wa,.sm-cta .btn{width:100%;justify-content:center}
   .sm-links{text-align:left}
   form{grid-template-columns:1fr}
-  .p-hero{aspect-ratio:4/3}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -406,7 +374,6 @@ if(seen){var l=document.getElementById('loader');l.parentNode.removeChild(l);doc
   </section>
 
   <!-- Tela: Projeto -->
-  <section class="view" id="view-project" aria-live="polite"></section>
 
   <!-- Tela: Sobre mim -->
   <section class="view" id="view-sobre" aria-labelledby="sobre-title">
@@ -576,109 +543,7 @@ var TOOLS = [
 var PROJECTS = [
   // case com página própria (espaces/index.html): o card abre essa página
   {slug:'espaces', title:'Espaces', cat:'UI/UX', year:2024, href:'espaces/index.html', cover:'assets/capa-espaces.jpg'},
-  {slug:'aurora-cafe', title:'Aurora Café', cat:'Branding', year:2026, client:'Aurora Café & Torrefação',
-   summary:'Identidade visual para uma torrefação de cafés especiais',
-   lead:'Uma marca que nasce do nascer do sol nas fazendas do sul de Minas: calorosa, artesanal e com um sistema gráfico que se adapta de embalagens a xícaras.',
-   role:'Direção de arte, identidade', deliver:'Logo, embalagens, sinalização',
-   bg:'#e9e3d6', ink:'#2b1b12', accent:'#c8553d', motif:'sun',
-   challenge:'A Aurora vendia cafés premiados em embalagens genéricas. O desafio era traduzir a origem e o cuidado da torra em uma marca reconhecível na prateleira e no balcão.',
-   process:'Partimos de visitas às fazendas e de um mapa de atributos com a equipe. O símbolo — um sol que nasce em faixas — virou um sistema de padrões que codifica cada origem e perfil de torra.',
-   stats:[['+38%','vendas no varejo'],['12','embalagens'],['4','meses de projeto']]},
-  {slug:'pulso', title:'Pulso', cat:'UI/UX', year:2026, client:'Pulso Saúde',
-   summary:'App de acompanhamento de hábitos e saúde',
-   lead:'Um app que transforma dados de saúde em pequenas decisões diárias — sem culpa, sem excesso de gráficos.',
-   role:'Product design, UI', deliver:'App iOS/Android, design system',
-   bg:'#1d1d1f', ink:'#f5f5f5', accent:'#d4ff3a', motif:'phone',
-   challenge:'Usuários abandonavam o app na segunda semana. Os dashboards eram densos e pouco acionáveis.',
-   process:'Entrevistas com 18 usuários, mapa de jornada e testes semanais com protótipos. Reduzimos a home para um único “próximo passo” e criamos um sistema de streaks gentil.',
-   stats:[['2,4×','retenção em 30 dias'],['4,8','nota na App Store'],['60+','componentes']]},
-  {slug:'revista-margem', title:'Revista Margem', cat:'Editorial', year:2025, client:'Coletivo Margem',
-   summary:'Projeto gráfico de revista independente de cultura',
-   lead:'Uma revista sobre o que acontece fora do centro. Grid rigoroso, tipografia expressiva e espaço para respirar.',
-   role:'Projeto gráfico, diagramação', deliver:'Revista impressa, 132 páginas',
-   bg:'#f2efea', ink:'#111111', accent:'#e63b2e', motif:'type',
-   challenge:'Conteúdos muito diversos — ensaios, fotografia, poesia — precisavam conviver sem perder unidade.',
-   process:'Um grid de 12 colunas com três “modos” de página e uma família tipográfica com contraste extremo de pesos, que dá ritmo à leitura.',
-   stats:[['3','edições'],['132','páginas'],['1.500','exemplares']]},
-  {slug:'norte-bikes', title:'Norte Bikes', cat:'Branding', year:2025, client:'Norte Bicicletas',
-   summary:'Rebranding de uma oficina e loja de bicicletas',
-   lead:'De oficina de bairro a referência em ciclismo urbano: uma marca direta, que aponta caminho.',
-   role:'Estratégia, identidade', deliver:'Marca, uniformes, loja, redes',
-   bg:'#1e3a5f', ink:'#ffffff', accent:'#f2b134', motif:'arrow',
-   challenge:'A loja crescia, mas a marca ainda parecia improvisada e não conversava com o público mais jovem.',
-   process:'O “N” virou uma seta que indica direção; a paleta vem das placas de ciclovia. O sistema se aplica de adesivos de quadro à fachada.',
-   stats:[['+52%','seguidores'],['1','loja nova'],['30+','peças']]},
-  {slug:'vela', title:'Vela', cat:'UI/UX', year:2025, client:'Vela Finanças',
-   summary:'Dashboard financeiro para pequenas empresas',
-   lead:'Fluxo de caixa, notas e impostos em uma só tela — pensado para quem não é do financeiro.',
-   role:'UX research, UI, design system', deliver:'Web app, design system',
-   bg:'#eef1f5', ink:'#0f172a', accent:'#3a5bff', motif:'dash',
-   challenge:'Donos de pequenos negócios gastavam horas conciliando planilhas e não entendiam a própria saúde financeira.',
-   process:'Testes de card sorting e protótipos navegáveis. Criamos uma linguagem de gráficos simples e um design system documentado no Figma.',
-   stats:[['−40%','tempo de conciliação'],['8 mil','empresas ativas'],['120','telas']]},
-  {slug:'festival-ruido', title:'Festival Ruído', cat:'Motion', year:2024, client:'Festival Ruído',
-   summary:'Identidade animada para festival de música experimental',
-   lead:'Uma identidade que não fica parada: formas que vibram com o som e se recompõem a cada artista.',
-   role:'Identidade, motion design', deliver:'Vinhetas, cartazes, telões',
-   bg:'#ff4f1f', ink:'#0b0b0b', accent:'#ffffff', motif:'bars',
-   challenge:'O festival precisava de uma marca que funcionasse tanto em cartaz estático quanto em telões de 20 metros.',
-   process:'Construímos um sistema de barras paramétrico, animado a partir das frequências de cada faixa da line-up.',
-   stats:[['24','artistas'],['3','dias'],['40+','animações']]}
 ];
-
-/* ================= Capas geradas (SVG) ================= */
-function art(p, variant){
-  var b=p.bg, k=p.ink, a=p.accent, m=variant||p.motif, s='';
-  switch(m){
-    case 'sun':
-      s='<circle cx="800" cy="720" r="340" fill="'+a+'"/>';
-      for(var i=0;i<6;i++) s+='<rect x="0" y="'+(560+i*44)+'" width="1600" height="'+(10+i*4)+'" fill="'+b+'"/>';
-      s+='<rect x="0" y="830" width="1600" height="170" fill="'+k+'"/><text x="800" y="250" text-anchor="middle" font-family="Akshar" font-weight="600" font-size="150" fill="'+k+'">AURORA</text>';
-      break;
-    case 'phone':
-      s='<circle cx="1220" cy="260" r="200" fill="'+a+'" opacity=".9"/>'+
-        '<g transform="translate(560 120)"><rect width="480" height="900" rx="64" fill="#1c1c1c" stroke="#333" stroke-width="6"/>'+
-        '<rect x="40" y="90" width="260" height="34" rx="8" fill="'+k+'"/><rect x="40" y="140" width="180" height="20" rx="6" fill="#555"/>'+
-        '<rect x="40" y="200" width="400" height="260" rx="28" fill="'+a+'"/><text x="70" y="330" font-family="Akshar" font-weight="600" font-size="110" fill="#0b0b0b">8.432</text><text x="74" y="380" font-family="Inter" font-size="26" fill="#0b0b0b">passos hoje</text>'+
-        '<rect x="40" y="490" width="190" height="190" rx="24" fill="#2a2a2a"/><rect x="250" y="490" width="190" height="190" rx="24" fill="#2a2a2a"/>'+
-        '<path d="M70 620l40-40 30 30 60-70" stroke="'+a+'" stroke-width="10" fill="none" stroke-linecap="round"/></g>';
-      break;
-    case 'type':
-      s='<text x="80" y="840" font-family="Akshar" font-weight="600" font-size="900" fill="'+k+'">M</text>'+
-        '<rect x="980" y="140" width="520" height="12" fill="'+a+'"/>';
-      for(var j=0;j<9;j++) s+='<rect x="980" y="'+(200+j*46)+'" width="'+(520-(j%3)*90)+'" height="14" fill="'+k+'" opacity=".75"/>';
-      s+='<text x="980" y="760" font-family="Akshar" font-weight="300" font-size="110" fill="'+a+'">Nº 03</text>';
-      break;
-    case 'arrow':
-      s='<path d="M420 820V180l560 640V180" stroke="'+k+'" stroke-width="130" fill="none" stroke-linejoin="miter"/>'+
-        '<path d="M1080 330l260 0-80-80M1340 330l-80 80" stroke="'+a+'" stroke-width="40" fill="none"/>'+
-        '<circle cx="1240" cy="760" r="90" fill="none" stroke="'+a+'" stroke-width="22"/>';
-      break;
-    case 'dash':
-      s='<g transform="translate(160 110)"><rect width="1280" height="780" rx="28" fill="#fff"/>'+
-        '<rect width="220" height="780" rx="28" fill="'+k+'"/><rect x="200" width="20" height="780" fill="'+k+'"/>';
-      for(var r=0;r<5;r++) s+='<rect x="40" y="'+(110+r*60)+'" width="'+(120-r*10)+'" height="16" rx="8" fill="#ffffff" opacity="'+(r===0?1:.35)+'"/>';
-      for(var c=0;c<3;c++) s+='<rect x="'+(270+c*330)+'" y="60" width="300" height="150" rx="18" fill="#f1f3f8"/><rect x="'+(300+c*330)+'" y="100" width="120" height="16" rx="8" fill="#94a3b8"/><rect x="'+(300+c*330)+'" y="140" width="180" height="34" rx="8" fill="'+(c===0?a:k)+'"/>';
-      var pts=[[290,640],[400,560],[510,600],[620,470],[730,500],[840,380],[950,420],[1060,300],[1180,330]];
-      s+='<rect x="270" y="250" width="960" height="470" rx="18" fill="#f8f9fc"/><polyline points="'+pts.map(function(q){return q.join(',')}).join(' ')+'" fill="none" stroke="'+a+'" stroke-width="10" stroke-linejoin="round"/>';
-      s+='</g>';
-      break;
-    case 'bars':
-      for(var n=0;n<22;n++){var h=120+Math.abs(Math.sin(n*1.7)*560)+(n%4)*30;s+='<rect x="'+(90+n*66)+'" y="'+(500-h/2)+'" width="40" height="'+h+'" fill="'+k+'"/>';}
-      s+='<text x="210" y="960" font-family="Akshar" font-weight="600" font-size="90" fill="'+a+'">RUÍDO ’24</text>';
-      break;
-    case 'cols':
-      s='<rect x="480" y="200" width="180" height="600" fill="'+k+'"/><rect x="710" y="320" width="180" height="600" fill="'+a+'"/><rect x="940" y="80" width="180" height="600" fill="'+k+'"/>';
-      break;
-    case 'grid':
-      for(var gx=0;gx<6;gx++)for(var gy=0;gy<4;gy++){var on=(gx*3+gy*5)%7<3;s+='<rect x="'+(200+gx*200)+'" y="'+(110+gy*200)+'" width="160" height="160" '+(on?'fill="'+a+'"':'fill="none" stroke="'+k+'" stroke-width="6"')+'/>';}
-      break;
-    case 'palette':
-      [k,a,b,'#ffffff'].forEach(function(col,i){s+='<rect x="'+(160+i*330)+'" y="200" width="290" height="600" fill="'+col+'" stroke="'+k+'" stroke-width="'+(col===b||col==='#ffffff'?4:0)+'"/><text x="'+(180+i*330)+'" y="860" font-family="Inter" font-size="34" fill="'+k+'">'+col.toUpperCase()+'</text>';});
-      break;
-  }
-  return '<svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="'+esc(p.title)+' — imagem ilustrativa"><rect width="1600" height="1000" fill="'+b+'"/>'+s+'</svg>';
-}
 
 /* ================= Utilidades ================= */
 function $(sel,root){return (root||document).querySelector(sel)}
@@ -723,11 +588,11 @@ function renderFilters(){
     return '<button class="chip" type="button" data-cat="'+esc(c)+'" aria-pressed="'+(c===activeCat)+'">'+esc(c)+'<span class="n">'+n+'</span></button>';
   }).join('');
 }
-function projectHref(p){return p.href||'#/projeto/'+p.slug}
+function projectHref(p){return p.href}
 function renderGrid(){
   var list=PROJECTS.filter(function(p){return activeCat==='Todos'||p.cat===activeCat});
   $('#grid').innerHTML=list.length?list.map(function(p){
-    return '<a class="card" href="'+projectHref(p)+'" aria-label="'+esc(p.title+' — '+p.cat)+'">'+(p.cover?'<img src="'+p.cover+'" alt="" loading="lazy">':art(p))+
+    return '<a class="card" href="'+projectHref(p)+'" aria-label="'+esc(p.title+' — '+p.cat)+'">'+'<img src="'+p.cover+'" alt="" loading="lazy">'+
       '<div class="info" aria-hidden="true"><h2>'+esc(p.title)+'</h2><p>'+esc(p.cat)+' · '+p.year+'</p></div></a>';
   }).join(''):'<p class="empty">Nenhum projeto nesta categoria.</p>';
 }
@@ -737,26 +602,8 @@ $('#filters').addEventListener('click',function(e){
 });
 renderFilters();renderGrid();
 
-/* ================= Página de projeto ================= */
-function renderProject(p){
-  var idx=PROJECTS.indexOf(p),next=PROJECTS[(idx+1)%PROJECTS.length];
-  var nextLink='<a class="next" href="'+projectHref(next)+'"><span class="eyebrow">Próximo projeto</span><span class="display">'+esc(next.title)+' <span class="arrow">→</span></span></a>';
-  $('#view-project').innerHTML=
-    '<div class="wrap">'+
-      '<a class="back" href="#/"><span>←</span> Todos os projetos</a>'+
-      '<header class="p-head"><span class="eyebrow">'+esc(p.cat)+' · '+p.year+'</span><h1 class="display">'+esc(p.title)+'</h1><p class="lead">'+esc(p.lead)+'</p></header>'+
-      '<div class="p-hero">'+art(p)+'</div>'+
-      '<dl class="p-info"><div><dt>Cliente</dt><dd>'+esc(p.client)+'</dd></div><div><dt>Ano</dt><dd>'+p.year+'</dd></div><div><dt>Papel</dt><dd>'+esc(p.role)+'</dd></div><div><dt>Entregas</dt><dd>'+esc(p.deliver)+'</dd></div></dl>'+
-      '<div class="p-body"><h2>O desafio</h2><div><p>'+esc(p.challenge)+'</p></div></div>'+
-      '<div class="p-body"><h2>Processo</h2><div><p>'+esc(p.process)+'</p></div></div>'+
-      '<div class="p-gallery"><figure>'+art(p,'cols')+'</figure><figure>'+art(p,'grid')+'</figure><figure class="full">'+art(p,'palette')+'</figure></div>'+
-      '<div class="stats">'+p.stats.map(function(s){return '<div class="stat"><b>'+esc(s[0])+'</b><span>'+esc(s[1])+'</span></div>'}).join('')+'</div>'+
-      nextLink+
-    '</div>';
-}
-
 /* ================= Roteador — uma tela por vez ================= */
-var VIEWS={home:'#view-home',projeto:'#view-project',sobre:'#view-sobre',contato:'#view-contato','404':'#view-404'};
+var VIEWS={home:'#view-home',sobre:'#view-sobre',contato:'#view-contato','404':'#view-404'};
 var TITLES={home:'Projetos',sobre:'Sobre mim',contato:'Contato','404':'Página não encontrada'};
 function route(){
   var parts=(location.hash.replace(/^#\/?/,'')||'').split('/').filter(Boolean);
@@ -764,7 +611,7 @@ function route(){
   if(name==='projeto'){
     var p=PROJECTS.filter(function(x){return x.slug===parts[1]})[0];
     if(p&&p.href){location.replace(p.href);return}
-    if(p){renderProject(p);title=p.title}else name='404';
+    name='404';
   }
   if(!VIEWS[name])name='404';
   title=title||TITLES[name];

@@ -111,6 +111,10 @@ section{padding:140px 0}
 .t3 i{width:9px;height:9px;border-radius:50%;background:var(--navy);box-shadow:0 0 0 4px rgba(30,42,34,.12);flex:none;margin-left:-4.5px}
 .t3 s{display:block;width:clamp(28px,5vw,72px);height:1px;background:var(--navy);margin-right:10px}
 .t3 span{background:rgba(255,255,255,.85);padding:6px 12px;border-radius:999px;border:1px solid var(--line)}
+.xr-mcard{display:none}
+.t3.l{flex-direction:row-reverse}
+.t3.l i{margin-left:0;margin-right:-4.5px}
+.t3.l s{margin-right:0;margin-left:10px}
 .progress{position:absolute;right:28px;top:50%;transform:translateY(-50%);display:grid;gap:10px}
 .progress i{width:6px;height:6px;border-radius:50%;background:#C9C2B3;transition:background .3s,transform .3s}
 .progress i.on{background:var(--navy);transform:scale(1.4)}
@@ -200,24 +204,33 @@ body.mh-lock{overflow:hidden}
   .sw div{padding:8px;border-radius:14px}
   .sw b{font-size:13px}
   .sw small{font-size:10px;letter-spacing:-.02em}
-  .picker{top:72px;bottom:auto;right:auto;left:50%;transform:translateX(-50%);gap:14px;padding:8px 8px 8px 16px}
-  .picker .lbl b{font-size:15px}
-  .sws{gap:6px}
-  .sws button{width:26px;height:26px}
-  /* no celular: o modelo fica na metade de cima e o texto num cartão embaixo */
-  .xr-step{align-items:flex-end;padding-bottom:28px}
-  .xr-step .card{max-width:none;width:100%;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:22px;padding:22px 22px 24px;backdrop-filter:blur(8px)}
-  .xr-step .num{font-size:40px;margin-bottom:6px}
-  .xr-step h3{font-size:22px;margin-bottom:8px}
-  .xr-step p{font-size:15px}
-  .xr-step dl{display:none}
+  /* seletor recolhido à esquerda: mostra só a cor atual; ao tocar, abre as outras */
+  .picker{top:64px;bottom:auto;right:auto;left:16px;transform:none;gap:0;padding:6px;border-radius:999px;box-shadow:0 8px 24px -12px rgba(30,42,34,.35)}
+  .picker .lbl{display:none}
+  .sws{gap:0;transition:gap .25s}
+  .sws button{width:28px;height:28px;display:none}
+  .sws button[aria-pressed="true"]{display:block}
+  .picker.open .sws{gap:10px}
+  .picker.open .sws button{display:block;animation:swIn .25s both}
+  @keyframes swIn{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+  /* no celular: modelo na área de cima, texto num cartão fixo embaixo que troca a cada etapa */
+  .xr-step .card{visibility:hidden}
+  .xr-stage canvas{top:118px!important;bottom:auto!important;height:calc(100% - 118px - 236px)!important}
+  .xr-mcard{display:block;position:absolute;left:16px;right:16px;bottom:16px;height:204px;overflow:hidden;background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:22px;padding:20px 20px 22px;transition:opacity .25s}
+  .xr-mcard.swap{opacity:0}
+  .xr-mcard .num{letter-spacing:-.04em;font-size:34px;line-height:1;color:#D2CCBF;font-weight:600;margin-bottom:6px}
+  .xr-mcard h3{font-size:21px;margin-bottom:8px}
+  .xr-mcard p{font-size:14.5px;line-height:1.5;color:var(--muted)}
+  .xr-mcard dl{display:none}
+  .no3d .xr-mcard{display:none}
+  .no3d .xr-step .card{visibility:visible}
   .xr-head{top:28px}
   .xr-head h2{font-size:34px}
   .progress{right:12px}
   .t3 span{font-size:12px;padding:4px 9px}
   .spec{padding:24px}
 }
-@media (max-width:420px){.picker .lbl{display:none}}
+
 </style>
 </head>
 <body>
@@ -330,6 +343,7 @@ body.mh-lock{overflow:hidden}
       <div class="sws" role="group" aria-label="Escolher cor" data-swatches></div>
     </div>
     <div class="progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="xr-mcard" aria-live="polite"></div>
   </div>
   <div class="xr-steps">
     <div class="xr-step" data-step="0"><div class="wrap"><div class="card">
@@ -574,12 +588,21 @@ const dots=[...document.querySelectorAll('.progress i')];
 const tags=[...document.querySelectorAll('.t3')];
 // pontos de ancoragem das etiquetas, na lateral direita de cada peça (coordenadas do modelo)
 const anchors={vaso:new THREE.Vector3(.0625,.27-.185,.03),corpo:new THREE.Vector3(.0625,.13-.185,-.02),reservatorio:new THREE.Vector3(.0625,.052-.185,.02)};
+const anchorsL={vaso:new THREE.Vector3(-.0625,.27-.185,.03),corpo:new THREE.Vector3(-.0625,.13-.185,-.02),reservatorio:new THREE.Vector3(-.0625,.052-.185,.02)};
 let p=0,pS=0,active=-1;
+const mcard=document.querySelector('.xr-mcard');let mTimer;
+function setMCard(s){
+  const html=steps[s].querySelector('.card').innerHTML.replace(/<br\s*\/?>/g,' ');
+  if(!mcard.innerHTML){mcard.innerHTML=html;return}
+  clearTimeout(mTimer);mcard.classList.add('swap');
+  mTimer=setTimeout(()=>{mcard.innerHTML=html;mcard.classList.remove('swap')},180);
+}
+const isMobile=()=>innerWidth<=900;
 function readScroll(){
   const r=xrSec.getBoundingClientRect(),total=r.height-innerHeight;
   p=clamp(-r.top/Math.max(total,1),0,1);
   const s=clamp(Math.floor(p*steps.length),0,steps.length-1);
-  if(s!==active){active=s;steps.forEach((el,i)=>el.classList.toggle('on',i===s));dots.forEach((d,i)=>d.classList.toggle('on',i===s));}
+  if(s!==active){active=s;steps.forEach((el,i)=>el.classList.toggle('on',i===s));dots.forEach((d,i)=>d.classList.toggle('on',i===s));setMCard(s);}
 }
 addEventListener('scroll',readScroll,{passive:true});addEventListener('resize',readScroll);readScroll();
 const focusOf=[null,'vaso','corpo','reservatorio',null];
@@ -587,17 +610,17 @@ const tmp=new THREE.Vector3();
 function frameXR(dt){
   const v=xr,cam=v.camera;
   pS=reduce?p:lerp(pS,p,1-Math.exp(-dt*8));
-  const narrow=cam.aspect<.9;
+  const narrow=isMobile();
   // abre entre 10% e 28% da seção, fecha a partir de 78%
   const e=smooth(.1,.28,pS)*(1-smooth(.78,.94,pS));
   const P=v.parts;
   if(P.vaso){P.vaso.position.y=e*.12;P.reservatorio.position.y=-e*.09;}
   // gira devagar ao longo da seção; no passo do corpo a grade fica de frente
   v.spin.rotation.y=Math.PI*.38+pS*Math.PI*1.25;
-  const dist=(narrow?1.5:1.08)+e*(narrow?.55:.3);
+  const dist=narrow?(1.02+e*.5)/Math.min(1,cam.aspect/.8):1.08+e*.3;
   const offX=narrow?0:-.11-e*.03;          // no desktop o produto fica à direita do texto
-  cam.position.set(offX,.16,dist);cam.lookAt(offX,narrow?-.07:-.01,0);
-  v.root.position.y=narrow?.02:0;
+  cam.position.set(offX,.16,dist);cam.lookAt(offX,narrow?-.03-e*.01:-.01,0);
+  v.root.position.y=0;
   v.sh.position.y=-.16-e*.09;v.sh.scale.setScalar(1+e*.2);
   // destaque: as outras peças ficam translúcidas
   const f=focusOf[active];
@@ -611,8 +634,10 @@ function frameXR(dt){
   tags.forEach(t=>{
     const k=t.dataset.part,g=P[k];if(!g)return;
     const on=e>.6&&(!f||f===k);t.classList.toggle('on',on);
-    tmp.copy(anchors[k]);g.localToWorld(tmp);tmp.project(cam);
-    t.style.transform='translate('+((tmp.x*.5+.5)*W).toFixed(1)+'px,'+((-tmp.y*.5+.5)*H-10).toFixed(1)+'px)';
+    tmp.copy((narrow?anchorsL:anchors)[k]);g.localToWorld(tmp);tmp.project(cam);
+    t.classList.toggle('l',narrow);
+    const top=narrow?v.canvas.offsetTop:0;
+    t.style.transform='translate('+((tmp.x*.5+.5)*W).toFixed(1)+'px,'+((-tmp.y*.5+.5)*H-10+top).toFixed(1)+'px)'+(narrow?' translateX(-100%)':'');
   });
   return true;
 }
@@ -625,8 +650,14 @@ function loop(now){
 }
 
 // troca de cor
-document.querySelector('[data-swatches]').addEventListener('click',e=>{
+const picker=document.querySelector('.picker'),swGroup=document.querySelector('[data-swatches]');
+function setPickerOpen(o){picker.classList.toggle('open',o);swGroup.querySelectorAll('button').forEach(x=>x.setAttribute('aria-expanded',String(o)))}
+document.addEventListener('click',e=>{if(!picker.contains(e.target))setPickerOpen(false)});
+swGroup.addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b)return;
+  // no celular: o primeiro toque só abre o seletor
+  if(isMobile()&&!picker.classList.contains('open')){setPickerOpen(true);return}
+  setPickerOpen(false);
   colorIdx=+b.dataset.i;
   document.querySelectorAll('[data-swatches] button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
   document.querySelector('[data-colorname]').textContent=COLORS[colorIdx].name;

@@ -542,10 +542,10 @@ var TOOLS = [
 
 var PROJECTS = [
   // case com página própria (espaces/index.html): o card abre essa página
-  {slug:'espaces', title:'Espaces', cat:'UI/UX', year:2024, href:'espaces/index.html', cover:'assets/capa-espaces.jpg'},
-  {slug:'blin', title:'Blin City', cat:'Design de produto', year:2024, href:'blin/index.html', cover:'assets/capa-blin.jpg'},
+  {slug:'espaces', title:'Espaces', cat:['UI/UX','Branding'], year:2024, href:'espaces/index.html', cover:'assets/capa-espaces.jpg'},
+  {slug:'blin', title:'Blin City', cat:['Design de produto','Branding'], year:2024, href:'blin/index.html', cover:'assets/capa-blin.jpg'},
   {slug:'albero', title:'Albero', cat:'Design de produto', year:2025, href:'albero/index.html', cover:'assets/capa-albero.jpg'},
-  {slug:'zero11', title:'Zero 11', cat:'Modelagem 3D', year:2025, href:'zero11/index.html', cover:'assets/capa-zero11.jpg'},
+  {slug:'zero11', title:'Zero 11', cat:'Design de produto', year:2025, href:'zero11/index.html', cover:'assets/capa-zero11.jpg'},
   {slug:'gardano', title:'Gardano', cat:'Branding', year:2023, href:'gardano/index.html', cover:'assets/capa-gardano.jpg'},
 ];
 
@@ -584,20 +584,22 @@ $('#year').textContent=new Date().getFullYear();
 $('#toTop').addEventListener('click',function(e){e.preventDefault();window.scrollTo({top:0})});
 
 /* ================= Grid de projetos ================= */
-var CATS=['Todos'].concat(PROJECTS.map(function(p){return p.cat}).filter(function(c,i,arr){return arr.indexOf(c)===i}));
+// cat pode ser um texto ou uma lista (projeto em mais de uma categoria)
+function catsOf(p){return [].concat(p.cat)}
+var CATS=['Todos'].concat([].concat.apply([],PROJECTS.map(catsOf)).filter(function(c,i,arr){return arr.indexOf(c)===i}));
 var activeCat='Todos';
 function renderFilters(){
   $('#filters').innerHTML=CATS.map(function(c){
-    var n=c==='Todos'?PROJECTS.length:PROJECTS.filter(function(p){return p.cat===c}).length;
+    var n=c==='Todos'?PROJECTS.length:PROJECTS.filter(function(p){return catsOf(p).indexOf(c)>=0}).length;
     return '<button class="chip" type="button" data-cat="'+esc(c)+'" aria-pressed="'+(c===activeCat)+'">'+esc(c)+'<span class="n">'+n+'</span></button>';
   }).join('');
 }
 function projectHref(p){return p.href}
 function renderGrid(){
-  var list=PROJECTS.filter(function(p){return activeCat==='Todos'||p.cat===activeCat});
+  var list=PROJECTS.filter(function(p){return activeCat==='Todos'||catsOf(p).indexOf(activeCat)>=0});
   $('#grid').innerHTML=list.length?list.map(function(p){
-    return '<a class="card" href="'+projectHref(p)+'" aria-label="'+esc(p.title+' — '+p.cat)+'">'+'<img src="'+p.cover+'" alt="" loading="lazy">'+
-      '<div class="info" aria-hidden="true"><h2>'+esc(p.title)+'</h2><p>'+esc(p.cat)+' · '+p.year+'</p></div></a>';
+    return '<a class="card" href="'+projectHref(p)+'" aria-label="'+esc(p.title+' — '+catsOf(p).join(', '))+'">'+'<img src="'+p.cover+'" alt="" loading="lazy">'+
+      '<div class="info" aria-hidden="true"><h2>'+esc(p.title)+'</h2><p>'+esc(catsOf(p).join(', '))+' · '+p.year+'</p></div></a>';
   }).join(''):'<p class="empty">Nenhum projeto nesta categoria.</p>';
 }
 $('#filters').addEventListener('click',function(e){

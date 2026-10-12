@@ -94,6 +94,7 @@ section{padding:140px 0}
 .xr-head{position:absolute;top:56px;left:0;right:0;pointer-events:none}
 .xr-steps{position:relative;margin-top:-100vh;margin-top:-100svh;pointer-events:none}
 .xr-step{min-height:100vh;min-height:100svh;display:flex;align-items:center}
+.xr-step>.wrap{width:100%}
 .xr-step .card{max-width:420px;pointer-events:auto;opacity:.18;transform:translateY(16px);transition:opacity .5s,transform .5s}
 .xr-step.on .card{opacity:1;transform:none}
 .xr-step .num{letter-spacing:-.04em;font-size:64px;line-height:1;color:#CFCBC3;font-weight:600;margin-bottom:12px}
@@ -102,6 +103,9 @@ section{padding:140px 0}
 .xr-step dl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin-top:24px;padding:20px 22px;border-radius:18px;background:rgba(255,255,255,.7);border:1px solid var(--line);font-size:15px;backdrop-filter:blur(6px)}
 .xr-step dt{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--lilac);padding-top:4px;font-weight:600}
 .xr-mcard{display:none}
+/* no desktop o título "A coleção" rola junto com o primeiro texto (fixo, ele ficaria por baixo dos textos) */
+@media (min-width:901px){.xr-head{display:none}}
+.xr-mcard .eyebrow{display:none}
 .progress{position:absolute;right:28px;top:50%;transform:translateY(-50%);display:grid;gap:10px}
 .progress i{width:6px;height:6px;border-radius:50%;background:#C6C1B8;transition:background .3s,transform .3s}
 .progress i.on{background:var(--navy);transform:scale(1.4)}
@@ -321,6 +325,7 @@ body.mh-lock{overflow:hidden}
   </div>
   <div class="xr-steps">
     <div class="xr-step" data-step="0"><div class="wrap"><div class="card">
+      <p class="eyebrow">A coleção</p>
       <div class="num">00</div>
       <h3>Sete pontos,<br>sete peças.</h3>
       <p>Cada colecionável é um bloco que guarda o traço mais marcante de um prédio da cidade, com as cores do lugar. Role para ver um por um.</p>

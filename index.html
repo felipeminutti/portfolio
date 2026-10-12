@@ -150,6 +150,10 @@ a:hover .arrow,button:hover .arrow{transform:translateX(4px)}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(8px,1vw,14px);padding-bottom:clamp(64px,8vw,120px)}
 .card{position:relative;display:block;aspect-ratio:32/25;overflow:hidden;background:var(--soft);text-decoration:none}
 .card svg,.card>img{display:block;width:100%;height:100%;object-fit:cover}
+/* No hover a capa com o logo dá lugar a uma imagem do projeto */
+.card>img.alt{position:absolute;inset:0;opacity:0;transform:scale(1.04);transition:opacity .45s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.card:hover>img.alt,.card:focus-visible>img.alt{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.card>img.alt{transform:none;transition:opacity .2s}}
 /* Faixa branca que sobe da base no hover */
 .card .info{position:absolute;inset:auto 0 0 0;padding:14px clamp(16px,1.6vw,22px) 12px;display:flex;justify-content:space-between;align-items:baseline;gap:16px;background:#fff;color:#0b0b0b;transform:translateY(101%);transition:transform .35s cubic-bezier(.2,.7,.2,1)}
 .card:hover .info,.card:focus-visible .info{transform:none}
@@ -542,11 +546,12 @@ var TOOLS = [
 
 var PROJECTS = [
   // case com página própria (espaces/index.html): o card abre essa página
-  {slug:'espaces', title:'Espaces', cat:['UI/UX','Branding'], year:2024, href:'espaces/index.html', cover:'assets/capa-espaces.jpg'},
-  {slug:'blin', title:'Blin City', cat:['Design de produto','Branding'], year:2024, href:'blin/index.html', cover:'assets/capa-blin.jpg'},
-  {slug:'albero', title:'Albero', cat:'Design de produto', year:2025, href:'albero/index.html', cover:'assets/capa-albero.jpg'},
-  {slug:'zero11', title:'Zero 11', cat:'Design de produto', year:2025, href:'zero11/index.html', cover:'assets/capa-zero11.jpg'},
-  {slug:'gardano', title:'Gardano', cat:'Branding', year:2023, href:'gardano/index.html', cover:'assets/capa-gardano.jpg'},
+  {slug:'espaces', title:'Espaces', cat:['UI/UX','Branding'], year:2024, href:'espaces/index.html', cover:'assets/capa-espaces.jpg', hover:'assets/hover-espaces.jpg'},
+  {slug:'blin', title:'Blin City', cat:['Design de produto','Branding'], year:2024, href:'blin/index.html', cover:'assets/capa-blin.jpg', hover:'assets/hover-blin.jpg'},
+  {slug:'albero', title:'Albero', cat:'Design de produto', year:2025, href:'albero/index.html', cover:'assets/capa-albero.jpg', hover:'assets/hover-albero.jpg'},
+  {slug:'zero11', title:'Zero 11', cat:'Design de produto', year:2025, href:'zero11/index.html', cover:'assets/capa-zero11.jpg', hover:'assets/hover-zero11.jpg'},
+  {slug:'morfeo', title:'Morfeo', cat:'Design de produto', year:2026, href:'morfeo/index.html', cover:'assets/capa-morfeo.jpg', hover:'assets/hover-morfeo.jpg'},
+  {slug:'gardano', title:'Gardano', cat:'Branding', year:2023, href:'gardano/index.html', cover:'assets/capa-gardano.jpg', hover:'assets/hover-gardano.jpg'},
 ];
 
 /* ================= Utilidades ================= */
@@ -598,7 +603,7 @@ function projectHref(p){return p.href}
 function renderGrid(){
   var list=PROJECTS.filter(function(p){return activeCat==='Todos'||catsOf(p).indexOf(activeCat)>=0});
   $('#grid').innerHTML=list.length?list.map(function(p){
-    return '<a class="card" href="'+projectHref(p)+'" aria-label="'+esc(p.title+' — '+catsOf(p).join(', '))+'">'+'<img src="'+p.cover+'" alt="" loading="lazy">'+
+    return '<a class="card" href="'+projectHref(p)+'" aria-label="'+esc(p.title+' — '+catsOf(p).join(', '))+'">'+'<img src="'+p.cover+'" alt="" loading="lazy">'+(p.hover?'<img class="alt" src="'+p.hover+'" alt="" loading="lazy">':'')+
       '<div class="info" aria-hidden="true"><h2>'+esc(p.title)+'</h2><p>'+esc(catsOf(p).join(', '))+' · '+p.year+'</p></div></a>';
   }).join(''):'<p class="empty">Nenhum projeto nesta categoria.</p>';
 }

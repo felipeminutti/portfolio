@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MINUTTI STUDIO — Portfólio</title>
+<title>Minutti Studio</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <meta name="description" content="Portfólio de design de Felipe Minutti — branding, UI/UX, editorial e motion.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -636,7 +637,7 @@ function route(){
     if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
   });
   document.body.classList.toggle('light',name==='sobre');
-  document.title=title+' — MINUTTI STUDIO';
+  document.title=name==='home'?'Minutti Studio':title+' — Minutti Studio';
   closeMenu();
   window.scrollTo({top:0,behavior:'instant'});
 }

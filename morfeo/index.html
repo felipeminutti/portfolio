@@ -23,6 +23,10 @@
   --resin: #1a9cb4;          /* resina da haste */
   --track: rgba(210,210,215,.64);
 
+  /* tokens do design system dos projetos (assets/case.css) */
+  --navy: var(--ink); --lilac-2: var(--mist); --muted: var(--slate); --line: var(--hairline); --bg: var(--white);
+  --case-accent: var(--blue);
+
   --display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Helvetica Neue", Arial, sans-serif;
   --text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Helvetica Neue", Arial, sans-serif;
   --brand: "Akshar", "Arial Narrow", sans-serif;
@@ -82,18 +86,11 @@ body.mh-lock{overflow:hidden}
 .mh a:hover { text-decoration: none; }
 .mh { letter-spacing: normal; }
 
-.back { display: inline-block; margin-top: 24px; font-size: 14px; letter-spacing: -0.224px; }
 
-/* ---------- hero */
-.hero { text-align: center; padding-block: 40px 0; }
-.hero-logo { width: 150px; margin: 0 auto 18px; }
-.kicker { font: 600 21px/1 var(--display); letter-spacing: .231px; color: var(--ink); margin: 0 0 14px; }
-.hero h1 {
-  font: 600 clamp(44px, 7.4vw, 80px)/1.05 var(--display); letter-spacing: -1.2px; margin: 0 auto;
-  max-width: 13ch; text-wrap: balance;
-}
-.hero .lede { font-size: clamp(19px, 2vw, 21px); line-height: 1.38; letter-spacing: .011em; color: var(--ink);
-  max-width: 34em; margin: 22px auto 0; text-wrap: pretty; }
+/* ---------- hero (anatomia e tipografia em assets/case.css) */
+.hero { background: var(--bg); padding-top: 48px; overflow: hidden; }
+.case-wrap { max-width: 1200px; margin-inline: auto; padding-inline: 24px; }
+.hero-shot img { background: var(--mist); }
 
 /* ---------- palco 3D */
 .stage { position: relative; margin-top: 32px; }
@@ -123,13 +120,6 @@ body.mh-lock{overflow:hidden}
 .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 .dot-carbon { background: var(--ink); } .dot-resin { background: var(--resin); }
 
-/* ---------- ficha: mesma faixa dos outros cases (Albero, Zero 11, Espaces) */
-.meta { display: grid; grid-template-columns: repeat(5, 1fr); margin: 56px 0 0; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); background: var(--white); font-family: Inter, system-ui, sans-serif; letter-spacing: normal; }
-.meta div { padding: 28px 24px; border-right: 1px solid var(--hairline); }
-.meta div:last-child { border-right: 0; }
-.meta dt { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--slate); margin-bottom: 6px; }
-.meta dd { margin: 0; font-weight: 500; font-size: 15.5px; line-height: 1.65; }
-@media (max-width: 900px) { .meta { grid-template-columns: 1fr 1fr; } .meta div { border-bottom: 1px solid var(--hairline); } }
 
 /* ---------- seções */
 section { scroll-margin-top: 64px; }
@@ -146,8 +136,6 @@ figure { margin: 0; }
 figcaption { font-size: 12px; color: var(--slate); margin-top: 10px; letter-spacing: -0.12px; }
 
 /* renders: o protagonista da página, em tela cheia e sem cantos arredondados */
-.hero-render { margin-top: 40px; }
-.hero-render img { width: 100%; height: auto; }
 .renders { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: var(--gap); }
 .renders .full { grid-column: 1 / -1; }
 .renders .media { aspect-ratio: 16 / 9; background: var(--white); }
@@ -200,6 +188,7 @@ figcaption { font-size: 12px; color: var(--slate); margin-top: 10px; letter-spac
 footer { background: var(--mist); padding-block: 28px; font-size: 12px; color: var(--slate); letter-spacing: -0.12px; }
 footer .wide { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 </style>
+<link rel="stylesheet" href="../assets/case.css">
 </head>
 <body>
 
@@ -226,25 +215,26 @@ footer .wide { display: flex; justify-content: space-between; gap: 16px; flex-wr
 </header>
 
 <main>
-  <div class="wide"><a class="back" href="../index.html#/">← Voltar aos projetos</a></div>
-
-  <!-- HERO -->
-  <section class="hero" aria-labelledby="titulo">
-    <div class="wrap">
-      <img class="hero-logo" src="img/morfeo-logo.svg" alt="morfeo" width="168" height="50">
-      <h1 id="titulo">Design para um mundo ansioso.</h1>
-      <p class="lede">Um wearable de têmpora que percebe a crise de ansiedade antes do próprio usuário e responde no nervo vago, do ruído marrom à desaceleração do coração.</p>
+  <!-- HERO: logo · subtítulo · tags · imagem (assets/case.css) -->
+  <header class="hero hero--light">
+    <div class="case-wrap"><a class="back-top" href="../index.html#/">← Voltar aos projetos</a></div>
+    <div class="case-wrap hero-head">
+      <h1 class="case-logo"><img src="img/morfeo-logo.svg" alt="morfeo" width="168" height="50"></h1>
+      <p class="case-sub">Um wearable que percebe a crise de ansiedade <em>antes do próprio usuário.</em></p>
+      <div class="tags">
+        <span>Design de produto</span><span>Pesquisa</span><span>Modelagem 3D</span><span>Renderização</span>
+      </div>
     </div>
 
-    <figure class="hero-render wide"><img src="img/capa.jpg" alt="Par de peças morfeo em fibra de carbono com haste de resina azul, em perspectiva sobre fundo claro" width="1920" height="1080"></figure>
-  </section>
+    <figure class="hero-shot"><img src="img/capa.jpg" alt="Par de peças morfeo em fibra de carbono com haste de resina azul, em perspectiva sobre fundo claro" width="1920" height="1080" fetchpriority="high"></figure>
+  </header>
 
   <dl class="meta">
     <div><dt>Papel</dt><dd>Designer</dd></div>
     <div><dt>Escopo</dt><dd>Pesquisa, conceito, modelo 3D, render</dd></div>
     <div><dt>Contexto</dt><dd>AUP2007 · Laboratório do Futuro</dd></div>
     <div><dt>Ano</dt><dd>2026</dd></div>
-    <div><dt>Ferramenta</dt><dd>Rhino 8</dd></div>
+    <div><dt>Ferramentas</dt><dd>Rhino 8</dd></div>
   </dl>
 
   <!-- RENDERS -->

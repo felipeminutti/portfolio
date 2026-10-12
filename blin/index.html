@@ -10,6 +10,7 @@
 <style>
 /* Mesma estrutura do case Espaces. Só os tokens mudam para as cores da Blin. */
 :root{
+  --case-accent:var(--green);
   --navy:#0A3A1B; --navy-2:#05521F; --lilac:#944009; --lilac-2:#CDE8C9; --lilac-soft:#FCF0D8;
   --green:#33CC66; --red:#944009; --sun:#F49C2C; --bg:#FDF7EA; --text:#1E2A20; --muted:#5E6455; --line:#EADCC0;
   --max:1200px;
@@ -41,25 +42,15 @@ section{padding:140px 0}
 .hero::before{content:"";position:absolute;inset:0;background:url(img/foto_2.jpg) center/cover;opacity:.12;filter:blur(2px) saturate(1.2)}
 .hero::after{content:"";position:absolute;inset:0;background:radial-gradient(80% 60% at 50% 100%,rgba(51,204,102,.35),transparent 70%),linear-gradient(180deg,var(--navy) 0%,rgba(10,58,27,.6) 40%,var(--navy) 100%)}
 .hero>*{position:relative;z-index:1}
-.hero-head{text-align:center;padding:56px 0 60px}
-.back-top{display:inline-flex;align-items:center;gap:8px;margin-top:28px;font-size:14px;font-weight:500;color:var(--lilac-2);text-decoration:none}
-.back-top:hover{color:#fff}
-.lockup{display:flex;align-items:baseline;justify-content:center;gap:.28em;margin:0 auto 36px;font-size:clamp(64px,10vw,124px)}
+.lockup{display:flex;align-items:baseline;justify-content:center;gap:.28em;font-size:clamp(64px,10vw,124px)}
+.hero-head .lockup.case-logo{display:flex;width:auto}  /* lockup blin + city: o tamanho vem do font-size */
+.hero-head .lockup.case-logo>img{height:1em;width:auto}
 .lockup img{height:1em;width:auto}
 .lockup span{font-family:Ubuntu,Akshar,sans-serif;font-weight:500;font-size:1.06em;line-height:1;color:var(--green);letter-spacing:-.01em}
-.hero-head p{font-family:Akshar;font-weight:300;font-size:clamp(26px,3.6vw,44px);line-height:1.15;color:#fff;max-width:820px;margin:0 auto}
-.hero-head p em{font-style:normal;color:var(--green)}
-.tags{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:36px}
-.tags span{padding:8px 16px;border:1px solid rgba(205,232,201,.25);border-radius:999px;font-size:14px;color:var(--lilac-2);backdrop-filter:blur(6px)}
 .fan{display:flex;justify-content:center;align-items:flex-start;gap:clamp(16px,3vw,40px);margin-top:40px;padding:0 24px clamp(64px,8vw,112px)}
 .fan .shot{width:320px;flex:0 1 320px;aspect-ratio:4/5}
 .fan .shot.p2{width:360px;flex-basis:360px;margin-top:-24px}
 
-.meta{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--line);background:#fff}
-.meta div{padding:28px 24px;border-right:1px solid var(--line)}
-.meta div:last-child{border-right:0}
-.meta dt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.meta dd{font-weight:500;font-size:15.5px}
 
 /* ---------- Faixa ODS (no lugar das lojas) ---------- */
 .stores{background:var(--bg);border-bottom:1px solid var(--line)}
@@ -204,8 +195,6 @@ body.mh-lock{overflow:hidden}
   .dec.rev .media{order:0}
   .pains,.loop,.onb,.ds-2{grid-template-columns:1fr}
   .loop div:not(:last-child)::after{content:"↓";right:50%;top:auto;bottom:-17px;transform:translateX(50%)}
-  .meta{grid-template-columns:1fr 1fr}
-  .meta div{border-bottom:1px solid var(--line)}
   .fan{gap:10px;padding:0 16px 40px}
   .fan .shot{border-radius:16px}
   .fan .shot.p2{margin-top:-12px}
@@ -218,6 +207,7 @@ body.mh-lock{overflow:hidden}
   .stats{grid-template-columns:1fr 1fr 1fr}
 }
 </style>
+<link rel="stylesheet" href="../assets/case.css">
 </head>
 <body>
 
@@ -244,11 +234,11 @@ body.mh-lock{overflow:hidden}
 </header>
 
 <!-- ················· HERO ················· -->
-<header class="hero">
+<header class="hero hero--dark">
   <div class="wrap"><a class="back-top" href="../index.html#/">← Voltar aos projetos</a></div>
   <div class="wrap hero-head">
-    <h1 class="lockup rv in"><img src="img/blin-cream.png" alt="blin"><span>city</span></h1>
-    <p class="rv in">Um kit de papelão para crianças <em>pintarem e montarem</em> a cidade do futuro.</p>
+    <h1 class="lockup case-logo rv in"><img src="img/blin-cream.png" alt="blin"><span>city</span></h1>
+    <p class="case-sub rv in">Um kit de papelão para crianças <em>pintarem e montarem</em> a cidade do futuro.</p>
     <div class="tags rv in">
       <span>Design de produto</span><span>Identidade visual</span><span>Embalagem</span><span>Fabricação digital</span>
     </div>

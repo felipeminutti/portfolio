@@ -11,6 +11,7 @@
 /* Mesma estrutura dos cases Espaces, Blin e Albero. Só os tokens mudam para as cores do Zero 11 (asfalto, concreto e vermelho).
    Diferença deste case: os 7 colecionáveis (assets/modelos/*.stl) são o protagonista da seção "A coleção". */
 :root{
+  --case-accent:var(--lilac);
   --navy:#232323; --navy-2:#3A3A3A; --lilac:#E5141E; --lilac-2:#E4E2DE; --lilac-soft:#EAE8E4;
   --red:#E5141E; --red-2:#B50F17; --concrete:#BDB9B2; --sun:#E5141E;
   --bg:#F3F2EF; --text:#1E1E1E; --muted:#67655F; --line:#DDDAD4;
@@ -36,24 +37,10 @@ section{padding:140px 0}
 
 /* ---------- Hero: galeria clara, as peças são o evento ---------- */
 .hero{position:relative;background:var(--bg);overflow:hidden;padding:48px 0 0}
-.back-top{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--muted);text-decoration:none}
-.back-top:hover{color:var(--navy)}
-.hero-head{text-align:center;padding:56px 0 0}
-.hero-head h1.logo{display:block;width:min(520px,76vw);margin:0 auto 32px}
-.hero-head h1.logo svg{display:block;width:100%;height:auto}
 .logo .lz{fill:var(--navy)} .logo .lr{fill:var(--red)}
-.hero-head p.sub{font-family:Inter;font-weight:400;letter-spacing:-.025em;font-size:clamp(22px,3vw,36px);line-height:1.2;color:var(--navy);max-width:820px;margin:0 auto}
-.hero-head p.sub em{font-style:normal;color:var(--lilac)}
-.tags{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:32px}
-.tags span{padding:8px 16px;border:1px solid var(--line);border-radius:999px;font-size:14px;color:var(--muted);background:rgba(255,255,255,.5)}
 .hero-shot{margin:40px 0 0}
 .hero-shot img{width:100%;height:auto;background:var(--bg)}
 
-.meta{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff}
-.meta div{padding:28px 24px;border-right:1px solid var(--line)}
-.meta div:last-child{border-right:0}
-.meta dt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.meta dd{font-weight:500;font-size:15.5px}
 
 .intro{display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:end}
 .big-quote{font-weight:500;letter-spacing:-.03em;font-size:clamp(30px,4vw,52px);line-height:1.1;color:var(--navy)}
@@ -185,8 +172,6 @@ body.mh-lock{overflow:hidden}
   .intro,.result{grid-template-columns:1fr;gap:48px}
   .pains,.loop,.routes{grid-template-columns:1fr}
   .loop div:not(:last-child)::after{content:"↓";right:50%;top:auto;bottom:-17px;transform:translateX(50%)}
-  .meta{grid-template-columns:1fr 1fr}
-  .meta div{border-bottom:1px solid var(--line)}
   footer .wrap{flex-direction:column;gap:16px}
   /* no celular: modelo na área de cima, texto num cartão fixo embaixo que troca a cada etapa */
   .xr-step .card{visibility:hidden}
@@ -210,6 +195,7 @@ body.mh-lock{overflow:hidden}
 }
 @media (max-width:420px){.pcs button{width:26px;height:26px}}
 </style>
+<link rel="stylesheet" href="../assets/case.css">
 </head>
 <body>
 
@@ -236,15 +222,15 @@ body.mh-lock{overflow:hidden}
 </header>
 
 <!-- ················· HERO ················· -->
-<header class="hero" id="hero">
+<header class="hero hero--light" id="hero">
   <div class="wrap"><a class="back-top" href="../index.html#/">← Voltar aos projetos</a></div>
   <div class="wrap hero-head">
-    <h1 class="logo rv in" aria-label="Zero 11">
+    <h1 class="logo case-logo rv in" aria-label="Zero 11">
       <svg viewBox="0 -860 3596 860" role="img" aria-hidden="true"><path class="lz" d="M0 0V-85.8L372.2 -510.8H19.8V-697H825V-615.1L447.5 -186.1H838.2V0ZM1309.2 -173Q1196.2 -173 1110.7 -202Q1025.2 -231 977.7 -292.5Q930.2 -354 930.2 -449Q930.2 -542 977.2 -603.5Q1024.2 -665 1107.2 -695Q1190.2 -725 1299.2 -725Q1413.2 -725 1496.2 -696Q1579.2 -667 1624.2 -606Q1669.2 -545 1669.2 -449V-411H1164.2Q1166.2 -374 1183.2 -349Q1200.2 -324 1232.7 -312Q1265.2 -300 1311.2 -300Q1341.2 -300 1364.7 -306Q1388.2 -312 1404.2 -322.5Q1420.2 -333 1428.2 -346Q1436.2 -359 1436.2 -373H1668.2Q1668.2 -323 1639.7 -285.5Q1611.2 -248 1561.7 -223Q1512.2 -198 1447.2 -185.5Q1382.2 -173 1309.2 -173ZM1165.2 -513H1429.2Q1429.2 -530 1421.2 -545Q1413.2 -560 1397.7 -572Q1382.2 -584 1359.7 -591Q1337.2 -598 1309.2 -598Q1265.2 -598 1235.2 -586.5Q1205.2 -575 1187.7 -555.5Q1170.2 -536 1165.2 -513ZM1735.2 -185V-713H1917.2L1932.2 -627H1941.2Q1960.2 -662 1987.2 -684Q2014.2 -706 2045.2 -716Q2076.2 -726 2107.2 -726Q2129.2 -726 2147.7 -723Q2166.2 -720 2184.2 -713V-547H2081.2Q2050.2 -547 2027.2 -537.5Q2004.2 -528 1989.2 -511.5Q1974.2 -495 1966.7 -472.5Q1959.2 -450 1959.2 -423V-185ZM2565.2 -173Q2456.2 -173 2373.2 -203.5Q2290.2 -234 2243.2 -295Q2196.2 -356 2196.2 -449Q2196.2 -542 2243.2 -603.5Q2290.2 -665 2373.2 -695Q2456.2 -725 2565.2 -725Q2674.2 -725 2757.2 -695Q2840.2 -665 2887.2 -603.5Q2934.2 -542 2934.2 -449Q2934.2 -356 2887.2 -295Q2840.2 -234 2757.2 -203.5Q2674.2 -173 2565.2 -173ZM2565.2 -314Q2614.2 -314 2644.7 -331Q2675.2 -348 2689.2 -376.5Q2703.2 -405 2703.2 -439V-459Q2703.2 -493 2689.2 -521.5Q2675.2 -550 2644.7 -567Q2614.2 -584 2565.2 -584Q2516.2 -584 2485.7 -567Q2455.2 -550 2441.2 -521.5Q2427.2 -493 2427.2 -459V-439Q2427.2 -405 2441.2 -376.5Q2455.2 -348 2485.7 -331Q2516.2 -314 2565.2 -314Z"/><path class="lr" d="M934.2 -136h136v136h-136zM1104.2 -136h136v136h-136zM1274.2 -136h136v136h-136zM1444.2 -136h136v136h-136zM1614.2 -136h136v136h-136zM1784.2 -136h136v136h-136zM1954.2 -136h136v136h-136zM2124.2 -136h136v136h-136zM2294.2 -136h136v136h-136zM2464.2 -136h136v136h-136zM2634.2 -136h136v136h-136zM2804.2 -136h136v136h-136zM2974.2 -136h60l50 68l-50 68h-60l50-68zM3034.2 -690L3124.2 -860H3292.2V0H3124.2V-610L3034.2 -530zM3338.2 -690L3428.2 -860H3596.2V0H3428.2V-610L3338.2 -530z"/></svg>
     </h1>
-    <p class="sub rv in">Rotas culturais por São Paulo, <em>e um pedaço de cada lugar para levar para casa.</em></p>
+    <p class="case-sub rv in">Rotas culturais por São Paulo, <em>e um pedaço de cada lugar para levar para casa.</em></p>
     <div class="tags rv in">
-      <span>Design de produto</span><span>Design de serviço</span>
+      <span>Design de produto</span><span>Design de serviço</span><span>Modelagem 3D</span>
     </div>
   </div>
 

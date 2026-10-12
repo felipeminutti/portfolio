@@ -1,0 +1,65 @@
+/* ==========================================================================
+   MINUTTI STUDIO · abertura dos projetos (design system)
+
+   Toda página de projeto abre na mesma ordem:
+
+     1. ← Voltar aos projetos   a.back-top
+     2. Logo do projeto          h1.case-logo   (wordmark/lockup, nunca texto solto)
+     3. Subtítulo                p.case-sub     uma frase só; o trecho-chave em <em>
+     4. Tags                     .tags > span   3 ou 4, disciplinas do projeto
+     5. Imagem                   .fan (3 peças lado a lado) ou .hero-shot (1 imagem larga)
+     6. Ficha                    dl.meta        5 campos, sempre nesta ordem:
+                                 Papel · Escopo · Contexto · Ano · Ferramentas
+                                 (Período no lugar de Ano para trabalho com datas;
+                                  Fabricação no lugar de Ferramentas para objeto físico)
+
+   Tema: <header class="hero hero--dark"> (fundo na cor da marca, texto claro)
+         <header class="hero hero--light"> (fundo claro, produto como foco)
+
+   Cada página só define, no próprio :root, os tokens que já usa:
+     --navy     cor principal da marca (fundo do tema escuro, texto do tema claro)
+     --lilac-2  tom claro de apoio (texto secundário no tema escuro)
+     --bg --muted --line   fundo, texto secundário e linhas do tema claro
+     --case-accent         cor do <em> do subtítulo
+   ========================================================================== */
+
+/* ---------- 1. voltar */
+.back-top{display:inline-flex;align-items:center;gap:8px;margin-top:28px;font:500 14px/1.4 Inter,system-ui,sans-serif;letter-spacing:normal;text-decoration:none}
+.hero--dark .back-top{color:var(--lilac-2)}
+.hero--dark .back-top:hover{color:#fff}
+.hero--light .back-top{color:var(--muted)}
+.hero--light .back-top:hover{color:var(--navy)}
+
+/* ---------- 2. logo */
+.hero-head{text-align:center;padding:56px 0 0}
+.hero-head .case-logo{display:block;width:min(520px,78vw);margin:0 auto 32px}
+.hero-head .case-logo>img,.hero-head .case-logo>svg{display:block;width:100%;height:auto}
+
+/* ---------- 3. subtítulo */
+.hero-head .case-sub{font:300 clamp(26px,3.6vw,44px)/1.15 Akshar,'Arial Narrow',sans-serif;letter-spacing:normal;max-width:820px;margin:0 auto;text-wrap:balance}
+.hero-head .case-sub em{font-style:normal;color:var(--case-accent)}
+.hero--dark .case-sub{color:#fff}
+.hero--light .case-sub{color:var(--navy)}
+
+/* ---------- 4. tags */
+.tags{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:32px}
+.tags span{padding:8px 16px;border:1px solid;border-radius:999px;font:400 14px/1.4 Inter,system-ui,sans-serif;letter-spacing:normal}
+.hero--dark .tags span{border-color:color-mix(in srgb,var(--lilac-2) 25%,transparent);color:var(--lilac-2);backdrop-filter:blur(6px)}
+.hero--light .tags span{border-color:var(--line);color:var(--muted);background:rgba(255,255,255,.5)}
+
+/* ---------- 5. imagem (o layout interno de .fan e .hero-shot fica em cada página) */
+.hero .fan,.hero .hero-shot{margin-top:56px}
+.hero-shot{margin-bottom:0}
+.hero-shot img{width:100%;height:auto}
+
+/* ---------- 6. ficha */
+.meta{display:grid;grid-template-columns:repeat(5,1fr);margin:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff;font-family:Inter,system-ui,sans-serif;letter-spacing:normal}
+.meta div{padding:28px 24px;border-right:1px solid var(--line)}
+.meta div:last-child{border-right:0}
+.meta dt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.meta dd{margin:0;font-weight:500;font-size:15.5px;line-height:1.65}
+
+@media (max-width:900px){
+  .meta{grid-template-columns:1fr 1fr}
+  .meta div{border-bottom:1px solid var(--line)}
+}

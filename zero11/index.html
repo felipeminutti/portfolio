@@ -614,7 +614,7 @@ function frameXR(dt){
   // giro: devagar com a rolagem + o que o visitante arrastar
   if(!st)return;
   dragYaw+=dragVel;dragVel*=.92;
-  const spin=shown?(-.5+(p*steps.length-shown)*.9)+dragYaw:Math.sin(performance.now()/4000)*.05+dragYaw*.3;
+  const spin=shown?(.4-(p*steps.length-shown)*.9)+dragYaw:Math.sin(performance.now()/4000)*.05+dragYaw*.3;
   st.group.rotation.y=spin;st.group.scale.setScalar(Math.max(sc,.001));
   const f=frameFor(shown),k=reduce?1:1-Math.exp(-dt*5);
   camD=lerp(camD,f.d,k);camY=lerp(camY,f.y,k);

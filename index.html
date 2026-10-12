@@ -594,16 +594,18 @@ $('#toTop').addEventListener('click',function(e){e.preventDefault();window.scrol
 // cat pode ser um texto ou uma lista (projeto em mais de uma categoria)
 function catsOf(p){return [].concat(p.cat)}
 var CATS=['Todos'].concat([].concat.apply([],PROJECTS.map(catsOf)).filter(function(c,i,arr){return arr.indexOf(c)===i}));
-var activeCat='Todos';
+// filtros: vários podem ficar ativos ao mesmo tempo; nenhum ativo = Todos
+var activeCats=[];
 function renderFilters(){
   $('#filters').innerHTML=CATS.map(function(c){
     var n=c==='Todos'?PROJECTS.length:PROJECTS.filter(function(p){return catsOf(p).indexOf(c)>=0}).length;
-    return '<button class="chip" type="button" data-cat="'+esc(c)+'" aria-pressed="'+(c===activeCat)+'">'+esc(c)+'<span class="n">'+n+'</span></button>';
+    return '<button class="chip" type="button" data-cat="'+esc(c)+'" aria-pressed="'+(c==='Todos'?!activeCats.length:activeCats.indexOf(c)>=0)+'">'+esc(c)+'<span class="n">'+n+'</span></button>';
   }).join('');
 }
 function projectHref(p){return p.href}
 function renderGrid(){
-  var list=PROJECTS.filter(function(p){return activeCat==='Todos'||catsOf(p).indexOf(activeCat)>=0});
+  // mostra o projeto se ele estiver em qualquer uma das categorias marcadas
+  var list=PROJECTS.filter(function(p){return !activeCats.length||catsOf(p).some(function(c){return activeCats.indexOf(c)>=0})});
   $('#grid').innerHTML=list.length?list.map(function(p){
     return '<a class="card" href="'+projectHref(p)+'" aria-label="'+esc(p.title+' — '+catsOf(p).join(', '))+'">'+'<img src="'+p.cover+'" alt="" loading="lazy">'+(p.hover?'<img class="alt" src="'+p.hover+'" alt="" loading="lazy">':'')+
       '<div class="info" aria-hidden="true"><h2>'+esc(p.title)+'</h2><p>'+esc(catsOf(p).join(', '))+' · '+p.year+'</p></div></a>';
@@ -611,7 +613,9 @@ function renderGrid(){
 }
 $('#filters').addEventListener('click',function(e){
   var b=e.target.closest('.chip');if(!b)return;
-  activeCat=b.getAttribute('data-cat');renderFilters();renderGrid();
+  var c=b.getAttribute('data-cat'),i=activeCats.indexOf(c);
+  if(c==='Todos')activeCats=[];else if(i>=0)activeCats.splice(i,1);else activeCats.push(c);
+  renderFilters();renderGrid();
 });
 renderFilters();renderGrid();
 

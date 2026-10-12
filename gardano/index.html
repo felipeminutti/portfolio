@@ -50,7 +50,7 @@ section{padding:140px 0}
 .tex::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,0) 38%,rgba(0,0,0,0) 70%,rgba(38,15,3,.18) 100%);pointer-events:none;z-index:3}
 
 /* ---------- Foto ---------- */
-.shot{border-radius:26px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(38,15,3,.6);background:#1a0a02}
+.shot{border-radius:0;overflow:hidden;box-shadow:0 40px 80px -30px rgba(38,15,3,.6);background:#1a0a02}
 .shot img,.shot video{width:100%;height:100%;object-fit:cover}
 
 /* ---------- Hero ---------- */
@@ -60,11 +60,8 @@ section{padding:140px 0}
 .hero>*{position:relative;z-index:1}
 .lockup{color:var(--lilac-2)}
 .lockup .mk{width:100%}
-.fan{display:flex;justify-content:center;align-items:flex-start;gap:clamp(16px,3vw,40px);margin-top:40px;padding:0 24px clamp(64px,8vw,112px)}
-.fan .shot{width:240px;flex:0 1 240px;aspect-ratio:1/2;border-radius:10px}
-.fan .shot.p1{transform:rotate(-4deg);margin-top:24px}
-.fan .shot.p2{width:270px;flex-basis:270px;margin-top:-24px}
-.fan .shot.p3{transform:rotate(4deg);margin-top:24px}
+.fan{display:flex;justify-content:center;align-items:center;gap:clamp(16px,3vw,40px);margin-top:40px;padding:0 24px clamp(64px,8vw,112px)}
+.fan .shot{width:300px;flex:0 1 300px;aspect-ratio:1/2;border-radius:0}  /* três tabletes iguais, retos e lado a lado */
 
 
 /* ---------- Faixa linha do tempo ---------- */
@@ -79,6 +76,10 @@ section{padding:140px 0}
 .intro{display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:end}
 .big-quote{font-family:Akshar;font-weight:400;font-size:clamp(32px,4.4vw,56px);line-height:1.08;color:var(--navy)}
 .big-quote mark{background:none;color:var(--lilac)}
+/* embalagem histórica (scan pequeno, 571px): não passa do tamanho real */
+.padre{margin-top:48px;max-width:420px}
+.padre img{width:100%;height:auto;box-shadow:0 30px 60px -30px rgba(38,15,3,.35)}
+.padre figcaption{margin-top:14px;font-size:13px;color:var(--muted)}
 
 /* ---------- Desafio ---------- */
 .pains{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:64px;background:rgba(243,220,203,.14);border-radius:24px;overflow:hidden}
@@ -86,7 +87,7 @@ section{padding:140px 0}
 .pain .n{font-family:Akshar;font-size:64px;line-height:1;color:rgba(243,220,203,.22);margin-bottom:24px}
 .pain b{display:block;font-family:Akshar;font-weight:500;font-size:26px;color:#fff;margin-bottom:8px}
 .pain span{font-size:15.5px}
-.goal{margin-top:56px;display:flex;gap:28px;align-items:center;padding:36px 40px;border-radius:24px;background:linear-gradient(110deg,var(--c-ouro),#E9DD94);color:var(--navy)}
+.goal{margin-top:56px;display:flex;gap:28px;align-items:center;padding:36px 40px;border-radius:24px;background:var(--c-ouro);color:var(--navy)}
 .goal b{font-family:Akshar;font-size:22px;font-weight:600;white-space:nowrap}
 .goal p{font-size:20px;line-height:1.45}
 
@@ -102,7 +103,7 @@ section{padding:140px 0}
 .arq small{display:block;color:var(--muted);font-size:14.5px;line-height:1.5;margin-top:4px}
 
 /* ---------- Embalagens ---------- */
-.arch-wrap{margin-top:72px;border-radius:28px;overflow:hidden;background:#1a0a02;position:relative}
+.arch-wrap{margin-top:72px;border-radius:0;overflow:hidden;background:#1a0a02;position:relative}
 .arch-wrap img{width:100%;opacity:.98}
 .arch-cap{position:absolute;left:28px;bottom:24px;font-size:13px;color:#e9d6c8}
 .loop{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px}
@@ -112,30 +113,31 @@ section{padding:140px 0}
 .loop .dots{display:flex;gap:6px;margin-bottom:16px}
 .loop .dots i{width:22px;height:22px;background:var(--c);-webkit-mask:url(img/gota.png) center/contain no-repeat;mask:url(img/gota.png) center/contain no-repeat}
 .variants{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:20px}
-.variants figure{border-radius:14px;overflow:hidden;aspect-ratio:1640/860;box-shadow:0 20px 40px -24px rgba(38,15,3,.45)}
+.variants figure{border-radius:0;overflow:hidden;aspect-ratio:1640/860;box-shadow:0 20px 40px -24px rgba(38,15,3,.45)}
 .variants img{width:100%;height:100%;object-fit:cover}
-.spread{margin-top:20px;border-radius:26px;background:var(--lilac-soft);border:1px solid var(--line);padding:clamp(20px,4vw,56px)}
-.spread .tex{max-width:900px;margin:0 auto;border-radius:6px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(38,15,3,.5)}
+.spread{margin-top:20px;border-radius:0;background:var(--lilac-soft);border:1px solid var(--line);padding:clamp(20px,4vw,56px)}
+.spread .tex{max-width:none;margin:0 auto;border-radius:0;overflow:hidden;box-shadow:0 30px 60px -30px rgba(38,15,3,.5)}
 .spread p{margin-top:16px;font-size:13px;color:var(--muted);text-align:center}
 
 /* ---------- Decisões ---------- */
-.dec{display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center;padding:110px 0;border-top:1px solid var(--line)}
+.dec{display:grid;grid-template-columns:5fr 7fr;gap:72px;align-items:center;padding:110px 0;border-top:1px solid var(--line)}
 .dec:first-of-type{border-top:0}
 .dec.rev .media{order:-1}
+@media (min-width:901px){.dec.rev{grid-template-columns:7fr 5fr}}  /* imagem maior que o texto nas decisões */
 .dec .num{font-family:Akshar;font-size:72px;line-height:1;color:#EBCDB9;font-weight:600;margin-bottom:12px}
 .dec p{margin-top:18px}
 .pc{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin-top:28px;padding:22px 24px;border-radius:18px;background:var(--bg);border:1px solid var(--line);font-size:15.5px}
 .pc dt{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--lilac);padding-top:4px;font-weight:600}
 .media{position:relative}
-.sheet{border-radius:30px;overflow:hidden;background:var(--lilac-soft);padding:28px;box-shadow:0 40px 80px -40px rgba(38,15,3,.4)}
+.sheet{border-radius:0;overflow:hidden;background:var(--lilac-soft);padding:28px;box-shadow:0 40px 80px -40px rgba(38,15,3,.4)}
 .pin-zoom{position:absolute;right:20px;bottom:20px;width:220px;background:#fff;border-radius:20px;padding:16px;box-shadow:0 24px 48px -16px rgba(38,15,3,.35);font-size:13px}
 .pin-zoom .pin{display:flex;align-items:center;gap:10px}
 .pin-zoom .pin+.pin{margin-top:10px}
 .pin-zoom .drop{width:30px;height:30px;flex:none;background:var(--c);-webkit-mask:url(img/gota.png) center/contain no-repeat;mask:url(img/gota.png) center/contain no-repeat}
 .stack{display:grid;gap:18px}
-.chip-img{border-radius:22px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(38,15,3,.4);background:#fff}
-.chip-img.tilt{transform:rotate(-2deg) translateX(-20px)}
-.chip-img.tilt2{transform:rotate(1.5deg) translateX(30px)}
+.chip-img{border-radius:0;overflow:hidden;box-shadow:0 30px 60px -30px rgba(38,15,3,.4);background:#fff}
+.chip-img.tilt{transform:none}
+.chip-img.tilt2{transform:none}
 
 /* logo anotado */
 .logo-sheet{background:#fff;border:1px solid var(--line);padding:clamp(40px,6vw,72px) clamp(28px,5vw,56px) 150px;color:var(--navy-2)}
@@ -166,7 +168,7 @@ section{padding:140px 0}
 .ds-2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:20px}
 .ds-2 .tile{display:flex;flex-direction:column}
 .ds-2 .tile .fill{flex:1;display:grid;place-items:center;min-height:220px}
-.film{margin-top:20px;border-radius:26px;overflow:hidden;border:1px solid var(--line)}
+.film{margin-top:20px;border-radius:0;overflow:hidden;border:1px solid var(--line)}
 .janelas{display:flex;gap:10%;justify-content:center;width:100%}
 .janelas .mk{width:24%}
 
@@ -176,9 +178,9 @@ section{padding:140px 0}
 .stat b{display:block;font-family:Akshar;font-weight:600;font-size:clamp(44px,5vw,64px);line-height:1;color:var(--navy)}
 .stat span{font-size:14px;color:var(--muted)}
 .note{font-size:12.5px;color:var(--muted);margin-top:16px}
-.result .shot{width:min(460px,92%);margin:0 auto;transform:rotate(3deg);aspect-ratio:4/5}
+.result .shot{width:min(460px,92%);margin:0 auto;aspect-ratio:4/5}
 .gal{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:96px}
-.gal .shot{border-radius:22px;aspect-ratio:16/9;box-shadow:0 30px 60px -30px rgba(38,15,3,.45)}
+.gal .shot{border-radius:0;aspect-ratio:16/9;box-shadow:0 30px 60px -30px rgba(38,15,3,.45)}
 /* ---------- Aplicações (seção em destaque) ---------- */
 .apps{background:var(--navy);color:var(--lilac-2)}
 .apps h2{color:#fff;font-size:clamp(56px,9vw,128px)}
@@ -188,11 +190,11 @@ section{padding:140px 0}
 .apps .stat span,.apps .note{color:var(--lilac-2);opacity:.8}
 .apps-head{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end}
 .apps figure{margin:0}
-.apps .shot{aspect-ratio:16/9;border-radius:24px;box-shadow:0 50px 100px -40px rgba(0,0,0,.7)}
+.apps .shot{aspect-ratio:16/9;border-radius:0;box-shadow:0 50px 100px -40px rgba(0,0,0,.7)}
 .apps figcaption{margin-top:14px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--lilac-2);opacity:.7}
 .app-hero{margin-top:88px!important}
 .app-gal{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px}
-@media (max-width:900px){.apps-head,.app-gal{grid-template-columns:1fr;gap:32px}.app-hero{margin-top:56px!important}.apps .shot{border-radius:16px}}
+@media (max-width:900px){.apps-head,.app-gal{grid-template-columns:1fr;gap:32px}.app-hero{margin-top:56px!important}.apps .shot{border-radius:0}}
 
 footer{background:var(--navy);color:var(--lilac-2);border-top:1px solid rgba(243,220,203,.12)}
 footer .wrap{display:flex;justify-content:space-between;align-items:center;padding:48px 24px}
@@ -241,8 +243,6 @@ body.mh-lock{overflow:hidden}
   .variants{grid-template-columns:1fr 1fr}
   .variants figure:last-child{grid-column:1/-1;width:50%;justify-self:center}
   .fan{gap:10px;padding:0 16px 40px}
-  .fan .shot{border-radius:8px}
-  .fan .shot.p2{margin-top:-12px}
   .goal{flex-direction:column;align-items:flex-start;gap:8px}
   .pin-zoom{right:12px;bottom:12px;width:190px}
   .chip-img.tilt,.chip-img.tilt2{transform:none}
@@ -323,6 +323,10 @@ body.mh-lock{overflow:hidden}
     <div class="rv">
       <p class="eyebrow">Contexto</p>
       <p class="big-quote">O cacau é brasileiro. <mark>A fama do chocolate, não.</mark></p>
+      <figure class="padre">
+        <img src="img/chocolate_do_padre.jpg" alt="Embalagem planificada do chocolate em pó Gardano, com a ilustração de dois frades tomando chocolate" width="571" height="600" loading="lazy">
+        <figcaption>Embalagem original do chocolate em pó Gardano, o “chocolate do padre”</figcaption>
+      </figure>
     </div>
     <div class="rv">
       <p class="lead">O Brasil é o 7º maior produtor de cacau do mundo e tem um cacau fino e de aroma reconhecido pela ICCO. Mesmo assim, exporta a granel, e o “bom chocolate” continua sendo suíço ou belga.</p>

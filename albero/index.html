@@ -64,7 +64,7 @@ section{padding:140px 0}
 .pain .n{font-weight:600;letter-spacing:-.04em;font-size:56px;line-height:1;color:rgba(230,225,214,.22);margin-bottom:24px}
 .pain b{display:block;font-weight:600;letter-spacing:-.02em;font-size:22px;color:#fff;margin-bottom:8px}
 .pain span{font-size:15.5px}
-.goal{margin-top:56px;display:flex;gap:28px;align-items:center;padding:36px 40px;border-radius:24px;background:linear-gradient(110deg,var(--sun),var(--sand));color:var(--navy)}
+.goal{margin-top:56px;display:flex;gap:28px;align-items:center;padding:36px 40px;border-radius:24px;background:var(--bg);color:var(--navy)}
 .goal b{font-size:19px;font-weight:600;white-space:nowrap}
 .goal p{font-size:20px;line-height:1.45}
 
@@ -74,7 +74,7 @@ section{padding:140px 0}
 .loop div:not(:last-child)::after{content:"→";position:absolute;right:-17px;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;z-index:1;font-size:15px}
 .loop b{font-size:24px;font-weight:600;letter-spacing:-.025em;color:var(--navy);display:block}
 .loop small{display:block;margin-top:6px;color:var(--muted);font-size:14.5px;line-height:1.5}
-.loop i{display:block;width:28px;height:28px;border-radius:8px;margin-bottom:16px}
+.loop svg{display:block;width:42px;height:42px;margin:-4px 0 14px -4px;fill:none;stroke:var(--navy);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
 
 /* ---------- Por dentro: palco 3D fixo + passos que rolam por cima ---------- */
 .xr{position:relative;padding:0;background:var(--lilac-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -137,8 +137,6 @@ section{padding:140px 0}
 .stat b small{font-size:.45em;font-weight:500;margin-left:4px}
 .stat span{font-size:14px;color:var(--muted)}
 .note{font-size:12.5px;color:var(--muted);margin-top:16px}
-.ext{display:inline-flex;align-items:center;gap:8px;margin-top:32px;padding:14px 22px;border-radius:999px;background:var(--navy);color:#fff;text-decoration:none;font-weight:500;font-size:15px}
-.ext:hover{background:var(--navy-2)}
 .spec{background:#fff;border:1px solid var(--line);border-radius:28px;padding:40px}
 .spec svg{width:100%;height:auto;display:block}
 .spec text{font:500 13px Inter;fill:var(--muted)}
@@ -310,10 +308,11 @@ body.mh-lock{overflow:hidden}
     <h2 class="rv">Um ciclo fechado<br>dentro de um vaso.</h2>
     <p class="lead muted rv" style="margin-top:24px">A água que o Albero tira do ar é a mesma que mantém a planta viva. Cada etapa alimenta a próxima.</p>
     <div class="loop rv">
-      <div><i style="background:var(--sun)"></i><b>Absorve</b><small>Ventoinhas puxam o ar do ambiente</small></div>
-      <div><i style="background:var(--sand)"></i><b>Filtra</b><small>Filtros purificam o ar que passa pelo corpo</small></div>
-      <div><i style="background:var(--red)"></i><b>Condensa</b><small>O polímero sinterizado retira a água do ar</small></div>
-      <div><i style="background:var(--green)"></i><b>Irriga</b><small>A corda leva a água armazenada até a planta</small></div>
+      <!-- ícones: ventoinha, funil, gota, broto -->
+      <div><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="1.5"/><g id="pa"><path d="M12.6 10.6c-.1-2.2.8-4.6 2.9-5 1.7-.3 2.6 1.5 1.4 2.9-.9 1-2.3 1.8-4 2.4"/></g><use href="#pa" transform="rotate(120 12 12)"/><use href="#pa" transform="rotate(240 12 12)"/></svg><b>Absorve</b><small>Ventoinhas puxam o ar do ambiente</small></div>
+      <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 5h17l-6.5 7.5V18l-4 2v-7.5z"/></svg><b>Filtra</b><small>Filtros purificam o ar que passa pelo corpo</small></div>
+      <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c3.2 3.8 5.2 6.7 5.2 9.3a5.2 5.2 0 0 1-10.4 0c0-2.6 2-5.5 5.2-9.3z"/><path d="M9.6 13.4a2.5 2.5 0 0 0 2.4 2.5"/></svg><b>Condensa</b><small>O polímero sinterizado retira a água do ar</small></div>
+      <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5V12"/><path d="M12 12C12 8.4 9.6 6 5.5 6c0 3.6 2.4 6 6.5 6z"/><path d="M12 14.5c0-3.1 2.1-5 5.5-5 0 3.1-2.1 5-5.5 5z"/><path d="M7.5 20.5h9"/></svg><b>Irriga</b><small>A corda leva a água armazenada até a planta</small></div>
     </div>
   </div>
 </section>
@@ -414,7 +413,6 @@ body.mh-lock{overflow:hidden}
         <div class="stat"><b>32<small>cm</small></b><span>de altura montado</span></div>
       </div>
       <p class="note">Medidas do modelo 3D final.</p>
-      <a class="ext" href="https://www.behance.net/gallery/238115483/Albero" target="_blank" rel="noopener noreferrer">Renders originais no Behance ↗</a>
     </div>
     <div class="rv">
       <div class="spec" aria-label="Desenho com as alturas de cada peça">

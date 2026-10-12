@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cosmos — Minutti Studio</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Akshar:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Mesma estrutura dos cases Espaces, Blin e Gardano. Só os tokens mudam para as cores da Cosmos. */
+:root{
+  --case-accent:var(--gold);
+  --navy:#16143A; --navy-2:#221F52; --lilac:#7A4FB8; --lilac-2:#E2D7F3; --lilac-soft:#F2ECF9;
+  --gold:#E2B862; --gold-2:#EAC820; --yellow:#E7EC26; --ink:#231F20;
+  --bg:#F8F5FC; --text:#1D1A33; --muted:#615C78; --line:#E5DDF0;
+  --max:1200px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font:400 17px/1.65 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video{max-width:100%;display:block}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:Akshar,sans-serif;line-height:1;letter-spacing:-.015em;color:var(--navy)}
+h2{font-size:clamp(40px,6vw,76px);font-weight:500}
+h3{font-size:clamp(26px,3vw,34px);font-weight:500;line-height:1.1}
+.eyebrow{font:600 12px/1 Inter;letter-spacing:.18em;text-transform:uppercase;color:var(--lilac);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:28px;height:1px;background:currentColor}
+.lead{font-size:clamp(19px,2.2vw,24px);line-height:1.5;max-width:720px}
+.muted{color:var(--muted)}
+p+p{margin-top:14px}
+section{padding:140px 0}
+.dark{background:var(--navy);color:#CFC6E4}
+.dark h2,.dark h3{color:#fff}
+.dark .eyebrow{color:var(--gold)}
+
+/* ---------- Marca em máscara (recolorível) ---------- */
+.mk{display:block;background:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.mk.logo{--m:url(img/logo.png);aspect-ratio:1400/334}
+.mk.lock{--m:url(img/logo_lockup.png);aspect-ratio:1400/342}
+.mk.lass{--m:url(img/logo_assets.png);aspect-ratio:1258/605}
+
+/* ---------- Foto ---------- */
+.shot{border-radius:26px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(10,8,30,.6);background:#140a2a}
+.shot img,.shot video{width:100%;height:100%;object-fit:cover}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:var(--navy);color:#fff;overflow:hidden;padding:48px 0 0}
+.hero::before{content:"";position:absolute;inset:0;background:url(img/capa_c1.webp) center 35%/cover;opacity:.14;filter:saturate(.7)}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 55% at 50% 100%,rgba(226,184,98,.20),transparent 70%),linear-gradient(180deg,var(--navy) 0%,rgba(22,20,58,.6) 40%,var(--navy) 100%)}
+.hero>*{position:relative;z-index:1}
+.lockup{color:var(--gold)}
+.lockup .mk{width:100%}
+.hero-shot{padding:0 24px clamp(64px,8vw,112px)}
+.hero-shot .shot{max-width:1200px;margin:0 auto;aspect-ratio:16/9;border-radius:22px;box-shadow:0 50px 100px -40px rgba(0,0,0,.75)}
+
+/* ---------- Faixa do processo ---------- */
+.stores{background:var(--bg);border-bottom:1px solid var(--line)}
+.stores .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;padding-top:32px;padding-bottom:32px}
+.stores small{width:100%;text-align:center;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.ods{display:inline-flex;align-items:center;gap:14px;padding:10px 22px 10px 10px;border-radius:12px;background:#fff;border:1px solid var(--line);color:var(--text);font-weight:500;font-size:15px}
+.ods b{font-family:Akshar;font-weight:600;font-size:19px;line-height:1;padding:0 12px;height:40px;border-radius:8px;background:var(--navy-2);color:var(--lilac-2);display:grid;place-items:center}
+.ods.now b{background:var(--gold);color:var(--navy)}
+.stores .arw{color:var(--muted)}
+
+.intro{display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:end}
+.big-quote{font-family:Akshar;font-weight:400;font-size:clamp(32px,4.4vw,56px);line-height:1.08;color:var(--navy)}
+.big-quote mark{background:none;color:var(--lilac)}
+
+/* ---------- Desafio ---------- */
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:64px;background:rgba(226,215,243,.14);border-radius:24px;overflow:hidden}
+.pain{background:var(--navy);padding:40px 32px}
+.pain .n{font-family:Akshar;font-size:64px;line-height:1;color:rgba(226,215,243,.22);margin-bottom:24px}
+.pain b{display:block;font-family:Akshar;font-weight:500;font-size:26px;color:#fff;margin-bottom:8px}
+.pain span{font-size:15.5px}
+.goal{margin-top:56px;display:flex;gap:28px;align-items:center;padding:36px 40px;border-radius:24px;background:linear-gradient(110deg,var(--gold),#F1DCA6);color:var(--navy)}
+.goal b{font-family:Akshar;font-size:22px;font-weight:600;white-space:nowrap}
+.goal p{font-size:20px;line-height:1.45}
+
+/* ---------- Território ---------- */
+.role{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.steps{list-style:none;counter-reset:s}
+.steps li{counter-increment:s;display:flex;gap:20px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line);font-size:19px}
+.steps li::before{content:counter(s,decimal-leading-zero);font-family:Akshar;color:var(--lilac);font-size:16px;min-width:26px}
+.steps li span{margin-left:auto;font-size:14px;color:var(--muted)}
+/* matriz simbólico × real / onírico × científico */
+.matrix{position:relative;margin-top:36px;aspect-ratio:16/10;border:1px solid var(--line);border-radius:22px;background:#fff;overflow:hidden;font:600 11px/1 Inter;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.matrix::before,.matrix::after{content:"";position:absolute;background:var(--line)}
+.matrix::before{left:50%;top:14%;bottom:14%;width:1px}
+.matrix::after{top:50%;left:8%;right:8%;height:1px}
+.matrix .ax{position:absolute}
+.matrix .t{top:7%;left:50%;transform:translateX(-50%)}
+.matrix .b{bottom:7%;left:50%;transform:translateX(-50%)}
+.matrix .l{left:3%;top:50%;transform:translateY(-50%);color:var(--lilac)}
+.matrix .r{right:3%;top:50%;transform:translateY(-50%)}
+.matrix .zone{position:absolute;left:14%;right:52%;top:18%;bottom:18%;border-radius:999px;background:radial-gradient(closest-side,rgba(122,79,184,.22),rgba(122,79,184,.06));border:1px dashed var(--lilac)}
+.matrix .old{position:absolute;right:16%;bottom:24%;width:24%;aspect-ratio:1;border-radius:50%;border:1px solid var(--line);background:repeating-linear-gradient(45deg,transparent 0 6px,rgba(97,92,120,.08) 6px 7px)}
+.matrix .tag{position:absolute;font:500 13px/1.3 Inter;letter-spacing:0;text-transform:none;background:var(--navy);color:#fff;padding:6px 12px;border-radius:999px;white-space:nowrap}
+.matrix .tag.a{left:20%;top:44%}
+.matrix .tag.b2{right:13%;bottom:15%;background:#fff;color:var(--muted);border:1px solid var(--line)}
+.terr{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.terr div{border:1px solid var(--line);border-radius:18px;padding:18px 20px;background:#fff}
+.terr b{display:block;font-family:Akshar;font-size:22px;font-weight:600;color:var(--navy)}
+.terr small{display:block;color:var(--muted);font-size:14.5px;line-height:1.5;margin-top:4px}
+.terr .on b{color:var(--lilac)}
+
+/* ---------- Ilustração ---------- */
+.sketch{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:64px}
+.sketch figure{margin:0;border-radius:22px;overflow:hidden;background:#2b2b2b;box-shadow:0 30px 60px -30px rgba(10,8,30,.45)}
+.sketch figcaption,.cap{margin-top:14px;font-size:13px;color:var(--muted)}
+
+/* ---------- Decisões ---------- */
+.dec{display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center;padding:110px 0;border-top:1px solid var(--line)}
+.dec:first-of-type{border-top:0}
+.dec.rev .media{order:-1}
+.dec .num{font-family:Akshar;font-size:72px;line-height:1;color:#E2D7F0;font-weight:600;margin-bottom:12px}
+.dec p{margin-top:18px}
+.pc{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin-top:28px;padding:22px 24px;border-radius:18px;background:var(--bg);border:1px solid var(--line);font-size:15.5px}
+.pc dt{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--lilac);padding-top:4px;font-weight:600}
+.media{position:relative}
+.sheet{border-radius:30px;overflow:hidden;background:var(--lilac-soft);padding:28px;box-shadow:0 40px 80px -40px rgba(10,8,30,.4)}
+.pin-zoom{position:absolute;left:-24px;bottom:-28px;width:230px;background:#fff;border-radius:20px;padding:16px;box-shadow:0 24px 48px -16px rgba(10,8,30,.35);font-size:13px}
+.pin-zoom .pin{display:flex;align-items:center;gap:10px}
+.pin-zoom .pin+.pin{margin-top:10px}
+.pin-zoom .dot{width:26px;height:26px;flex:none;border-radius:50%;background:var(--c)}
+.pin-zoom .dot.foil{background:linear-gradient(135deg,#F6DFA0,#C8963E 55%,#F1D58C)}
+.stack{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.chip-img{border-radius:10px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(10,8,30,.5);background:var(--navy)}
+.chip-img.tilt{transform:rotate(-3deg) translateY(16px)}
+.chip-img.tilt2{transform:rotate(2.5deg)}
+.astro-sheet{background:var(--navy);padding:clamp(28px,4vw,48px)}
+.astro-sheet .mk.lass{width:100%;color:var(--gold)}
+
+/* ---------- Identidade (seção em destaque) ---------- */
+.brand{background:var(--lilac-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.brand h2{font-size:clamp(48px,7.5vw,104px)}
+.ds{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;margin-top:64px}
+.tile{border-radius:26px;padding:40px;background:#fff;border:1px solid var(--line);position:relative;overflow:hidden}
+.tile.logo-t{background:var(--navy);display:grid;place-items:center;min-height:clamp(340px,36vw,480px)}
+.tile.logo-t .mk.logo{width:min(80%,560px);color:var(--gold)}
+.tile h4{font:600 11px/1 Inter;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:22px}
+.sw{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.sw i{display:block;aspect-ratio:1.155;background:var(--c);clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%)}
+.sw i.foil{background:linear-gradient(135deg,#F6DFA0,#C8963E 55%,#F1D58C)}
+.sw small{display:block;font-size:11px;color:var(--muted);margin-top:6px;font-variant-numeric:tabular-nums}
+.fonts{display:grid;gap:10px}
+.fonts div{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:10px}
+.fonts b{font-family:Akshar;font-weight:500;font-size:26px;color:var(--navy)}
+.fonts span{font-size:13px;color:var(--muted)}
+.ds-2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:20px}
+.ds-2 .tile{display:flex;flex-direction:column;background:var(--navy);border-color:var(--navy)}
+.ds-2 .tile h4{color:var(--lilac-2);opacity:.75}
+.astros{display:grid;grid-template-columns:repeat(3,1fr);gap:22px 18px;align-items:center;justify-items:center;flex:1;padding:8px 4px}
+.astros .mk{width:100%;color:var(--gold)}
+.astros.h4g{grid-template-columns:repeat(2,1fr)}
+.film{margin-top:20px;border-radius:26px;overflow:hidden;background:var(--navy);padding:clamp(40px,7vw,96px) clamp(24px,6vw,96px);display:grid;place-items:center}
+.film .mk.lock{width:min(100%,880px);color:var(--gold)}
+.film p{margin-top:28px;color:var(--lilac-2);opacity:.7;font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+
+/* ---------- Aplicações (seção em destaque) ---------- */
+.result{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:40px}
+.stat b{display:block;font-family:Akshar;font-weight:600;font-size:clamp(44px,5vw,64px);line-height:1;color:var(--navy)}
+.stat span{font-size:14px;color:var(--muted)}
+.note{font-size:12.5px;color:var(--muted);margin-top:16px}
+.apps{background:var(--navy);color:var(--lilac-2)}
+.apps h2{color:#fff;font-size:clamp(56px,9vw,128px)}
+.apps .eyebrow{color:var(--gold)}
+.apps .lead{color:#fff}
+.apps .stat b{color:#fff}
+.apps .stat span,.apps .note{color:var(--lilac-2);opacity:.8}
+.apps-head{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end}
+.apps figure{margin:0}
+.apps .shot{aspect-ratio:16/10;border-radius:24px;box-shadow:0 50px 100px -40px rgba(0,0,0,.7)}
+.apps figcaption{margin-top:14px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--lilac-2);opacity:.7}
+.app-hero{margin-top:88px!important}
+.app-gal{display:grid;grid-template-columns:1.5fr 1fr;gap:24px;margin-top:40px;align-items:start}
+.app-gal .shot.v{aspect-ratio:4/5}
+.app-gal .shot.h{aspect-ratio:3/2}
+@media (max-width:900px){.apps-head,.app-gal{grid-template-columns:1fr;gap:32px}.app-hero{margin-top:56px!important}.apps .shot{border-radius:16px}}
+
+footer{background:var(--navy);color:var(--lilac-2);border-top:1px solid rgba(226,215,243,.12)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;padding:48px 24px}
+
+/* ---------- Header do site (igual ao Espaces) ---------- */
+.mh{--h:52px;--hh:136px;position:sticky;top:0;z-index:50;background:#0b0b0b;color:#f2f2f0;font-family:Inter,system-ui,sans-serif}
+.mh-wrap{max-width:1440px;margin:0 auto;padding:0 clamp(16px,4vw,48px);height:var(--hh);display:flex;align-items:center;justify-content:space-between;gap:32px}
+.mh-logo{display:flex;align-items:center;height:var(--h);color:inherit;text-decoration:none;flex:none}
+.mh-mark{position:relative;width:var(--h);height:var(--h);overflow:hidden;flex:none}
+.mh-col{position:absolute;top:0;width:30%;height:100%;background:currentColor}
+.mh-col.m0{left:0}.mh-col.m1{left:35%}.mh-col.m2{left:70%}
+.mh-logo.play .m0{animation:mhc0 2.4s 1 both}.mh-logo.play .m1{animation:mhc1 2.4s 1 both}.mh-logo.play .m2{animation:mhc2 2.4s 1 both}
+.mh-word{margin-left:calc(var(--h) * 141 / 360);height:var(--h);overflow:visible;flex:none}
+@keyframes mhc0{0%,1.19%,15.73%,16.91%,29.69%,30.87%,45.41%,46.6%{transform:translateY(0);animation-timing-function:cubic-bezier(.45,0,.2,1)}57.88%,59.06%{transform:translateY(-28.74%);animation-timing-function:cubic-bezier(.45,0,.2,1)}68.55%,69.73%{transform:translateY(-61.81%);animation-timing-function:cubic-bezier(.45,0,.2,1)}84.27%,85.46%{transform:translateY(-114.17%);animation-timing-function:cubic-bezier(.45,0,.2,1)}100%{transform:translateY(0)}}
+@keyframes mhc1{0%,1.19%{transform:translateY(0);animation-timing-function:cubic-bezier(.45,0,.2,1)}15.73%,16.91%{transform:translateY(114.17%);animation-timing-function:cubic-bezier(.45,0,.2,1)}29.69%,30.87%{transform:translateY(28.35%);animation-timing-function:cubic-bezier(.45,0,.2,1)}45.41%,46.6%{transform:translateY(61.42%);animation-timing-function:cubic-bezier(.45,0,.2,1)}57.88%,59.06%,68.55%,69.73%{transform:translateY(0);animation-timing-function:cubic-bezier(.45,0,.2,1)}84.27%,85.46%{transform:translateY(114.17%);animation-timing-function:cubic-bezier(.45,0,.2,1)}100%{transform:translateY(0)}}
+@keyframes mhc2{0%,1.19%{transform:translateY(0);animation-timing-function:cubic-bezier(.45,0,.2,1)}15.73%,16.91%,29.69%,30.87%{transform:translateY(-114.17%);animation-timing-function:cubic-bezier(.45,0,.2,1)}45.41%,46.6%{transform:translateY(0);animation-timing-function:cubic-bezier(.45,0,.2,1)}57.88%,59.06%{transform:translateY(-61.81%);animation-timing-function:cubic-bezier(.45,0,.2,1)}68.55%,69.73%{transform:translateY(-28.74%);animation-timing-function:cubic-bezier(.45,0,.2,1)}84.27%,85.46%{transform:translateY(0);animation-timing-function:cubic-bezier(.45,0,.2,1)}100%{transform:translateY(0)}}
+.mh-nav{display:flex;align-items:center;gap:clamp(8px,1vw,14px);flex:none}
+.mh-links{display:flex;gap:2px;list-style:none;margin:0;padding:0;white-space:nowrap}
+.mh-links a{display:block;color:inherit;text-decoration:none;font:600 26px/1 Akshar,'Arial Narrow',sans-serif;text-transform:uppercase;letter-spacing:.01em;padding:10px 8px 7px;border:2px solid transparent}
+.mh-links a[aria-current="page"]{border-color:#f2f2f0}
+.mh-social{display:flex;gap:10px;list-style:none;margin:0;padding:0}
+.mh-social a{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#f2f2f0;color:#0b0b0b}
+.mh-social svg{width:19px;height:19px;fill:currentColor}
+.mh-btn{display:none;width:44px;height:44px;border:0;background:none;padding:10px;margin-right:-10px;cursor:pointer;color:inherit}
+.mh-btn span{display:block;height:2px;background:currentColor;margin:6px 0;transition:transform .3s,opacity .2s}
+.mh.open .mh-btn span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.mh.open .mh-btn span:nth-child(2){opacity:0}
+.mh.open .mh-btn span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+@media (max-width:1100px){.mh-btn{display:block;flex:none}.mh-nav{position:fixed;inset:var(--hh) 0 auto 0;height:calc(100dvh - var(--hh));background:#0b0b0b;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:40px;padding:32px clamp(16px,4vw,48px) 40px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s,transform .25s,visibility 0s .25s}.mh.open .mh-nav{opacity:1;visibility:visible;transform:none;transition:opacity .25s,transform .25s}.mh-links{flex-direction:column;gap:8px;margin-left:-14px}.mh-links a{font-size:clamp(40px,11vw,64px);line-height:1.05;padding:10px 14px 4px;border-width:3px}.mh-social a{width:48px;height:48px}}
+@media (max-width:900px){.mh{--h:40px;--hh:100px}}
+@media (max-width:640px){.mh{--h:min(30px,7vw);--hh:76px}.mh-wrap{gap:16px}}
+body.mh-lock{overflow:hidden}
+.mh{transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.mh.hide{transform:translateY(-100%)}
+@media (prefers-reduced-motion:reduce){.mh{transition:none}}
+
+.rv{opacity:0;transform:translateY(40px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+@media (max-width:900px){
+  section{padding:88px 0}
+  .intro,.role,.dec,.result,.ds{grid-template-columns:1fr;gap:48px}
+  .dec.rev .media{order:0}
+  .pains,.ds-2{grid-template-columns:1fr}
+  .goal{flex-direction:column;align-items:flex-start;gap:8px}
+  .pin-zoom{position:relative;left:auto;bottom:auto;margin:-28px 0 0 12px;width:220px}
+  .chip-img.tilt,.chip-img.tilt2{transform:none}
+  footer .wrap{flex-direction:column;gap:16px}
+  .stores .arw{display:none}
+  .terr{grid-template-columns:1fr}
+  .tile{padding:28px}
+  .hero-shot .shot{border-radius:14px}
+}
+@media (max-width:560px){.sketch{grid-template-columns:1fr}.matrix .tag{font-size:11px;padding:5px 9px}.matrix{font-size:9.5px}}
+</style>
+<link rel="stylesheet" href="../assets/case.css">
+</head>
+<body>
+
+<header class="mh" id="mh">
+  <div class="mh-wrap">
+    <a class="mh-logo" href="../index.html#/" aria-label="MINUTTI STUDIO — projetos">
+      <span class="mh-mark" aria-hidden="true"><i class="mh-col m0"></i><i class="mh-col m1"></i><i class="mh-col m2"></i></span>
+      <svg class="mh-word" viewBox="0 0 2960.71875 360" width="246.7265625" height="30" aria-hidden="true"><text x="0" y="360" font-family="Akshar, 'Arial Narrow', sans-serif" font-size="503.4965034965035" fill="currentColor"><tspan font-weight="600">MINUTTI</tspan><tspan font-weight="300">STUDIO</tspan></text></svg>
+    </a>
+    <button class="mh-btn" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mh-nav"><span></span><span></span><span></span></button>
+    <nav class="mh-nav" id="mh-nav" aria-label="Principal">
+      <ul class="mh-links">
+        <li><a href="../index.html#/" aria-current="page">Projetos</a></li>
+        <li><a href="../index.html#/sobre">Sobre mim</a></li>
+        <li><a href="../index.html#/contato">Contato</a></li>
+      </ul>
+      <ul class="mh-social">
+        <li><a href="https://www.linkedin.com/in/felipeminuttiteixeira/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3zM9.5 9.75h3.8v1.6h.06c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.77 2.5 4.77 5.76V21h-4v-5.2c0-1.24-.02-2.84-1.8-2.84-1.8 0-2.07 1.36-2.07 2.75V21h-4z"/></svg></a></li>
+        <li><a href="https://www.behance.net/felipeminutti" target="_blank" rel="noopener noreferrer" aria-label="Behance"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.2 11.4c.9-.43 1.5-1.2 1.5-2.4C9.7 6.6 7.9 6 5.8 6H0v12h6c2.2 0 4.3-1.06 4.3-3.5 0-1.5-.72-2.6-2.1-3.1zM2.7 8.1h2.6c1 0 1.9.28 1.9 1.42 0 1.06-.7 1.48-1.7 1.48H2.7zm2.9 7.8H2.7v-3.3h3c1.2 0 2 .52 2 1.8 0 1.27-.92 1.5-2.1 1.5zM18.8 9.3c-2.9 0-4.9 2.2-4.9 5 0 2.95 1.86 4.97 4.9 4.97 2.3 0 3.8-1.04 4.5-3.25h-2.3c-.25.82-1.3 1.26-2.1 1.26-1.56 0-2.38-.92-2.38-2.47h6.9c.1-3.1-1.6-5.5-4.6-5.5zm-2.3 4.06c.08-1.3.95-2.1 2.24-2.1 1.36 0 2.04.8 2.16 2.1zM15.9 6.9h5.6v1.4h-5.6z"/></svg></a></li>
+        <li><a href="https://github.com/felipeminutti" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.26 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ················· HERO ················· -->
+<header class="hero hero--dark">
+  <div class="wrap"><a class="back-top" href="../index.html#/">← Voltar aos projetos</a></div>
+  <div class="wrap hero-head">
+    <h1 class="lockup case-logo rv"><span class="mk logo" role="img" aria-label="Cosmos"></span></h1>
+    <p class="case-sub rv">Uma linha de cadernos que leva o espaço <em>do telescópio aos sonhos</em>.</p>
+    <div class="tags rv">
+      <span>Ilustração</span><span>Identidade visual</span><span>Assets gráficos</span><span>Material escolar</span>
+    </div>
+  </div>
+  <div class="hero-shot rv">
+    <div class="shot"><img src="img/mock_hero.webp" alt="Dois cadernos Cosmos com capa fosca, logotipo em hot stamping dourado e espiral dourada"></div>
+  </div>
+</header>
+
+<dl class="meta">
+  <div><dt>Papel</dt><dd>Designer (projeto completo)</dd></div>
+  <div><dt>Escopo</dt><dd>Pesquisa, ilustração, marca, capas</dd></div>
+  <div><dt>Contexto</dt><dd>Teste para a Foroni</dd></div>
+  <div><dt>Ano</dt><dd>2024</dd></div>
+  <div><dt>Ferramentas</dt><dd>Procreate · Illustrator</dd></div>
+</dl>
+
+<div class="stores">
+  <div class="wrap">
+    <small>O processo, em quatro etapas</small>
+    <span class="ods"><b>01</b>Territórios inspiracionais</span>
+    <span class="arw">→</span>
+    <span class="ods"><b>02</b>Definição do território</span>
+    <span class="arw">→</span>
+    <span class="ods"><b>03</b>Execução</span>
+    <span class="arw">→</span>
+    <span class="ods now"><b>04</b>Coleção</span>
+  </div>
+</div>
+
+<!-- ················· CONTEXTO ················· -->
+<section>
+  <div class="wrap intro">
+    <div class="rv">
+      <p class="eyebrow">Contexto</p>
+      <p class="big-quote">O espaço já virou estampa. <mark>O desafio era não parecer mais do mesmo.</mark></p>
+    </div>
+    <div class="rv">
+      <p class="lead">Um teste para a Foroni: criar uma coleção de cadernos escolares com o tema Cosmos, da pesquisa de tendências até a capa pronta para produção.</p>
+      <p class="muted">Galáxias, nebulosas e planetas aparecem em cadernos, mochilas e estojos há anos. Antes de desenhar, o projeto mapeou como o espaço vem sendo representado para escolher um território que ainda tivesse frescor.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ················· DESAFIO ················· -->
+<section class="dark">
+  <div class="wrap">
+    <p class="eyebrow">Desafio</p>
+    <h2 class="rv">Duas leituras do espaço,<br>uma já gasta.</h2>
+    <div class="pains rv">
+      <div class="pain"><div class="n">01</div><b>Galaxy-core</b><span>Teve seu ápice entre 2016 e 2018: espaço realista, tons frios e pouco saturados, com pontos quentes nas estrelas e nas galáxias.</span></div>
+      <div class="pain"><div class="n">02</div><b>Novo space-core</b><span>Surge da saturação do estilo anterior. Dispensa o realismo e retoma as representações poéticas do século XX, com órbitas e constelações em desenho esquemático.</span></div>
+      <div class="pain"><div class="n">03</div><b>Tendência defasada</b><span>As representações comerciais do espaço ainda repetem o galaxy-core, e a coleção não podia esbarrar nelas.</span></div>
+    </div>
+    <div class="goal rv">
+      <b>Objetivo →</b>
+      <p>Uma coleção mais onírica que científica, que transite sem barreiras entre o simbólico e o real.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ················· TERRITÓRIO ················· -->
+<section>
+  <div class="wrap role">
+    <div class="rv">
+      <p class="eyebrow">Território</p>
+      <h2>Do telescópio<br>aos sonhos.</h2>
+      <p class="lead" style="margin-top:28px">“Cosmos” virou um conceito amplo: vai da exploração do universo até os limites do universo mental que a gente alcança sonhando.</p>
+      <div class="matrix" role="img" aria-label="Matriz com os eixos simbólico e real, onírico e científico. O território escolhido fica no lado onírico e ocupa do simbólico ao real.">
+        <span class="ax t">Simbólico</span><span class="ax b">Real</span><span class="ax l">Onírico</span><span class="ax r">Científico</span>
+        <span class="zone"></span><span class="old"></span>
+        <span class="tag a">Cosmos</span><span class="tag b2">Galaxy-core</span>
+      </div>
+      <div class="terr">
+        <div class="on"><b>Onírico</b><small>Mais referências possíveis, sem se prender ao ambiente espacial científico.</small></div>
+        <div><b>Científico</b><small>Mantido como fonte dos assets, vindos dos telescópios espaciais.</small></div>
+      </div>
+    </div>
+    <ol class="steps rv">
+      <li>Territórios inspiracionais <span>Pesquisa</span></li>
+      <li>Matriz e definição do território <span>Estratégia</span></li>
+      <li>Moodboards da capa e dos assets <span>Pesquisa</span></li>
+      <li>Ilustração das capas <span>Ilustração</span></li>
+      <li>Assets e logotipo <span>Marca</span></li>
+      <li>Paleta e acabamento <span>Produção</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ················· IDENTIDADE ················· -->
+<section class="brand">
+  <div class="wrap">
+    <p class="eyebrow">Identidade visual</p>
+    <h2 class="rv">Telescópios, astros<br>e um nome em órbita.</h2>
+    <p class="lead rv" style="margin-top:24px">O logotipo combina duas fontes, e os assets redesenham o Hubble, o James Webb e os astros em traço geométrico. Tudo sai em uma cor só, pronto para virar hot stamping.</p>
+    <div class="ds rv">
+      <div class="tile logo-t"><span class="mk logo" role="img" aria-label="Logotipo Cosmos"></span></div>
+      <div class="tile">
+        <h4>Cores</h4>
+        <div class="sw">
+          <div><i style="--c:#231F20"></i><small>#231F20</small></div>
+          <div><i style="--c:#E7EC26"></i><small>#E7EC26</small></div>
+          <div><i style="--c:#EAC820"></i><small>#EAC820</small></div>
+        </div>
+        <p class="muted" style="font-size:15px;margin-top:16px">A paleta vem dos espelhos hexagonais do Telescópio Espacial James Webb. Na capa, o amarelo vira dourado e dá um acabamento premium.</p>
+        <h4 style="margin-top:32px">Tipografia do logotipo</h4>
+        <div class="fonts">
+          <div><b>Rafaella</b><span>Letras principais</span></div>
+          <div><b>The Seasons</b><span>Ligaduras e ornamentos</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-2 rv">
+      <div class="tile"><h4>Telescópio James Webb</h4>
+        <div class="astros">
+          <span class="mk" style="--m:url(img/jwst1.png);aspect-ratio:412/446;width:80%"></span>
+          <span class="mk" style="--m:url(img/jwst2.png);aspect-ratio:606/438"></span>
+          <span class="mk" style="--m:url(img/jwst3.png);aspect-ratio:600/523"></span>
+          <span class="mk" style="--m:url(img/jwst4.png);aspect-ratio:609/527"></span>
+          <span class="mk" style="--m:url(img/jwst5.png);aspect-ratio:609/528"></span>
+          <span class="mk" style="--m:url(img/jwst6.png);aspect-ratio:559/644;width:85%"></span>
+        </div>
+      </div>
+      <div class="tile"><h4>Telescópio Hubble</h4>
+        <div class="astros h4g">
+          <span class="mk" style="--m:url(img/hubble1.png);aspect-ratio:443/530;width:70%"></span>
+          <span class="mk" style="--m:url(img/hubble2.png);aspect-ratio:527/526;width:80%"></span>
+          <span class="mk" style="--m:url(img/hubble3.png);aspect-ratio:534/504;width:80%"></span>
+          <span class="mk" style="--m:url(img/hubble4.png);aspect-ratio:592/592;width:80%"></span>
+        </div>
+      </div>
+      <div class="tile"><h4>Astros</h4>
+        <div class="astros">
+          <span class="mk" style="--m:url(img/astro1.png);aspect-ratio:671/581"></span>
+          <span class="mk" style="--m:url(img/astro2.png);aspect-ratio:524/523"></span>
+          <span class="mk" style="--m:url(img/astro3.png);aspect-ratio:833/431"></span>
+          <span class="mk" style="--m:url(img/astro4.png);aspect-ratio:500/499"></span>
+          <span class="mk" style="--m:url(img/astro5.png);aspect-ratio:695/500"></span>
+          <span class="mk" style="--m:url(img/astro6.png);aspect-ratio:500/499"></span>
+        </div>
+      </div>
+    </div>
+    <div class="film rv">
+      <span class="mk lock" role="img" aria-label="Logotipo Cosmos com os assets dos telescópios e dos astros sobrepostos às letras"></span>
+      <p>Logotipo com os assets sobrepostos, a versão usada nas capas</p>
+    </div>
+  </div>
+</section>
+
+<!-- ················· ILUSTRAÇÃO ················· -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Ilustração</p>
+    <h2 class="rv">Duas capas,<br>pintadas à mão.</h2>
+    <p class="lead muted rv" style="margin-top:24px">As capas foram desenhadas no Procreate, do esboço a lápis à pintura final. As figuras humanas levam o tema para o lado dos sonhos: em vez de um astronauta, são corpos que flutuam e orbitam.</p>
+    <div class="sketch rv">
+      <figure><img src="img/rascunho_09.webp" alt="Quatro etapas da primeira capa no Procreate: esboço, planeta, céu e a figura flutuando" loading="lazy"></figure>
+      <figure><img src="img/rascunho_11.webp" alt="Quatro etapas da segunda capa no Procreate: esboço, planetas, cores e as duas figuras" loading="lazy"></figure>
+    </div>
+    <p class="cap rv">Etapas das duas capas no Procreate</p>
+  </div>
+</section>
+
+<!-- ················· DECISÕES ················· -->
+<section style="background:#fff;border-top:1px solid var(--line)">
+  <div class="wrap">
+    <p class="eyebrow">Decisões de design</p>
+    <h2 class="rv">Três escolhas que<br>definem a coleção.</h2>
+
+    <!-- 01 ONÍRICO -->
+    <article class="dec">
+      <div class="rv">
+        <div class="num">01</div>
+        <h3>Corpos que flutuam<br>no lugar de astronautas.</h3>
+        <p class="muted">As duas capas dispensam o realismo. Os planetas têm textura de pintura, e as figuras humanas, sem rosto, flutuam e orbitam como num sonho.</p>
+        <dl class="pc"><dt>Problema</dt><dd>O espaço realista já está saturado nas prateleiras.</dd><dt>Escolha</dt><dd>Uma ilustração onírica que ainda reconhece o real.</dd></dl>
+      </div>
+      <div class="media stack rv">
+        <div class="chip-img tilt"><img src="img/capa_c1.webp" alt="Capa 1: figura flutuando sob um feixe de luz, com planeta e anel dourado" loading="lazy"></div>
+        <div class="chip-img tilt2"><img src="img/capa_c2.webp" alt="Capa 2: dois planetas, duas figuras em órbita e hexágonos dourados" loading="lazy"></div>
+      </div>
+    </article>
+
+    <!-- 02 ASSETS -->
+    <article class="dec rev">
+      <div class="rv">
+        <div class="num">02</div>
+        <h3>O científico entra<br>pelos detalhes.</h3>
+        <p class="muted">O realismo saiu da ilustração, mas a ciência continua nos assets. O Hubble, os espelhos do James Webb e os astros viram ícones geométricos em traço fino, uma referência ao desenho esquemático de órbitas e constelações.</p>
+        <dl class="pc"><dt>Problema</dt><dd>Sem nenhum elemento científico, o tema perde a referência.</dd><dt>Escolha</dt><dd>Assets desenhados a partir dos telescópios espaciais.</dd></dl>
+      </div>
+      <div class="media rv">
+        <div class="sheet astro-sheet"><span class="mk lass" role="img" aria-label="Logotipo Cosmos com quatro assets acima: espelho hexagonal, lua, globo e estrela"></span></div>
+      </div>
+    </article>
+
+    <!-- 03 ACABAMENTO -->
+    <article class="dec">
+      <div class="rv">
+        <div class="num">03</div>
+        <h3>Capa fosca<br>e detalhes em ouro.</h3>
+        <p class="muted">A capa fosca deixa a ilustração mais densa, como o céu à noite. O logotipo e os assets saem em hot stamping dourado, e a espiral acompanha a mesma cor.</p>
+        <dl class="pc"><dt>Problema</dt><dd>A capa precisava parecer premium sem perder o tom onírico.</dd><dt>Escolha</dt><dd>Levar o amarelo da paleta para o dourado metálico.</dd></dl>
+      </div>
+      <div class="media rv">
+        <div class="sheet" style="padding:0;background:var(--navy)"><img src="img/mock_detail.webp" alt="Detalhe do caderno: logotipo em hot stamping dourado sobre a capa fosca e a espiral dourada" loading="lazy"></div>
+        <div class="pin-zoom">
+          <div class="pin"><span class="dot" style="--c:#221F52"></span> Capa com laminação fosca</div>
+          <div class="pin"><span class="dot foil"></span> Hot stamping dourado</div>
+          <div class="pin"><span class="dot foil"></span> Espiral dourada</div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ················· COLEÇÃO ················· -->
+<section class="apps">
+  <div class="wrap">
+    <div class="apps-head">
+      <div class="rv">
+        <p class="eyebrow">Coleção</p>
+        <h2>A<br>coleção.</h2>
+      </div>
+      <div class="rv">
+        <p class="lead">Dois cadernos universitários com espiral, capa fosca e dourado no logotipo, nos assets e na espiral.</p>
+        <div class="stats">
+          <div class="stat"><b>2</b><span>capas ilustradas</span></div>
+          <div class="stat"><b>16</b><span>assets gráficos</span></div>
+          <div class="stat"><b>3</b><span>cores na paleta</span></div>
+        </div>
+        <p class="note">Mockups criados para o portfólio.</p>
+      </div>
+    </div>
+    <figure class="app-hero rv"><div class="shot"><img src="img/mock_front.webp" alt="Os dois cadernos Cosmos lado a lado, vistos de frente, sobre fundo lilás" loading="lazy"></div><figcaption>As duas capas</figcaption></figure>
+    <div class="app-gal">
+      <figure class="rv"><div class="shot h"><img src="img/mock_stack.webp" alt="Pilha de três cadernos Cosmos com a espiral dourada à mostra" loading="lazy"></div><figcaption>Lombada e espiral</figcaption></figure>
+      <figure class="rv"><div class="shot v"><img src="img/mock_single.webp" alt="Caderno Cosmos com a capa dos dois planetas, em perspectiva" loading="lazy"></div><figcaption>Capa 2</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Minutti Studio · Felipe Minutti</span>
+  </div>
+</footer>
+
+<script>
+  // header: tamanho do wordmark, animação do logo no hover e menu mobile
+  (function(){
+    var mh=document.getElementById('mh'),logo=mh.querySelector('.mh-logo'),word=mh.querySelector('.mh-word'),btn=mh.querySelector('.mh-btn');
+    function fit(){
+      var t=word.querySelector('text'),c=document.createElement('canvas').getContext('2d');
+      c.font='600 200px Akshar, sans-serif';
+      var cap=c.measureText('M').actualBoundingBoxAscent||144;
+      t.setAttribute('font-size',200*360/cap);
+      var w=t.getBBox().width;if(!w)return;
+      word.setAttribute('viewBox','0 0 '+w+' 360');
+      word.setAttribute('width',w*word.getBoundingClientRect().height/360);
+    }
+    if(document.fonts&&document.fonts.load)Promise.all([document.fonts.load('600 100px Akshar'),document.fonts.load('300 100px Akshar')]).then(fit,fit);
+    setTimeout(fit,60);
+    var lastW=innerWidth;addEventListener('resize',function(){if(innerWidth!==lastW){lastW=innerWidth;fit()}});
+    logo.addEventListener('mouseenter',function(){if(!logo.classList.contains('play')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)logo.classList.add('play')});
+    logo.querySelector('.m2').addEventListener('animationend',function(){logo.classList.remove('play')});
+    function setOpen(o){mh.classList.toggle('open',o);document.body.classList.toggle('mh-lock',o);btn.setAttribute('aria-expanded',String(o));btn.setAttribute('aria-label',o?'Fechar menu':'Abrir menu')}
+    btn.addEventListener('click',function(){setOpen(!mh.classList.contains('open'))});
+    addEventListener('keydown',function(e){if(e.key==='Escape')setOpen(false)});
+  })();
+
+/* Header some ao rolar para baixo e volta ao rolar para cima */
+(function(){
+  var h=document.getElementById('mh'),lastY=scrollY,ticking=false;
+  function update(){
+    ticking=false;
+    var y=Math.max(scrollY,0),dy=y-lastY;
+    if(document.getElementById('mh').classList.contains('open')||y<h.offsetHeight){h.classList.remove('hide')}
+    else if(dy>6){h.classList.add('hide')}
+    else if(dy<-6){h.classList.remove('hide')}
+    if(Math.abs(dy)>6||y<h.offsetHeight)lastY=y;
+  }
+  addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(update)}},{passive:true});
+})();
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

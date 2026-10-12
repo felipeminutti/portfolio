@@ -1,0 +1,11 @@
+Case Cosmos — como colocar no portfólio
+
+1. Copie a pasta "cosmos" para a raiz do site (ao lado de espaces/, gardano/...).
+2. Copie assets/capa-cosmos.jpg e assets/hover-cosmos.jpg para a pasta assets/ do site.
+3. No index.html, adicione esta linha na lista PROJECTS:
+
+  {slug:'cosmos', title:'Cosmos', cat:['Branding','Ilustração'], year:2024, href:'cosmos/index.html', cover:'assets/capa-cosmos.jpg', hover:'assets/hover-cosmos.jpg'},
+
+   (se não quiser um filtro novo "Ilustração", use só cat:'Branding')
+
+A pasta "mockups" tem os renders em alta (PNG) para Behance/redes.

@@ -123,11 +123,13 @@ body.mh-lock{overflow:hidden}
 .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 .dot-carbon { background: var(--ink); } .dot-resin { background: var(--resin); }
 
-/* ---------- ficha */
-.facts { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: var(--gap); margin-top: 72px; padding-block: 28px; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
-.facts dt { font-size: 12px; color: var(--slate); letter-spacing: -0.12px; margin-bottom: 6px; }
-.facts dd { margin: 0; font-size: 14px; line-height: 1.43; letter-spacing: -0.224px; font-weight: 500; }
-@media (max-width: 760px) { .facts { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+/* ---------- ficha: mesma faixa dos outros cases (Albero, Zero 11, Espaces) */
+.meta { display: grid; grid-template-columns: repeat(5, 1fr); margin: 56px 0 0; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); background: var(--white); font-family: Inter, system-ui, sans-serif; letter-spacing: normal; }
+.meta div { padding: 28px 24px; border-right: 1px solid var(--hairline); }
+.meta div:last-child { border-right: 0; }
+.meta dt { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--slate); margin-bottom: 6px; }
+.meta dd { margin: 0; font-weight: 500; font-size: 15.5px; line-height: 1.65; }
+@media (max-width: 900px) { .meta { grid-template-columns: 1fr 1fr; } .meta div { border-bottom: 1px solid var(--hairline); } }
 
 /* ---------- seções */
 section { scroll-margin-top: 64px; }
@@ -235,16 +237,15 @@ footer .wide { display: flex; justify-content: space-between; gap: 16px; flex-wr
     </div>
 
     <figure class="hero-render wide"><img src="img/capa.jpg" alt="Par de peças morfeo em fibra de carbono com haste de resina azul, em perspectiva sobre fundo claro" width="1920" height="1080"></figure>
-
-    <div class="wrap">
-      <dl class="facts">
-        <div><dt>Disciplina</dt><dd>AUP2007 · MOP: Laboratório do Futuro</dd></div>
-        <div><dt>Escopo</dt><dd>Pesquisa, conceito, modelagem 3D e render</dd></div>
-        <div><dt>Modelagem</dt><dd>Rhino 8</dd></div>
-        <div><dt>Ano</dt><dd>2026</dd></div>
-      </dl>
-    </div>
   </section>
+
+  <dl class="meta">
+    <div><dt>Papel</dt><dd>Designer</dd></div>
+    <div><dt>Escopo</dt><dd>Pesquisa, conceito, modelo 3D, render</dd></div>
+    <div><dt>Contexto</dt><dd>AUP2007 · Laboratório do Futuro</dd></div>
+    <div><dt>Ano</dt><dd>2026</dd></div>
+    <div><dt>Ferramenta</dt><dd>Rhino 8</dd></div>
+  </dl>
 
   <!-- RENDERS -->
   <section class="band" aria-labelledby="galeria-t">

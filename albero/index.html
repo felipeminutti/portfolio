@@ -98,6 +98,8 @@ section{padding:140px 0}
 .xr-head{position:absolute;top:56px;left:0;right:0;pointer-events:none}
 .xr-steps{position:relative;margin-top:-100vh;margin-top:-100svh;pointer-events:none}
 .xr-step{min-height:100vh;min-height:100svh;display:flex;align-items:center}
+/* sem width, o .wrap encolhe para a largura do cartão e o margin:auto o centraliza, por cima do modelo */
+.xr-step .wrap{width:100%}
 .xr-step .card{max-width:420px;pointer-events:auto;opacity:.18;transform:translateY(16px);transition:opacity .5s,transform .5s}
 .xr-step.on .card{opacity:1;transform:none}
 .xr-step .num{letter-spacing:-.04em;font-size:64px;line-height:1;color:#D2CCBF;font-weight:600;margin-bottom:12px}

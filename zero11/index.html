@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Akshar:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* Mesma estrutura dos cases Espaces, Blin e Albero. Só os tokens mudam para as cores do Zero 11 (asfalto, concreto e vermelho).
-   Diferença deste case: os 7 colecionáveis (assets/modelos/*.stl) são o protagonista da seção "A coleção". */
+   Diferença deste case: os 7 colecionáveis (img/modelos/*.stl) são o protagonista da seção "A coleção". */
 :root{
   --case-accent:var(--lilac);
   --navy:#232323; --navy-2:#3A3A3A; --lilac:#E5141E; --lilac-2:#E4E2DE; --lilac-soft:#EAE8E4;
@@ -235,7 +235,7 @@ body.mh-lock{overflow:hidden}
   </div>
 
   <figure class="hero-shot rv in">
-    <img src="assets/colecao.jpg" alt="Os sete colecionáveis do Zero 11 lado a lado: Copan, Biblioteca Mário de Andrade, Pinacoteca, Casa das Rosas, Museu da Língua Portuguesa, Japan House e MASP" width="2400" height="1000" fetchpriority="high">
+    <img src="img/colecao.jpg" alt="Os sete colecionáveis do Zero 11 lado a lado: Copan, Biblioteca Mário de Andrade, Pinacoteca, Casa das Rosas, Museu da Língua Portuguesa, Japan House e MASP" width="2400" height="1000" fetchpriority="high">
   </figure>
 </header>
 
@@ -299,7 +299,7 @@ body.mh-lock{overflow:hidden}
 <section class="xr" id="xr" aria-label="A coleção">
   <div class="xr-stage" id="xrStage">
     <canvas id="xrCanvas" aria-label="Modelo 3D do colecionável. Arraste para girar."></canvas>
-    <div class="fallback"><img src="assets/colecao.jpg" alt="Os sete colecionáveis lado a lado"></div>
+    <div class="fallback"><img src="img/colecao.jpg" alt="Os sete colecionáveis lado a lado"></div>
     <div class="dim" id="dim"><span></span></div>
     <div class="wrap xr-head"><p class="eyebrow">A coleção</p></div>
     <div class="picker">
@@ -430,7 +430,7 @@ body.mh-lock{overflow:hidden}
   document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 
   // As peças da coleção (mesma ordem dos passos 1–7). w × d × h em mm, do modelo 3D final.
-  // yaw: giro para a fachada principal ficar de frente para a câmera. pal: cores de cada parte (índices em assets/modelos/*.col, uma por triângulo).
+  // yaw: giro para a fachada principal ficar de frente para a câmera. pal: cores de cada parte (índices em img/modelos/*.col, uma por triângulo).
   window.ZERO11_PIECES=[
     {id:'masp',    name:'MASP',                        w:62, d:45, h:45, yaw:0,       pal:['#4D4C4B','#A8C9D6','#D93A2D','#5C4837']},
     {id:'rosas',   name:'Casa das Rosas',              w:72, d:62, h:100,yaw:Math.PI, pal:['#F1DDB6','#5B4A24','#3F4E6B']},
@@ -642,7 +642,7 @@ function clockTex(){
   g.beginPath();g.arc(0,0,10,0,Math.PI*2);g.fill();
   const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;
 }
-Promise.all(PIECES.map(P=>Promise.all([loader.loadAsync('assets/modelos/'+P.id+'.stl'),getBin('assets/modelos/'+P.id+'.col')]))).then(res=>{
+Promise.all(PIECES.map(P=>Promise.all([loader.loadAsync('img/modelos/'+P.id+'.stl'),getBin('img/modelos/'+P.id+'.col')]))).then(res=>{
   const geos=res.map(([g,col],i)=>{
     // cores: uma parte por triângulo
     const k=new Uint8Array(col),pal=PIECES[i].pal.map(h=>new THREE.Color(h)),arr=new Float32Array(k.length*9);

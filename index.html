@@ -149,6 +149,12 @@ a:hover .arrow,button:hover .arrow{transform:translateX(4px)}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .chip .n{opacity:.5;margin-left:6px;font-size:12px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(8px,1vw,14px);padding-bottom:clamp(64px,8vw,120px)}
+/* Faixa LABORATÓRIO: largura toda, 1/3 da altura de um card (cards são 32/25 numa grade de --cols colunas) */
+.lab-band{--cols:3;--gap:clamp(8px,1vw,14px);container-type:inline-size;margin-bottom:var(--gap);display:block;text-decoration:none;border-radius:10px}
+.lab-band .in{--h:calc((100cqw - (var(--cols) - 1) * var(--gap)) / var(--cols) * 25 / 96);position:relative;height:var(--h);display:flex;align-items:center;padding:0 clamp(16px,2.4vw,32px);background:#14BA27;color:#0b0b0b;overflow:hidden;border-radius:10px}
+.lab-band canvas{position:absolute;inset:0;width:100%;height:100%}
+.lab-band h2{position:relative;margin:0;font:600 min(calc(var(--h) * .36),calc((100cqw - 64px) / 8))/1 var(--display);text-transform:uppercase;letter-spacing:.01em}
+.lab-band h2 .thin{font-weight:300}
 .card{position:relative;display:block;aspect-ratio:32/25;overflow:hidden;background:var(--soft);text-decoration:none}
 .card svg,.card>img{display:block;width:100%;height:100%;object-fit:cover}
 /* No hover a capa com o logo dá lugar a uma imagem do projeto */
@@ -315,11 +321,13 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
 @media (max-width:900px){
   :root{--logo-h:40px;--header-h:100px}
   .grid{grid-template-columns:repeat(2,1fr)}
+  .lab-band{--cols:2}
 }
 @media (max-width:640px){
   :root{--logo-h:min(30px,7vw);--header-h:76px}
   .header .wrap{gap:16px}
   .grid{grid-template-columns:1fr}
+  .lab-band{--cols:1}
   .sm-cards,.levels{grid-template-columns:1fr}
   .sm-cta h2{font-size:clamp(34px,10vw,44px)}
   .sm-actions .btn,.contact .wa,.sm-cta .btn{width:100%;justify-content:center}
@@ -374,6 +382,7 @@ if(seen){var l=document.getElementById('loader');l.parentNode.removeChild(l);doc
     <div class="wrap">
       <h1 class="sr-only" id="home-title">Projetos</h1>
       <div class="filters" role="group" aria-label="Filtrar projetos" id="filters"></div>
+      <a class="lab-band" id="labBand" href="../minuttilab/index.html"><div class="in"><canvas aria-hidden="true"></canvas><h2><span class="thin">Conheça o</span> Lab</h2></div></a>
       <div class="grid" id="grid"></div>
     </div>
   </section>
@@ -470,7 +479,7 @@ if(seen){var l=document.getElementById('loader');l.parentNode.removeChild(l);doc
       <div class="contact">
         <div class="side">
           <span class="eyebrow">Contato</span>
-          <h1 class="display" id="contato-title">Vamos<br><span class="light">conversar</span></h1>
+          <h1 class="display" id="contato-title"><span class="light">Vamos</span><br>conversar</h1>
           <a class="btn wa" href="https://wa.me/5511917810399?text=Ol%C3%A1%2C%20Felipe!%20Vim%20pelo%20seu%20portf%C3%B3lio." target="_blank" rel="noopener noreferrer">
             <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.79-1.31l-.34-.2-3.56.93.95-3.47-.22-.36a9.38 9.38 0 0 1-1.44-5c0-5.19 4.23-9.42 9.43-9.42 2.52 0 4.88.98 6.66 2.76a9.36 9.36 0 0 1 2.76 6.67c0 5.2-4.23 9.42-9.44 9.42zm8.02-17.44A11.27 11.27 0 0 0 12.05.75C5.8.75.72 5.83.72 12.08c0 2 .52 3.95 1.52 5.66L.62 23.25l5.65-1.48a11.3 11.3 0 0 0 5.78 1.47h.01c6.25 0 11.33-5.08 11.33-11.33 0-3.03-1.18-5.87-3.32-8.01z"/></svg>
             Conversar no WhatsApp <span class="arrow">→</span>
@@ -800,6 +809,63 @@ function hideLoader(){
 }
 if(loader){$('.c2',loader).addEventListener('animationend',hideLoader);
 setTimeout(hideLoader,window.matchMedia('(prefers-reduced-motion: reduce)').matches?400:4000);}
+
+/* ================= Faixa LABORATÓRIO: retícula de pontos no hover ================= */
+// Grade inclinada de pontos pequenos que deslizam juntos e ondulam; o tamanho de cada ponto vem de faixas que se deslocam, então os aglomerados mudam de lugar
+(function(){
+  var band=$('#labBand'),cv=$('canvas',band),title=$('h2',band),ctx=cv.getContext('2d'),W=0,H=0,raf=0,pts=[],box=null,fade='#0b0b0b';
+  var GAP=3.5,COS=Math.cos(-.32),SIN=Math.sin(-.32),still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // a grade é calculada uma vez por tamanho; a cada quadro só mudam deslocamento e raio
+  function size(){
+    var r=cv.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+    var n=Math.ceil(Math.hypot(W,H)/GAP/2)+3,cx=W/2,cy=H/2;pts=[];
+    for(var j=-n;j<=n;j++)for(var i=-n;i<=n;i++){
+      var u=i*GAP,v=j*GAP,x=cx+u*COS-v*SIN,y=cy+u*SIN+v*COS;
+      if(x>-3*GAP&&x<W+3*GAP&&y>-3*GAP&&y<H+3*GAP)pts.push(u,v);
+    }
+    // opacidade dos pontos cresce da esquerda para a direita
+    fade=ctx.createLinearGradient(0,0,W,0);fade.addColorStop(0,'rgba(11,11,11,.15)');fade.addColorStop(1,'rgba(11,11,11,.7)');
+    // área do texto, em coordenadas do canvas
+    var t=title.getBoundingClientRect();box={l:t.left-r.left,r:t.right-r.left,t:t.top-r.top,b:t.bottom-r.top};
+    draw(elapsed);
+  }
+  function draw(s){
+    var cx=W/2,cy=H/2,R=GAP*.44,drift=(s*14)%GAP;
+    ctx.clearRect(0,0,W,H);ctx.fillStyle=fade;ctx.beginPath();
+    for(var k=0;k<pts.length;k+=2){
+      // a grade inteira desliza na diagonal e ondula como um tecido, sem tremer ponto a ponto
+      var u=pts[k]+drift,v=pts[k+1]+Math.sin(u*.025+s*2.4)*1.4;
+      var x=cx+u*COS-v*SIN,y=cy+u*SIN+v*COS;
+      // aglomerados: duas ondas que andam em direções diferentes, presas ao lugar real do ponto
+      var w=Math.sin(v*.03-s*1.8+Math.sin(u*.01+s*.9)*2)*.5+.5,w2=Math.sin(u*.018-s*1.2)*.5+.5,r=R*(.4+.6*(w*.7+w2*.3));
+      // parado, os pontos ficam menores em cima do texto (até 60%) e voltam ao normal numa margem larga de 48px, sem borda marcada
+      if(clear>0&&box){
+        var dx=Math.max(box.l-x,0,x-box.r),dy=Math.max(box.t-y,0,y-box.b),f=1-Math.min(Math.sqrt(dx*dx+dy*dy)/48,1);
+        r*=1-.6*clear*f*f*(3-2*f);
+      }
+      if(r<.2)continue;
+      ctx.moveTo(x+r,y);ctx.arc(x,y,r,0,6.2832);
+    }
+    ctx.fill();
+  }
+  // os pontos ficam parados; o hover retoma o movimento de onde ele parou.
+  // clear vai de 0 (em movimento, pontos sobre o texto) a 1 (parado, texto livre), sempre com transição
+  var elapsed=0,last=0,moving=false,clear=1;
+  function loop(t){
+    var dt=last?Math.min(t-last,50)/1000:0;last=t;
+    if(moving)elapsed+=dt;
+    var target=moving?0:1;clear+=(target-clear)*Math.min(dt*2,1);
+    if(Math.abs(target-clear)<.005)clear=target;
+    draw(elapsed);
+    raf=moving||clear!==target?requestAnimationFrame(loop):0;
+  }
+  function kick(){if(!raf){last=0;raf=requestAnimationFrame(loop)}}
+  band.addEventListener('mouseenter',function(){if(still)return;moving=true;kick()});
+  band.addEventListener('mouseleave',function(){moving=false;kick()});
+  if(window.ResizeObserver)new ResizeObserver(size).observe(cv);else addEventListener('resize',size);
+  size();
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(size);
+})();
 
 fitHeader();
 route();

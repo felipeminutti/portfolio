@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="description" content="Roleta Higher or Lower: jogo para dois jogadores num único aparelho.">
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Roleta">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>Roleta Higher or Lower</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:wght@500;600&display=swap">
+<style>
+  /* Layout: a fixed 844×390 landscape stage (phone held sideways), drawn in the same units as the design PDF
+     and scaled as a whole to fit any screen. Everything inside is placed in stage pixels. */
+  :root {
+    --bg: #0a1829;
+    --ink: #ffffff;
+    --muted: #8a96a8;
+    --ring: #c9c9c9;
+    --cover: #c9f552;
+    /* Score zones: kept apart from the palette's lime and coral */
+    --zone6: #2c9f6a;
+    --zone4: #dcb12e;
+    --zone2: #bd3232;
+    --outside: #000000;  /* letterbox around the landscape stage */
+    --needle: #2a3050;
+    --hub-ring: #3a4166;
+    --pill: #e05a6e;
+    --veil: rgba(10, 24, 41, 0.95);  /* the board's navy at 95%, shared by the menu and every result screen */
+    --glass-blur: 10px;
+    --field: #ffffff;
+    --field-ink: #0a1829;
+    --muted-light: #8a8f98;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+    --font: "Saira", "Arial Narrow", system-ui, sans-serif;
+    color-scheme: dark;
+  }
+  html, body { height: 100%; margin: 0; }
+  html { background: var(--outside); -webkit-text-size-adjust: 100%; }
+  body {
+    position: fixed;
+    inset: 0;
+    overscroll-behavior: none;
+    touch-action: manipulation;
+    background: var(--outside);
+    color: var(--ink);
+    font-family: var(--font);
+    font-weight: 500;
+    text-transform: uppercase;
+    overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .stage {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 844px;
+    height: 390px;
+    transform-origin: 50% 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .abs { position: absolute; }
+
+  /* Top bar, positions taken from the design */
+  .menu-btn {
+    left: 30px; top: 22px;
+    padding: 8px 12px;
+    background: none; border: 0;
+    color: var(--ink);
+    font: inherit; font-size: 21px;
+    text-transform: inherit;
+    cursor: pointer;
+  }
+  .round { left: 0; right: 0; top: 22px; text-align: center; font-size: 24px; line-height: 1.2; pointer-events: none; }
+  .scores {
+    right: 28px; top: 28px;
+    display: grid;
+    grid-template-columns: auto 34px;
+    column-gap: 24px;
+    row-gap: 26px;
+    font-size: 21px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .scores span:nth-child(even) { text-align: right; }
+  .scores .is-mediator { text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px; }
+
+  svg.dial { left: 0; top: 0; width: 844px; height: 390px; touch-action: none; outline: none; }
+  svg.dial.can-drag { cursor: pointer; }
+  #target, #cover, #needle, #ring { transform-box: view-box; transform-origin: 422px 390px; }
+  #ring.shuffling { animation: shuffle 1.8s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  @keyframes shuffle {
+    from { transform: rotate(-12deg); }
+    to { transform: rotate(12deg); }
+  }
+  #target { transition: transform 1.6s cubic-bezier(.17,.84,.29,1); }
+  #cover { transition: transform 0.7s cubic-bezier(.65,0,.35,1); }
+
+  .pill {
+    border-radius: 999px;
+    border: 0;
+    background: var(--pill);
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    font-family: var(--font);
+    font-weight: 500;
+    font-size: 26px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: filter 0.15s, transform 0.08s, opacity 0.3s;
+  }
+  .pill:hover { filter: brightness(1.08); }
+  .pill:active { transform: scale(0.97); }
+  .pill:disabled { opacity: 0.5; cursor: default; }
+  /* Always 44 real screen px tall with 16px text, whatever the stage scale (--s); width keeps the design's
+     pill proportion. Sits low on the dial, 14px above the bottom edge, so the face stays clear. */
+  .main-pill {
+    --h: calc(44px / var(--s, 1));
+    --w: calc(166px / var(--s, 1));
+    left: calc(422px - var(--w) / 2);
+    top: calc(390px - var(--h) - 14px / var(--s, 1));
+    width: var(--w);
+    height: var(--h);
+    padding: 0;
+    font-size: calc(16px / var(--s, 1));
+    z-index: 30;
+  }
+  /* While the board animates the button fades out completely, then comes back */
+  .main-pill:disabled { opacity: 0; pointer-events: none; }
+  .menu-btn:focus-visible, .pill:focus-visible, .stepper button:focus-visible {
+    outline: 2px solid var(--ink); outline-offset: 3px;
+  }
+
+  /* Result veil: blurs the board, the main pill stays on top in its place */
+  .veil {
+    inset: 0;
+    z-index: 20;
+    text-align: center;
+  }
+  /* The glass fills the game frame edge to edge. It is drawn a little larger than the frame, which
+     clips it, so the blur has no soft edge or light seam along the frame's borders */
+  .veil::before, .menu::before {
+    content: "";
+    position: absolute;
+    inset: -24px;
+    z-index: -1;
+    background: var(--veil);
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur));
+  }
+  .veil h2 { position: absolute; left: 0; right: 0; top: 100px; margin: 0; font-weight: 500; font-size: 66px; line-height: 1; }
+  .veil p { position: absolute; left: 0; right: 0; top: 196px; margin: 0; font-weight: 500; font-size: 32px; line-height: 1; }
+
+  /* Menu: glass over the board, positions taken from the menu design */
+  .menu {
+    inset: 0; z-index: 40;
+  }
+  .menu h1 {
+    position: absolute; left: 0; right: 0; top: 38px; margin: 0;
+    text-align: center; font-weight: 600; font-size: 72px; line-height: 1; letter-spacing: 0.01em;
+  }
+  .text-input {
+    left: 235px; width: 168px; height: 32px;
+    box-sizing: border-box;
+    background: var(--field);
+    border: 2px solid transparent;
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+    color: var(--field-ink);
+    font: inherit; font-size: 18px;
+    text-transform: uppercase;
+    padding: 0 15px;
+    -webkit-user-select: text; user-select: text;
+  }
+  #nameIn0 { top: 178px; }
+  #nameIn1 { top: 235px; }
+  .text-input::placeholder { color: var(--muted-light); }
+  .text-input:focus-visible { outline: none; border-color: var(--pill); }
+  .rounds-label { left: 444px; width: 160px; top: 182px; text-align: center; font-size: 18px; line-height: 1.2; }
+  .stepper {
+    left: 444px; width: 160px; top: 231px; height: 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .stepper button {
+    width: 32px; height: 32px; padding: 0; border-radius: 50%;
+    border: 0; background: var(--pill); color: var(--ink);
+    box-shadow: var(--shadow);
+    display: grid; place-items: center;
+    cursor: pointer;
+  }
+  .stepper button svg { width: 14px; height: 14px; display: block; }
+  .stepper button path { stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; fill: none; }
+  .stepper output { font-size: 34px; line-height: 1; min-width: 2ch; text-align: center; font-variant-numeric: tabular-nums; }
+
+  /* Phones held upright: ask to turn the phone */
+  .turn {
+    position: fixed; inset: 0; z-index: 100;
+    background: var(--bg);
+    display: none;
+    flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+    font-size: 22px; text-align: center; padding: 24px;
+  }
+  .turn svg { width: 72px; height: 72px; }
+  /* Only where the browser can lock the screen (Android): fullscreen in landscape with one tap */
+  .turn .pill { font-size: 16px; height: 44px; padding: 0 24px; }
+  .turn .pill[hidden] { display: none; }
+  @media (orientation: portrait) and (pointer: coarse) {
+    .turn { display: flex; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #target, #cover { transition-duration: 0.2s; }
+    #ring.shuffling { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <svg class="dial abs" id="dial" viewBox="0 0 844 390" tabindex="0" role="slider"
+       aria-label="Posição do ponteiro" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+    <defs>
+      <clipPath id="faceClip"><path d="M178 390 A244 244 0 0 1 666 390 Z"></path></clipPath>
+      <!-- Blur + alpha threshold melts the knobs into the disc, giving rounded valleys between them -->
+      <filter id="soften" x="-10%" y="-10%" width="120%" height="130%">
+        <feGaussianBlur stdDeviation="3.5"></feGaussianBlur>
+        <feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -11"></feColorMatrix>
+        <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity="0.4"></feDropShadow>
+      </filter>
+      <!-- Shared drop shadow for depth: the face over the ring, the pointer over the face -->
+      <filter id="depth" x="-20%" y="-20%" width="140%" height="140%">
+        <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity="0.35"></feDropShadow>
+      </filter>
+      <!-- Inner shadow: dark from just outside the shape, shifted down, kept inside it -->
+      <filter id="recess" x="-20%" y="-20%" width="140%" height="140%">
+        <feFlood flood-color="#000" flood-opacity="0.45" result="tint"></feFlood>
+        <feComposite in="tint" in2="SourceAlpha" operator="out" result="outside"></feComposite>
+        <feOffset in="outside" dx="0" dy="2.5" result="shifted"></feOffset>
+        <feGaussianBlur in="shifted" stdDeviation="2" result="soft"></feGaussianBlur>
+        <feComposite in="soft" in2="SourceAlpha" operator="in" result="inner"></feComposite>
+        <feMerge><feMergeNode in="SourceGraphic"></feMergeNode><feMergeNode in="inner"></feMergeNode></feMerge>
+      </filter>
+    </defs>
+    <g filter="url(#soften)"><g id="ring" fill="var(--ring)"></g></g>
+    <!-- The open face is the same piece as the ring: same colour, no shadow between them -->
+    <g clip-path="url(#faceClip)">
+      <!-- The score sits slightly sunk into the face; the filter is on an outer group so the shade stays on top while the wedge turns -->
+      <g filter="url(#recess)"><g id="target"></g></g>
+    </g>
+    <g filter="url(#depth)">
+      <g clip-path="url(#faceClip)">
+        <g id="cover"><path d="M176 390 A246 246 0 0 1 668 390 Z" fill="var(--cover)"></path></g>
+      </g>
+    </g>
+    <!-- The shadow sits on an outer group so it always falls downward while the pointer turns -->
+    <g filter="url(#depth)">
+      <g id="needle">
+        <line id="needleLine" x1="422" y1="390" x2="422" y2="165" stroke="var(--needle)" stroke-width="17" stroke-linecap="round"></line>
+        <circle cx="422" cy="390" r="28" fill="var(--needle)"></circle>
+        <circle cx="422" cy="390" r="19" fill="none" stroke="var(--hub-ring)" stroke-width="2"></circle>
+      </g>
+    </g>
+  </svg>
+
+  <button class="menu-btn abs" id="menuBtn" type="button">Menu</button>
+  <div class="round abs" id="roundLabel">Rodada 01</div>
+  <div class="scores abs" aria-live="polite">
+    <span id="name0">Jogador A</span><span id="score0">00</span>
+    <span id="name1">Jogador B</span><span id="score1">00</span>
+  </div>
+
+  <div class="veil abs" id="veil" hidden>
+    <h2 id="veilTitle"></h2>
+    <p id="veilSub"></p>
+  </div>
+
+  <button class="pill main-pill abs" id="mainBtn" type="button">Ver alvo</button>
+
+  <section class="menu abs" id="menu">
+    <h1>Higher &amp; Lower</h1>
+    <input class="text-input abs" id="nameIn0" placeholder="Jogador A" maxlength="12" aria-label="Nome do jogador A">
+    <input class="text-input abs" id="nameIn1" placeholder="Jogador B" maxlength="12" aria-label="Nome do jogador B">
+    <div class="rounds-label abs" id="roundsLabel">Rodadas</div>
+    <div class="stepper abs" role="group" aria-labelledby="roundsLabel">
+      <!-- Drawn icons instead of text glyphs, so they sit exactly in the middle of the circle -->
+      <button type="button" id="roundsMinus" aria-label="Menos rodadas">
+        <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7 H12"></path></svg>
+      </button>
+      <output id="roundsOut">3</output>
+      <button type="button" id="roundsPlus" aria-label="Mais rodadas">
+        <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7 H12 M7 2 V12"></path></svg>
+      </button>
+    </div>
+    <button class="pill main-pill abs" id="startBtn" type="button">Começar</button>
+  </section>
+</div>
+
+<div class="turn" aria-live="polite">
+  <svg viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="22" y="8" width="28" height="48" rx="5"></rect>
+    <path d="M14 46 a24 24 0 0 0 30 18"></path>
+    <path d="M38 60 l6 4 -4 6"></path>
+  </svg>
+  Gire o celular para jogar
+  <button class="pill" id="landscapeBtn" type="button" hidden>Jogar na horizontal</button>
+</div>
+
+<script>
+(function () {
+  var W = 844, H = 390;
+  var CX = 422, CY = 390, R = 244;
+  // Scoring zones in dial degrees from the target centre. Even values so the mediator's half is whole.
+  var ZONES = [
+    { from: -15.5, to: -9.5, pts: 2, color: "var(--zone2)" },
+    { from: -9.5,  to: -3,   pts: 4, color: "var(--zone4)" },
+    { from: -3,    to: 3,    pts: 6, color: "var(--zone6)" },
+    { from: 3,     to: 9.5,  pts: 4, color: "var(--zone4)" },
+    { from: 9.5,   to: 15.5, pts: 2, color: "var(--zone2)" }
+  ];
+  var SPAN = 15.5;
+  var MISS_POINTS_FOR_MEDIATOR = 2;
+  var NS = "http://www.w3.org/2000/svg";
+
+  function $(id) { return document.getElementById(id); }
+  var stage = $("stage"), dial = $("dial"), targetG = $("target"), coverG = $("cover"), needleG = $("needle");
+  var mainBtn = $("mainBtn"), veil = $("veil");
+
+  var settings = { names: ["", ""], rounds: 3 };
+  var game = null;  var dialState = { target: 90, guess: 90, rot: 0 };
+
+  // ---------- Fit the stage to the screen ----------
+  function fit() {
+    var s = Math.min(window.innerWidth / W, window.innerHeight / H);
+    stage.style.transform = "translate(-50%, -50%) scale(" + s + ")";
+    stage.style.setProperty("--s", s);
+  }
+  window.addEventListener("resize", fit);
+  window.addEventListener("orientationchange", function () { setTimeout(fit, 150); });
+  fit();
+
+  // ---------- Landscape on phones ----------
+  // Browsers only lock orientation in fullscreen, and only some do (Android Chrome). Elsewhere the
+  // "turn the phone" screen stays the fallback.
+  var touch = window.matchMedia("(pointer: coarse)").matches;
+  var root = document.documentElement;
+  var canLock = touch && !!(root.requestFullscreen && screen.orientation && screen.orientation.lock);
+  function goLandscape() {
+    if (!canLock || document.fullscreenElement) return;
+    root.requestFullscreen({ navigationUI: "hide" }).then(function () {
+      return screen.orientation.lock("landscape");
+    }).catch(function () {
+      canLock = false;
+      $("landscapeBtn").hidden = true;
+    });
+  }
+  $("landscapeBtn").hidden = !canLock;
+  $("landscapeBtn").addEventListener("click", goLandscape);
+
+  // ---------- Dial drawing ----------
+  // θ = 0 is the left end, 90 the top, 180 the right end
+  function polar(theta, r) {
+    var a = theta * Math.PI / 180;
+    return [CX - r * Math.cos(a), CY - r * Math.sin(a)];
+  }
+  function el(tag, attrs) {
+    var n = document.createElementNS(NS, tag);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+  // Outer ring: a full disc with round knobs all the way around (only the top half shows), so it can turn
+  // freely. One knob sits on top; KNOB_STEP divides 360 evenly.
+  var KNOB_STEP = 360 / 38;
+  function drawRing() {
+    var ring = $("ring");
+    ring.appendChild(el("circle", { cx: CX, cy: CY, r: 256 }));
+    for (var k = 0; k < 38; k++) {
+      var p = polar(90 + k * KNOB_STEP, 259);
+      ring.appendChild(el("circle", { cx: p[0].toFixed(2), cy: p[1].toFixed(2), r: 13.5 }));
+    }
+  }
+
+  // Before the mediator taps "Ver alvo" the ring swings side to side, as if shuffling.
+  // When it stops it eases to the nearest knob position instead of jumping.
+  var ringG = null, shuffling = false;
+  function setShuffle(on) {
+    if (!ringG) ringG = $("ring");
+    if (on === shuffling) return;
+    shuffling = on;
+    if (on) {
+      ringG.style.transition = "none";
+      ringG.style.transform = "";
+      ringG.classList.add("shuffling");
+      return;
+    }
+    var m = new DOMMatrixReadOnly(getComputedStyle(ringG).transform === "none" ? undefined : getComputedStyle(ringG).transform);
+    var angle = Math.atan2(m.b, m.a) * 180 / Math.PI;
+    ringG.classList.remove("shuffling");
+    ringG.style.transition = "none";
+    ringG.style.transform = "rotate(" + angle + "deg)";
+    ringG.getBoundingClientRect();
+    ringG.style.transition = "transform 0.9s cubic-bezier(.25,.6,.3,1)";
+    ringG.style.transform = "rotate(" + Math.round(angle / KNOB_STEP) * KNOB_STEP + "deg)";
+  }
+  // The scoring zones form one wedge drawn around the top (θ = 90), ending at the face edge:
+  // green 6 in the centre, yellow 4 beside it, red 2 on the outside. The group rotates into place.
+  function drawTarget() {
+    ZONES.forEach(function (z) {
+      var a = polar(90 + z.from, R), c = polar(90 + z.to, R);
+      targetG.appendChild(el("path", {
+        d: "M" + CX + " " + CY + " L" + a[0] + " " + a[1] + " A" + R + " " + R + " 0 0 1 " + c[0] + " " + c[1] + " Z",
+        fill: z.color, stroke: z.color, "stroke-width": 0.6, "stroke-linejoin": "round"
+      }));
+    });
+  }
+  function setTarget(animate) {
+    // The whole wedge always fits inside the half circle
+    dialState.target = SPAN + Math.random() * (180 - 2 * SPAN);
+    var wanted = dialState.target - 90;
+    if (!animate) {
+      dialState.rot = wanted;
+    } else {
+      var diff = ((wanted - dialState.rot) % 360 + 360) % 360;
+      dialState.rot = dialState.rot + 720 + diff;
+    }
+    targetG.style.transition = animate ? "" : "none";
+    targetG.style.transform = "rotate(" + dialState.rot + "deg)";
+    if (!animate) { targetG.getBoundingClientRect(); targetG.style.transition = ""; }
+  }
+  function setCover(open) {
+    coverG.style.transform = open ? "rotate(180deg)" : "rotate(0deg)";
+  }
+  function setNeedle(theta) {
+    dialState.guess = Math.max(0, Math.min(180, theta));
+    needleG.style.transform = "rotate(" + (dialState.guess - 90) + "deg)";
+    dial.setAttribute("aria-valuenow", Math.round(dialState.guess / 1.8));
+  }
+  function zonePoints(diff) {
+    for (var i = 0; i < ZONES.length; i++) {
+      if (diff >= ZONES[i].from && diff <= ZONES[i].to) return ZONES[i].pts;
+    }
+    return 0;
+  }
+
+  // ---------- Helpers ----------
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function playerName(i) { return settings.names[i] || "Jogador " + (i === 0 ? "A" : "B"); }
+  function turnOf(i) {
+    return settings.names[i] ? "Vez de " + settings.names[i] : "Vez do Jogador " + (i === 0 ? "A" : "B");
+  }
+  function showVeil(title, sub) {
+    $("veilTitle").textContent = title;
+    $("veilSub").textContent = sub;
+    veil.hidden = false;
+  }
+  function hideVeil() { veil.hidden = true; }
+
+  // ---------- Menu ----------
+  function renderMenu() {
+    $("roundsOut").textContent = settings.rounds;
+  }
+  // Names are filled in only when the menu opens, so changing the rounds never wipes what was typed
+  function openMenu() {
+    $("nameIn0").value = settings.names[0];
+    $("nameIn1").value = settings.names[1];
+    renderMenu();
+    $("menu").hidden = false;
+  }
+  function closeMenu() { $("menu").hidden = true; }
+
+  $("menuBtn").addEventListener("click", openMenu);
+  $("roundsMinus").addEventListener("click", function () { settings.rounds = Math.max(1, settings.rounds - 1); renderMenu(); });
+  $("roundsPlus").addEventListener("click", function () { settings.rounds = Math.min(10, settings.rounds + 1); renderMenu(); });
+  $("startBtn").addEventListener("click", function () {
+    settings.names = [$("nameIn0").value.trim(), $("nameIn1").value.trim()];
+    goLandscape();
+    startGame();
+    closeMenu();
+  });
+
+  // ---------- Game ----------
+  function mediator() { return game.turn % 2; }
+  function challenger() { return 1 - mediator(); }
+  function isLastTurn() { return game.turn + 1 >= game.totalTurns; }
+
+  function startGame() {
+    game = { scores: [0, 0], turn: 0, totalTurns: settings.rounds * 2, phase: "ready", busy: false, hit: false, needleIn: false };
+    hideVeil();
+    setCover(false);
+    setNeedle(90);
+    setTarget(false);
+    render();
+  }
+
+  var BUTTON_TEXT = { ready: "Ver alvo", peek: "Esconder", guess: "Confirmar", result: "Próximo", final: "Jogar de novo" };
+
+  function render() {
+    var m = mediator();
+    $("roundLabel").textContent = "Rodada " + pad(Math.floor(game.turn / 2) + 1);
+    [0, 1].forEach(function (i) {
+      $("name" + i).textContent = playerName(i);
+      $("name" + i).classList.toggle("is-mediator", i === m && game.phase !== "final");
+      $("score" + i).textContent = pad(game.scores[i]);
+    });
+    var text = BUTTON_TEXT[game.phase];
+    if (game.phase === "result" && isLastTurn()) text = "Resultado";
+    mainBtn.textContent = text;
+    mainBtn.disabled = game.busy || game.phase === "revealing";
+    dial.classList.toggle("can-drag", game.phase === "guess");
+    setShuffle(game.phase === "ready");
+    // The hub at the base always shows; the pointer arm only once it has swept in on the challenger's turn
+    var armShown = (game.phase === "guess" && game.needleIn) || game.phase === "revealing" || game.phase === "result";
+    $("needleLine").style.visibility = armShown ? "visible" : "hidden";
+  }
+
+  function scoreTurn() {
+    var pts = zonePoints(dialState.guess - dialState.target);
+    var m = mediator(), c = challenger();
+    game.hit = pts > 0;
+    if (game.hit) {
+      game.scores[c] += pts;
+      game.scores[m] += pts / 2;
+    } else {
+      game.scores[m] += MISS_POINTS_FOR_MEDIATOR;
+    }
+  }
+
+  function showFinal() {
+    var s = game.scores;
+    var title = s[0] === s[1] ? "Empate" : playerName(s[0] > s[1] ? 0 : 1) + " venceu";
+    showVeil(title, playerName(0) + " " + pad(s[0]) + " · " + playerName(1) + " " + pad(s[1]));
+  }
+
+  mainBtn.addEventListener("click", function () {
+    if (!game || game.busy) return;
+    if (game.phase === "ready") {
+      game.phase = "peek";
+      setCover(true);
+    } else if (game.phase === "peek") {
+      game.phase = "guess";
+      game.needleIn = false;
+      game.busy = true;
+      setCover(false);
+      // Once the cover has closed, the pointer sweeps in from the left end up to the middle
+      setTimeout(function () {
+        needleG.style.transition = "none";
+        setNeedle(0);
+        game.needleIn = true;
+        render();
+        needleG.getBoundingClientRect();
+        needleG.style.transition = "transform 1.4s cubic-bezier(.45,0,.25,1)";
+        setNeedle(90);
+        setTimeout(function () {
+          needleG.style.transition = "";
+          game.busy = false;
+          render();
+        }, 1400);
+      }, 700);
+    } else if (game.phase === "guess") {
+      // Reveal first, then show the verdict over the open dial
+      game.phase = "revealing";
+      scoreTurn();
+      setCover(true);
+      setTimeout(function () {
+        game.phase = "result";
+        showVeil(game.hit ? "Você acertou" : "Você errou",
+                 isLastTurn() ? "Fim de jogo" : turnOf(challenger()));
+        render();
+      }, 1500);
+    } else if (game.phase === "result") {
+      if (isLastTurn()) {
+        game.phase = "final";
+        showFinal();
+      } else {
+        game.turn += 1;
+        game.phase = "ready";
+        game.needleIn = false;
+        hideVeil();
+        setCover(false);
+        setNeedle(90);
+        game.busy = true;
+        // Spin the target only once the cover is closed, so nobody sees where it lands
+        setTimeout(function () {
+          setTarget(true);
+          setTimeout(function () { game.busy = false; render(); }, 1600);
+        }, 700);
+      }
+    } else if (game.phase === "final") {
+      openMenu();
+    }
+    render();
+  });
+
+  // ---------- Pointer ----------
+  function angleFromEvent(e) {
+    var pt = dial.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    var p = pt.matrixTransform(dial.getScreenCTM().inverse());
+    var dx = p.x - CX, dy = p.y - CY;
+    var deg = Math.atan2(-dy, -dx) * 180 / Math.PI;
+    if (deg < 0) deg = dx < 0 ? 0 : 180; // below the base: snap to the nearest end
+    return deg;
+  }
+  var dragging = false;
+  dial.addEventListener("pointerdown", function (e) {
+    if (!game || game.phase !== "guess" || game.busy) return;
+    dragging = true;
+    dial.setPointerCapture(e.pointerId);
+    setNeedle(angleFromEvent(e));
+  });
+  dial.addEventListener("pointermove", function (e) {
+    if (dragging) setNeedle(angleFromEvent(e));
+  });
+  function stop() { dragging = false; }
+  dial.addEventListener("pointerup", stop);
+  dial.addEventListener("pointercancel", stop);
+  dial.addEventListener("keydown", function (e) {
+    if (!game || game.phase !== "guess" || game.busy) return;
+    var step = e.shiftKey ? 10 : 2;
+    if (e.key === "ArrowLeft" || e.key === "ArrowDown") { setNeedle(dialState.guess - step); e.preventDefault(); }
+    if (e.key === "ArrowRight" || e.key === "ArrowUp") { setNeedle(dialState.guess + step); e.preventDefault(); }
+  });
+
+  drawRing();
+  drawTarget();
+  startGame();
+  openMenu();
+})();
+</script>
+</body>
+</html>

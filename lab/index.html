@@ -138,7 +138,7 @@ a:hover .arrow,button:hover .arrow{transform:translateX(4px)}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(8px,1vw,14px);padding-bottom:clamp(64px,8vw,120px)}
 /* Botão VOLTAR AO STUDIO: largura toda, 1/3 da altura de um card (cards são 32/25 numa grade de --cols colunas) */
 .lab-band{--cols:3;--gap:clamp(8px,1vw,14px);container-type:inline-size;margin-bottom:var(--gap);display:block;text-decoration:none;border-radius:10px}
-.lab-band .in{--h:calc((100cqw - (var(--cols) - 1) * var(--gap)) / var(--cols) * 25 / 96);position:relative;height:var(--h);display:flex;align-items:center;padding:0 clamp(16px,2.4vw,32px);background:var(--ink);color:#0b0b0b;overflow:hidden;border-radius:10px}
+.lab-band .in{--h:calc((100cqw - (var(--cols) - 1) * var(--gap)) / var(--cols) * 25 / 96);position:relative;height:var(--h);display:flex;align-items:center;padding:0 clamp(16px,2.4vw,32px);background:#0b0b0b;color:var(--ink);overflow:hidden;border-radius:10px}
 .lab-band canvas{position:absolute;inset:0;width:100%;height:100%}
 .lab-band h2{position:relative;margin:0;font:600 min(calc(var(--h) * .36),calc((100cqw - 64px) / 8))/1 var(--display);text-transform:uppercase;letter-spacing:.01em}
 .lab-band h2 .thin{font-weight:300}
@@ -819,7 +819,7 @@ setTimeout(hideLoader,window.matchMedia('(prefers-reduced-motion: reduce)').matc
 (function(){
   var band=$('#labBand'),cv=$('canvas',band),title=$('h2',band),ctx=cv.getContext('2d'),W=0,H=0,raf=0,box=null,fade='#0b0b0b';
   var segs=[],still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var GAP=4,MAXW=1.5,SEG=8,SQ3=Math.sqrt(3);
+  var GAP=4,MAXW=2.4,SEG=8,SQ3=Math.sqrt(3);
   function hash(a,b,c){var h=Math.sin(a*127.1+b*311.7+c*74.7)*43758.5453;return h-Math.floor(h)}
   // as linhas de cada triângulo são calculadas uma vez por tamanho, já quebradas em trechos curtos
   // (cada trecho guarda início, fim, posição no degradê, sorteio do triângulo e a margem até o texto)
@@ -844,7 +844,7 @@ setTimeout(hideLoader,window.matchMedia('(prefers-reduced-motion: reduce)').matc
       }
     }
     // opacidade das linhas cresce da esquerda para a direita
-    fade=ctx.createLinearGradient(0,0,W,0);fade.addColorStop(0,'rgba(11,11,11,.08)');fade.addColorStop(1,'rgba(11,11,11,.4)');
+    fade=ctx.createLinearGradient(0,0,W,0);fade.addColorStop(0,'rgba(242,242,240,.2)');fade.addColorStop(1,'rgba(242,242,240,.85)');
     draw(elapsed);
   }
   function draw(s){
